@@ -14,23 +14,15 @@ body{
     margin:0;
     padding:20px;
     font-family:Arial;
-    background:#f5f7ff;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+    background:#f4f7fb;
 }
 
-/* ===== HEADER ===== */
+/* ================= HEADER ================= */
 
 .header{
-    width:90%;
-    max-width:1400px;
-
-    margin:20px auto;
-
+    width:95%;
+    margin:auto;
     padding:30px;
-
     border-radius:18px;
 
     background:linear-gradient(
@@ -48,94 +40,16 @@ body{
         inset 0 0 20px rgba(255,255,255,0.08);
 
     border:2px solid rgba(255,255,255,0.12);
-
-    animation:fadeDown 0.8s ease;
 }
-
-    /* ===== STATISTICS ===== */
-
-.stats-box{
-
-    display:flex;
-
-    gap:20px;
-
-    margin-top:20px;
-
-    margin-bottom:20px;
-
-    flex-wrap:wrap;
-
-}
-
-.stat-card{
-
-    flex:1;
-
-    min-width:220px;
-
-    padding:20px;
-
-    border-radius:18px;
-
-    background:linear-gradient(
-        135deg,
-        #0f2027,
-        #203a43,
-        #2c5364
-    );
-
-    color:white;
-
-    text-align:center;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,0.25);
-
-    transition:0.3s;
-}
-
-.stat-card:hover{
-
-    transform:translateY(-5px) scale(1.02);
-
-}
-
-.stat-card h3{
-
-    margin:0;
-
-    font-size:20px;
-
-    margin-bottom:10px;
-}
-
-.stat-card p{
-
-    margin:0;
-
-    font-size:32px;
-
-    font-weight:bold;
-
-    color:#00ffd0;
-}
-
-/* MAIN HEADING */
 
 .header h1{
     margin:0;
     color:white;
-    font-size:36px;
+    font-size:34px;
     font-weight:800;
     letter-spacing:1px;
     text-transform:uppercase;
-
-    text-shadow:
-        2px 2px 8px rgba(0,0,0,0.4);
 }
-
-/* SUB HEADING */
 
 .header h2{
     margin-top:10px;
@@ -143,135 +57,9 @@ body{
     font-size:22px;
     font-weight:500;
     letter-spacing:1px;
-
-    text-shadow:
-        1px 1px 5px rgba(0,0,0,0.3);
 }
 
-/* ANIMATION */
-
-@keyframes fadeDown{
-
-    from{
-        opacity:0;
-        transform:translateY(-25px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-
-}
-
-/* TABLE */
-
-.table-container{
-    width:95%;
-    overflow-x:auto;
-    margin-top:20px;
-}
-/* ===== 3D TABLE DESIGN ===== */
-
-table{
-    width:100%;
-    border-collapse:separate;
-    border-spacing:0;
-    margin-top:25px;
-    background:white;
-
-    border-radius:18px;
-    overflow:hidden;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.18),
-        0 4px 10px rgba(0,0,0,0.12);
-
-    table-layout:auto;
-    width:max-content;
-    min-width:100%;
-}
-
-/* HEADER */
-
-th{
-    background:linear-gradient(
-        135deg,
-        #0b3d91,
-        #1565c0,
-        #1e88e5
-    );
-
-    color:white;
-
-    padding:14px;
-
-    font-size:16px;
-    font-weight:700;
-
-    text-align:center;
-
-    border:none;
-
-    letter-spacing:0.5px;
-
-    text-shadow:
-        1px 1px 4px rgba(0,0,0,0.4);
-
-    position:sticky;
-    top:0;
-}
-
-/* TABLE CELLS */
-
-td{
-    padding:12px;
-
-    text-align:center;
-
-    border-bottom:1px solid #e0e0e0;
-
-    background:white;
-
-    transition:0.3s ease;
-
-    word-wrap:break-word;
-    word-break:break-word;
-}
-/* ROW HOVER EFFECT */
-
-tr:hover td{
-
-    background:#e8f0ff;
-
-    transform:scale(1.01);
-
-    box-shadow:
-        inset 0 0 8px rgba(0,0,0,0.05);
-}
-
-/* ALTERNATE ROW COLORS */
-
-tr:nth-child(even) td{
-    background:#f7f9ff;
-}
-
-/* SMOOTH EFFECT */
-
-table tr{
-    transition:0.3s ease;
-}
-
-/* LOADING */
-
-.loading{
-    text-align:center;
-    font-size:22px;
-    color:#0b3d91;
-    margin-top:30px;
-}
-
-/* BACK BUTTON */
+/* ================= BUTTON ================= */
 
 .back-btn{
     padding:10px 20px;
@@ -281,69 +69,141 @@ table tr{
     border-radius:8px;
     cursor:pointer;
     margin-bottom:20px;
+    font-size:16px;
+    font-weight:bold;
 }
 
-.back-btn:hover{
-    background:#082c6c;
-}
-
-
-    /* FILTERS */
+/* ================= FILTERS ================= */
 
 .filters{
-    margin-top:20px;
-    margin-bottom:20px;
-
+    margin-top:25px;
     display:flex;
-    gap:10px;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+}
 
-    flex-wrap:nowrap;
+.filters select{
+    padding:10px;
+    min-width:170px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:14px;
+    font-weight:bold;
+    background:white;
+    box-shadow:0 3px 8px rgba(0,0,0,0.08);
+}
 
-    overflow-x:auto;
+/* ================= STATS ================= */
 
-    padding-bottom:5px;
+.stats{
+    margin-top:25px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
 
-    scrollbar-width:thin;
+.stat-card{
+    background:white;
+    padding:20px;
+    min-width:220px;
+    text-align:center;
+    border-radius:16px;
 
-    background:rgba(255,255,255,0.15);
+    box-shadow:
+        0 6px 16px rgba(0,0,0,0.15),
+        inset 0 0 8px rgba(255,255,255,0.5);
 
-    padding:18px;
+    border:1px solid #ddd;
+}
 
+.stat-card h3{
+    margin:0;
+    color:#0b3d91;
+    font-size:20px;
+}
+
+.stat-card p{
+    margin-top:10px;
+    font-size:28px;
+    font-weight:bold;
+    color:#014d40;
+}
+
+/* ================= TABLE ================= */
+
+.table-container{
+    width:100%;
+    overflow:auto;
+    margin-top:25px;
     border-radius:18px;
 
-    backdrop-filter:blur(10px);
-
-    box-shadow:0 8px 25px rgba(0,0,0,0.15);
-}
-.filters select{
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:12px;
-
-    min-width:180px;
-
-    font-size:14px;
-
-    font-weight:600;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.2);
 
     background:white;
-
-    box-shadow:0 4px 12px rgba(0,0,0,0.12);
-
-    cursor:pointer;
-
-    transition:0.3s;
 }
 
-.filters select:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 6px 15px rgba(0,0,0,0.18);
+table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    table-layout:auto;
 }
+
+th{
+    background:linear-gradient(135deg,#0b3d91,#1565c0);
+    color:white;
+    padding:14px;
+    text-align:center;
+    font-size:15px;
+    position:sticky;
+    top:0;
+    z-index:2;
+
+    box-shadow:
+        inset 0 -2px 0 rgba(255,255,255,0.15);
+}
+
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+    white-space:nowrap;
+    font-size:14px;
+}
+
+tr:nth-child(even){
+    background:#f8fbff;
+}
+
+tr:hover{
+    background:#e3f2fd;
+    transform:scale(1.002);
+    transition:0.2s;
+}
+
+/* 3D Effect */
+
+th, td{
+    border-right:1px solid #d6d6d6;
+}
+
+table tr{
+    box-shadow:0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    font-size:24px;
+    color:#0b3d91;
+    margin-top:30px;
+    font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -359,65 +219,49 @@ table tr{
 
 </div>
 
+<!-- ================= FILTERS ================= -->
+
+<div class="filters">
+
+    <select id="branchFilter"></select>
+
+    <select id="genderFilter"></select>
+
+    <select id="cgpaFilter"></select>
+
+    <select id="backlogFilter"></select>
+
+    <select id="registeredFilter"></select>
+
+    <select id="companyFilter"></select>
+
+    <select id="offersFilter"></select>
+
+</div>
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+    <div class="stat-card">
+        <h3>Total Records</h3>
+        <p id="totalCount">0</p>
+    </div>
+
+</div>
+
+<!-- ================= LOADING ================= -->
+
 <div class="loading" id="loading">
 Loading Data...
 </div>
 
-    <!-- ===== STATISTICS ===== -->
+<!-- ================= TABLE ================= -->
 
-<div class="stats-box">
-
-    <div class="stat-card">
-        <h3>Total Records</h3>
-        <p id="totalRecords">0</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>Total Offers</h3>
-        <p id="totalOffers">0</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>Placed Students</h3>
-        <p id="placedStudents">0</p>
-    </div>
-
-</div>
-<!-- FILTER SECTION -->
-
-<div class="filters">
-
-    <select id="branchFilter">
-        <option value="">All Branches</option>
-    </select>
-
-    <select id="genderFilter">
-        <option value="">All Genders</option>
-    </select>
-
-    <select id="cgpaFilter">
-        <option value="">All CGPA</option>
-    </select>
-
-    <select id="backlogFilter">
-        <option value="">All Backlogs</option>
-    </select>
-
-    <select id="registeredFilter">
-        <option value="">Registered For Placements</option>
-    </select>
-
-    <select id="companyFilter">
-        <option value="">All Companies</option>
-    </select>
-
-    <select id="offersFilter">
-        <option value="">No Of Offers</option>
-    </select>
-
-</div>
 <div class="table-container">
+
     <table id="dataTable"></table>
+
 </div>
 
 <script>
@@ -426,32 +270,220 @@ const csvURL = localStorage.getItem("csvURL");
 
 let allData = [];
 
+let headers = [];
+
 Papa.parse(csvURL, {
 
     download:true,
 
+    skipEmptyLines:true,
+
     complete:function(results){
 
         allData = results.data.filter(
-            row => row.length > 0
+            row => row.some(cell => cell.trim() !== "")
         );
 
-        buildFilters(allData);
+        headers = allData[0];
 
-        buildTable(allData);
+        populateFilters();
 
-        document.getElementById("loading").style.display="none";
+        applyFilters();
+
+        document.getElementById("loading").style.display = "none";
     },
 
     error:function(){
 
         document.getElementById("loading").innerHTML =
         "Unable to Load CSV Data";
+
     }
 
 });
 
-/* BUILD TABLE */
+/* ================= FILTER COLUMN NAMES ================= */
+
+const filterColumns = {
+
+    branch:"Branch",
+
+    gender:"Gender",
+
+    cgpa:"CGPA",
+
+    backlog:"No of Backlogs",
+
+    registered:"Registered for Placements",
+
+    company:"Company Placed",
+
+    offers:"No of Offers"
+
+};
+
+/* ================= GET COLUMN INDEX ================= */
+
+function getColumnIndex(name){
+
+    return headers.findIndex(
+        h => h.trim().toLowerCase() === name.trim().toLowerCase()
+    );
+
+}
+
+/* ================= POPULATE FILTERS ================= */
+
+function populateFilters(){
+
+    populateSingleFilter(
+        "branchFilter",
+        filterColumns.branch
+    );
+
+    populateSingleFilter(
+        "genderFilter",
+        filterColumns.gender
+    );
+
+    populateSingleFilter(
+        "cgpaFilter",
+        filterColumns.cgpa
+    );
+
+    populateSingleFilter(
+        "backlogFilter",
+        filterColumns.backlog
+    );
+
+    populateSingleFilter(
+        "registeredFilter",
+        filterColumns.registered
+    );
+
+    populateSingleFilter(
+        "companyFilter",
+        filterColumns.company
+    );
+
+    populateSingleFilter(
+        "offersFilter",
+        filterColumns.offers
+    );
+
+}
+
+/* ================= SINGLE FILTER ================= */
+
+function populateSingleFilter(filterId,columnName){
+
+    let select = document.getElementById(filterId);
+
+    let index = getColumnIndex(columnName);
+
+    let values = [...new Set(
+        allData.slice(1).map(
+            row => row[index]
+        )
+    )];
+
+    values = values.filter(v => v && v.trim() !== "");
+
+    values.sort();
+
+    select.innerHTML =
+    `<option value="">All ${columnName}</option>`;
+
+    values.forEach(value=>{
+
+        select.innerHTML +=
+        `<option value="${value}">${value}</option>`;
+
+    });
+
+    select.addEventListener("change",applyFilters);
+
+}
+
+/* ================= APPLY FILTERS ================= */
+
+function applyFilters(){
+
+    let filtered = allData.slice(1);
+
+    const filters = {
+
+        branch:
+        document.getElementById("branchFilter").value,
+
+        gender:
+        document.getElementById("genderFilter").value,
+
+        cgpa:
+        document.getElementById("cgpaFilter").value,
+
+        backlog:
+        document.getElementById("backlogFilter").value,
+
+        registered:
+        document.getElementById("registeredFilter").value,
+
+        company:
+        document.getElementById("companyFilter").value,
+
+        offers:
+        document.getElementById("offersFilter").value
+
+    };
+
+    filtered = filtered.filter(row=>{
+
+        return (
+
+            (!filters.branch ||
+            row[getColumnIndex(filterColumns.branch)] === filters.branch)
+
+            &&
+
+            (!filters.gender ||
+            row[getColumnIndex(filterColumns.gender)] === filters.gender)
+
+            &&
+
+            (!filters.cgpa ||
+            row[getColumnIndex(filterColumns.cgpa)] === filters.cgpa)
+
+            &&
+
+            (!filters.backlog ||
+            row[getColumnIndex(filterColumns.backlog)] === filters.backlog)
+
+            &&
+
+            (!filters.registered ||
+            row[getColumnIndex(filterColumns.registered)] === filters.registered)
+
+            &&
+
+            (!filters.company ||
+            row[getColumnIndex(filterColumns.company)] === filters.company)
+
+            &&
+
+            (!filters.offers ||
+            row[getColumnIndex(filterColumns.offers)] === filters.offers)
+
+        );
+
+    });
+
+    buildTable([headers,...filtered]);
+
+    updateStatistics(filtered);
+
+}
+
+/* ================= BUILD TABLE ================= */
 
 function buildTable(data){
 
@@ -461,280 +493,43 @@ function buildTable(data){
 
         tableHTML += "<tr>";
 
-        row.forEach(cell=>{
+        let headersLength = data[0].length;
 
-            if(rowIndex===0){
+        for(let i=0;i<headersLength;i++){
+
+            let cell = row[i] || "";
+
+            if(rowIndex === 0){
 
                 tableHTML += `<th>${cell}</th>`;
 
             }else{
 
-                tableHTML += `<td>${cell || ""}</td>`;
+                tableHTML += `<td>${cell}</td>`;
+
             }
 
-        });
+        }
 
         tableHTML += "</tr>";
-    });
-
-    document.getElementById("dataTable").innerHTML = tableHTML;
-}
-
-/* BUILD FILTERS */
-
-function buildFilters(data){
-
-    const headers = data[0];
-
-    const rows = data.slice(1);
-    updateStatistics(rows);
-
-    const branchIndex = headers.indexOf("Branch");
-    const genderIndex = headers.indexOf("Gender");
-    const cgpaIndex = headers.indexOf("CGPA");
-    const backlogIndex = headers.indexOf("No of Backlogs");
-    const companyIndex = headers.indexOf("Company Placed");
-    const offersIndex =
-            headers.findIndex(h =>
-             h.toLowerCase().includes("offer")
-                            );
-  
-             const registeredIndex =
-              headers.findIndex(h =>
-                h.toLowerCase().includes("registered")
-                    );
-
-
-    populateFilter("branchFilter", rows, branchIndex);
-    populateFilter("genderFilter", rows, genderIndex);
-    populateFilter("cgpaFilter", rows, cgpaIndex);
-    populateFilter("backlogFilter", rows, backlogIndex);
-    populateFilter("registeredFilter", rows, registeredIndex);
-    populateFilter("companyFilter", rows, companyIndex);
-    populateFilter("offersFilter", rows, offersIndex);
-
-    document.querySelectorAll(".filters select")
-    .forEach(select=>{
-
-        select.addEventListener("change", applyFilters);
-
-    });
-}
-
-/* POPULATE FILTER */
-
-function populateFilter(id, rows, index){
-
-    let select = document.getElementById(id);
-
-    let values = [...new Set(
-        rows.map(r => r[index]).filter(v => v)
-    )];
-
-    values.sort();
-
-    values.forEach(v=>{
-
-        let option = document.createElement("option");
-
-        option.value = v;
-
-        option.textContent = v;
-
-        select.appendChild(option);
-
-    });
-}
-
-/* APPLY FILTERS */
-
-function applyFilters(){
-
-    const headers = allData[0];
-
-    const rows = allData.slice(1);
-
-    const filters = {
-
-        branch : document.getElementById("branchFilter").value,
-
-        gender : document.getElementById("genderFilter").value,
-
-        cgpa : document.getElementById("cgpaFilter").value,
-
-        backlog : document.getElementById("backlogFilter").value,
-
-        registered : document.getElementById("registeredFilter").value,
-
-        company : document.getElementById("companyFilter").value,
-
-        offers : document.getElementById("offersFilter").value
-    };
-
-    const indexes = {
-
-        branch : headers.indexOf("Branch"),
-
-        gender : headers.indexOf("Gender"),
-
-        cgpa : headers.indexOf("CGPA"),
-
-        backlog : headers.indexOf("No of Backlogs"),
-
-     registered : headers.findIndex(h =>
-h.toLowerCase().includes("registered")
-),
-
-company : headers.indexOf("Company Placed"),
-
-offers : headers.findIndex(h =>
-h.toLowerCase().includes("offer")
-)
-    };
-
-    let filtered = rows.filter(row=>{
-
-        return (
-
-            (!filters.branch || row[indexes.branch]===filters.branch)
-
-            &&
-
-            (!filters.gender || row[indexes.gender]===filters.gender)
-
-            &&
-
-            (!filters.cgpa || row[indexes.cgpa]===filters.cgpa)
-
-            &&
-
-            (!filters.backlog || row[indexes.backlog]===filters.backlog)
-
-            &&
-
-            (!filters.registered || row[indexes.registered]===filters.registered)
-
-            &&
-
-            (!filters.company || row[indexes.company]===filters.company)
-
-            &&
-
-            (!filters.offers || row[indexes.offers]===filters.offers)
-        );
 
     });
 
-    updateDependentFilters(filtered, headers);
+    document.getElementById("dataTable").innerHTML =
+    tableHTML;
 
-    buildTable([headers, ...filtered]);
 }
 
-/* UPDATE DEPENDENT FILTERS */
+/* ================= STATISTICS ================= */
 
-function updateDependentFilters(filteredRows, headers){
+function updateStatistics(filtered){
 
-    const filterMap = {
-
-        branchFilter : "Branch",
-
-        genderFilter : "Gender",
-
-        cgpaFilter : "CGPA",
-
-        backlogFilter : "No of Backlogs",
-
-      registeredFilter : headers.find(h =>
-h.toLowerCase().includes("registered")
-),
-
-companyFilter : "Company Placed",
-
-offersFilter : headers.find(h =>
-h.toLowerCase().includes("offer")
-)
-    };
-
-    for(let id in filterMap){
-
-        let column = filterMap[id];
-
-        let index = headers.indexOf(column);
-
-        let select = document.getElementById(id);
-
-        let current = select.value;
-
-        let values = [...new Set(
-            filteredRows.map(r => r[index]).filter(v => v)
-        )];
-
-        select.innerHTML =
-        `<option value="">${select.options[0].text}</option>`;
-
-        values.sort();
-
-        values.forEach(v=>{
-
-            let option = document.createElement("option");
-
-            option.value = v;
-
-            option.textContent = v;
-
-            select.appendChild(option);
-
-        });
-
-        if(values.includes(current)){
-
-            select.value = current;
-        }
-    }
-}
-    /* ===== UPDATE STATISTICS ===== */
-
-function updateStatistics(data){
-
-    document.getElementById("totalRecords").innerText =
-    data.length;
-
-    let placedStudents = new Set();
-
-    let totalOffers = 0;
-
-    const headers = csvData[0];
-
-    const rollIndex = headers.findIndex(h =>
-    h.toLowerCase().includes("roll")
-    );
-
-    const offersIndex = headers.findIndex(h =>
-    h.toLowerCase().includes("offer")
-    );
-
-    data.forEach(row=>{
-
-        if(row[rollIndex]){
-
-            placedStudents.add(row[rollIndex]);
-
-        }
-
-        let offers = parseInt(row[offersIndex]) || 0;
-
-        totalOffers += offers;
-
-    });
-
-    document.getElementById("placedStudents").innerText =
-    placedStudents.size;
-
-    document.getElementById("totalOffers").innerText =
-    totalOffers;
+    document.getElementById("totalCount").innerText =
+    filtered.length;
 
 }
 
 </script>
+
 </body>
 </html>
