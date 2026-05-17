@@ -166,12 +166,18 @@ th{
         inset 0 -2px 0 rgba(255,255,255,0.15);
 }
 
-td{
+th, td{
     padding:12px;
     text-align:center;
     border-bottom:1px solid #ddd;
-    white-space:nowrap;
+
+    white-space:normal;
+    word-break:break-word;
+
     font-size:14px;
+
+    min-width:120px;
+    max-width:350px;
 }
 
 tr:nth-child(even){
@@ -382,12 +388,18 @@ function populateSingleFilter(filterId,columnName){
     let index = getColumnIndex(columnName);
 
     let values = [...new Set(
-        allData.slice(1).map(
-            row => row[index]
-        )
+
+        allData.slice(1).map(row => {
+
+            return row[index]
+            ? row[index].toString().trim()
+            : "";
+
+        })
+
     )];
 
-    values = values.filter(v => v && v.trim() !== "");
+    values = values.filter(v => v !== "");
 
     values.sort();
 
@@ -435,47 +447,46 @@ function applyFilters(){
         document.getElementById("offersFilter").value
 
     };
+filtered = filtered.filter(row=>{
 
-    filtered = filtered.filter(row=>{
+    return (
 
-        return (
+        (!filters.branch ||
+        (row[getColumnIndex(filterColumns.branch)] || "").trim() === filters.branch)
 
-            (!filters.branch ||
-            row[getColumnIndex(filterColumns.branch)] === filters.branch)
+        &&
 
-            &&
+        (!filters.gender ||
+        (row[getColumnIndex(filterColumns.gender)] || "").trim() === filters.gender)
 
-            (!filters.gender ||
-            row[getColumnIndex(filterColumns.gender)] === filters.gender)
+        &&
 
-            &&
+        (!filters.cgpa ||
+        (row[getColumnIndex(filterColumns.cgpa)] || "").trim() === filters.cgpa)
 
-            (!filters.cgpa ||
-            row[getColumnIndex(filterColumns.cgpa)] === filters.cgpa)
+        &&
 
-            &&
+        (!filters.backlog ||
+        (row[getColumnIndex(filterColumns.backlog)] || "").trim() === filters.backlog)
 
-            (!filters.backlog ||
-            row[getColumnIndex(filterColumns.backlog)] === filters.backlog)
+        &&
 
-            &&
+        (!filters.registered ||
+        (row[getColumnIndex(filterColumns.registered)] || "").trim() === filters.registered)
 
-            (!filters.registered ||
-            row[getColumnIndex(filterColumns.registered)] === filters.registered)
+        &&
 
-            &&
+        (!filters.company ||
+        (row[getColumnIndex(filterColumns.company)] || "").trim() === filters.company)
 
-            (!filters.company ||
-            row[getColumnIndex(filterColumns.company)] === filters.company)
+        &&
 
-            &&
+        (!filters.offers ||
+        (row[getColumnIndex(filterColumns.offers)] || "").trim() === filters.offers)
 
-            (!filters.offers ||
-            row[getColumnIndex(filterColumns.offers)] === filters.offers)
+    );
 
-        );
-
-    });
+});
 
     buildTable([headers,...filtered]);
 
