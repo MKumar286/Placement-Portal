@@ -226,8 +226,15 @@ table tr{
     margin-bottom:20px;
 
     display:flex;
-    gap:15px;
-    flex-wrap:wrap;
+    gap:10px;
+
+    flex-wrap:nowrap;
+
+    overflow-x:auto;
+
+    padding-bottom:5px;
+
+    scrollbar-width:thin;
 
     background:rgba(255,255,255,0.15);
 
@@ -239,7 +246,6 @@ table tr{
 
     box-shadow:0 8px 25px rgba(0,0,0,0.15);
 }
-
 .filters select{
 
     padding:12px;
@@ -396,9 +402,17 @@ function buildFilters(data){
     const genderIndex = headers.indexOf("Gender");
     const cgpaIndex = headers.indexOf("CGPA");
     const backlogIndex = headers.indexOf("No of Backlogs");
-    const registeredIndex = headers.indexOf("Registered for Placements");
     const companyIndex = headers.indexOf("Company Placed");
-    const offersIndex = headers.indexOf("No of Offers");
+    const offersIndex =
+            headers.findIndex(h =>
+             h.toLowerCase().includes("offer")
+                            );
+  
+             const registeredIndex =
+              headers.findIndex(h =>
+                h.toLowerCase().includes("registered")
+                    );
+
 
     populateFilter("branchFilter", rows, branchIndex);
     populateFilter("genderFilter", rows, genderIndex);
@@ -476,11 +490,15 @@ function applyFilters(){
 
         backlog : headers.indexOf("No of Backlogs"),
 
-        registered : headers.indexOf("Registered for Placements"),
+     registered : headers.findIndex(h =>
+h.toLowerCase().includes("registered")
+),
 
-        company : headers.indexOf("Company Placed"),
+company : headers.indexOf("Company Placed"),
 
-        offers : headers.indexOf("No of Offers")
+offers : headers.findIndex(h =>
+h.toLowerCase().includes("offer")
+)
     };
 
     let filtered = rows.filter(row=>{
@@ -535,11 +553,15 @@ function updateDependentFilters(filteredRows, headers){
 
         backlogFilter : "No of Backlogs",
 
-        registeredFilter : "Registered for Placements",
+      registeredFilter : headers.find(h =>
+h.toLowerCase().includes("registered")
+),
 
-        companyFilter : "Company Placed",
+companyFilter : "Company Placed",
 
-        offersFilter : "No of Offers"
+offersFilter : headers.find(h =>
+h.toLowerCase().includes("offer")
+)
     };
 
     for(let id in filterMap){
