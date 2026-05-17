@@ -218,6 +218,57 @@ table tr{
     background:#082c6c;
 }
 
+
+    /* FILTERS */
+
+.filters{
+    margin-top:20px;
+    margin-bottom:20px;
+
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+
+    background:rgba(255,255,255,0.15);
+
+    padding:18px;
+
+    border-radius:18px;
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
+
+.filters select{
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    min-width:180px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    background:white;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.filters select:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 6px 15px rgba(0,0,0,0.18);
+}
 </style>
 </head>
 
@@ -236,7 +287,39 @@ table tr{
 <div class="loading" id="loading">
 Loading Data...
 </div>
+<!-- FILTER SECTION -->
 
+<div class="filters">
+
+    <select id="branchFilter">
+        <option value="">All Branches</option>
+    </select>
+
+    <select id="genderFilter">
+        <option value="">All Genders</option>
+    </select>
+
+    <select id="cgpaFilter">
+        <option value="">All CGPA</option>
+    </select>
+
+    <select id="backlogFilter">
+        <option value="">All Backlogs</option>
+    </select>
+
+    <select id="registeredFilter">
+        <option value="">Registered For Placements</option>
+    </select>
+
+    <select id="companyFilter">
+        <option value="">All Companies</option>
+    </select>
+
+    <select id="offersFilter">
+        <option value="">No Of Offers</option>
+    </select>
+
+</div>
 <div class="table-container">
     <table id="dataTable"></table>
 </div>
@@ -245,50 +328,258 @@ Loading Data...
 
 const csvURL = localStorage.getItem("csvURL");
 
+let allData = [];
+
 Papa.parse(csvURL, {
 
-    download: true,
+    download:true,
 
-    complete: function(results){
+    complete:function(results){
 
-        let data = results.data;
+        allData = results.data.filter(
+            row => row.length > 0
+        );
 
-        let tableHTML = "";
+        buildFilters(allData);
 
-        data.forEach((row, rowIndex)=>{
+        buildTable(allData);
 
-            tableHTML += "<tr>";
-
-            row.forEach(cell=>{
-
-                if(rowIndex === 0){
-                    tableHTML += `<th>${cell}</th>`;
-                }else{
-                    tableHTML += `<td>${cell}</td>`;
-                }
-
-            });
-
-            tableHTML += "</tr>";
-
-        });
-
-        document.getElementById("dataTable").innerHTML = tableHTML;
-
-        document.getElementById("loading").style.display = "none";
-
+        document.getElementById("loading").style.display="none";
     },
 
-    error: function(){
+    error:function(){
 
         document.getElementById("loading").innerHTML =
         "Unable to Load CSV Data";
-
     }
 
 });
 
-</script>
+/* BUILD TABLE */
 
+function buildTable(data){
+
+    let tableHTML = "";
+
+    data.forEach((row,rowIndex)=>{
+
+        tableHTML += "<tr>";
+
+        row.forEach(cell=>{
+
+            if(rowIndex===0){
+
+                tableHTML += `<th>${cell}</th>`;
+
+            }else{
+
+                tableHTML += `<td>${cell || ""}</td>`;
+            }
+
+        });
+
+        tableHTML += "</tr>";
+    });
+
+    document.getElementById("dataTable").innerHTML = tableHTML;
+}
+
+/* BUILD FILTERS */
+
+function buildFilters(data){
+
+    const headers = data[0];
+
+    const rows = data.slice(1);
+
+    const branchIndex = headers.indexOf("Branch");
+    const genderIndex = headers.indexOf("Gender");
+    const cgpaIndex = headers.indexOf("CGPA");
+    const backlogIndex = headers.indexOf("No of Backlogs");
+    const registeredIndex = headers.indexOf("Registered for Placements");
+    const companyIndex = headers.indexOf("Company Placed");
+    const offersIndex = headers.indexOf("No of Offers");
+
+    populateFilter("branchFilter", rows, branchIndex);
+    populateFilter("genderFilter", rows, genderIndex);
+    populateFilter("cgpaFilter", rows, cgpaIndex);
+    populateFilter("backlogFilter", rows, backlogIndex);
+    populateFilter("registeredFilter", rows, registeredIndex);
+    populateFilter("companyFilter", rows, companyIndex);
+    populateFilter("offersFilter", rows, offersIndex);
+
+    document.querySelectorAll(".filters select")
+    .forEach(select=>{
+
+        select.addEventListener("change", applyFilters);
+
+    });
+}
+
+/* POPULATE FILTER */
+
+function populateFilter(id, rows, index){
+
+    let select = document.getElementById(id);
+
+    let values = [...new Set(
+        rows.map(r => r[index]).filter(v => v)
+    )];
+
+    values.sort();
+
+    values.forEach(v=>{
+
+        let option = document.createElement("option");
+
+        option.value = v;
+
+        option.textContent = v;
+
+        select.appendChild(option);
+
+    });
+}
+
+/* APPLY FILTERS */
+
+function applyFilters(){
+
+    const headers = allData[0];
+
+    const rows = allData.slice(1);
+
+    const filters = {
+
+        branch : document.getElementById("branchFilter").value,
+
+        gender : document.getElementById("genderFilter").value,
+
+        cgpa : document.getElementById("cgpaFilter").value,
+
+        backlog : document.getElementById("backlogFilter").value,
+
+        registered : document.getElementById("registeredFilter").value,
+
+        company : document.getElementById("companyFilter").value,
+
+        offers : document.getElementById("offersFilter").value
+    };
+
+    const indexes = {
+
+        branch : headers.indexOf("Branch"),
+
+        gender : headers.indexOf("Gender"),
+
+        cgpa : headers.indexOf("CGPA"),
+
+        backlog : headers.indexOf("No of Backlogs"),
+
+        registered : headers.indexOf("Registered for Placements"),
+
+        company : headers.indexOf("Company Placed"),
+
+        offers : headers.indexOf("No of Offers")
+    };
+
+    let filtered = rows.filter(row=>{
+
+        return (
+
+            (!filters.branch || row[indexes.branch]===filters.branch)
+
+            &&
+
+            (!filters.gender || row[indexes.gender]===filters.gender)
+
+            &&
+
+            (!filters.cgpa || row[indexes.cgpa]===filters.cgpa)
+
+            &&
+
+            (!filters.backlog || row[indexes.backlog]===filters.backlog)
+
+            &&
+
+            (!filters.registered || row[indexes.registered]===filters.registered)
+
+            &&
+
+            (!filters.company || row[indexes.company]===filters.company)
+
+            &&
+
+            (!filters.offers || row[indexes.offers]===filters.offers)
+        );
+
+    });
+
+    updateDependentFilters(filtered, headers);
+
+    buildTable([headers, ...filtered]);
+}
+
+/* UPDATE DEPENDENT FILTERS */
+
+function updateDependentFilters(filteredRows, headers){
+
+    const filterMap = {
+
+        branchFilter : "Branch",
+
+        genderFilter : "Gender",
+
+        cgpaFilter : "CGPA",
+
+        backlogFilter : "No of Backlogs",
+
+        registeredFilter : "Registered for Placements",
+
+        companyFilter : "Company Placed",
+
+        offersFilter : "No of Offers"
+    };
+
+    for(let id in filterMap){
+
+        let column = filterMap[id];
+
+        let index = headers.indexOf(column);
+
+        let select = document.getElementById(id);
+
+        let current = select.value;
+
+        let values = [...new Set(
+            filteredRows.map(r => r[index]).filter(v => v)
+        )];
+
+        select.innerHTML =
+        `<option value="">${select.options[0].text}</option>`;
+
+        values.sort();
+
+        values.forEach(v=>{
+
+            let option = document.createElement("option");
+
+            option.value = v;
+
+            option.textContent = v;
+
+            select.appendChild(option);
+
+        });
+
+        if(values.includes(current)){
+
+            select.value = current;
+        }
+    }
+}
+
+</script>
 </body>
 </html>
