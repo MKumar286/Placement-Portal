@@ -471,8 +471,21 @@ filtered = filtered.filter(row=>{
 
         &&
 
-        (!filters.registered ||
-        (row[getColumnIndex(filterColumns.registered)] || "").trim() === filters.registered)
+        (
+ !filters.registered ||
+
+ (row[indexes.registered] || "")
+      .toString()
+      .trim()
+      .toLowerCase()
+
+ ===
+
+ filters.registered
+      .toString()
+      .trim()
+      .toLowerCase()
+)
 
         &&
 
