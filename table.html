@@ -119,6 +119,8 @@ table{
         0 4px 10px rgba(0,0,0,0.12);
 
     table-layout:auto;
+    width:max-content;
+    min-width:100%;
 }
 
 /* HEADER */
@@ -162,11 +164,11 @@ td{
 
     background:white;
 
-    white-space:nowrap;
-
     transition:0.3s ease;
-}
 
+    word-wrap:break-word;
+    word-break:break-word;
+}
 /* ROW HOVER EFFECT */
 
 tr:hover td{
