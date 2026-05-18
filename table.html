@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CSV Data</title>
+<title>Student Data Table</title>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
@@ -14,208 +15,256 @@ body{
     margin:0;
     padding:20px;
     font-family:Arial;
-    background:#f4f7fb;
+    background:#eef2ff;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 .header{
     width:95%;
     margin:auto;
-    padding:30px;
-    border-radius:18px;
-
-    background:linear-gradient(
-        135deg,
-        #014d40,
-        #01695c,
-        #018786,
-        #26a69a
-    );
-
+    padding:25px;
+    border-radius:20px;
     text-align:center;
 
-    box-shadow:
-        0 8px 25px rgba(0,0,0,0.25),
-        inset 0 0 20px rgba(255,255,255,0.08);
+    background:linear-gradient(135deg,#014d40,#01695c,#018786,#26a69a);
 
-    border:2px solid rgba(255,255,255,0.12);
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.25),
+        inset 0 0 10px rgba(255,255,255,0.08);
 }
 
 .header h1{
     margin:0;
     color:white;
     font-size:34px;
-    font-weight:800;
-    letter-spacing:1px;
     text-transform:uppercase;
+    letter-spacing:1px;
 }
 
 .header h2{
     margin-top:10px;
-    color:#e0fff7;
-    font-size:22px;
-    font-weight:500;
-    letter-spacing:1px;
+    color:#e8fdf9;
+    font-weight:400;
 }
 
-/* ================= BUTTON ================= */
+/* CARDS */
 
-.back-btn{
-    padding:10px 20px;
-    background:#0b3d91;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:20px;
-    font-size:16px;
-    font-weight:bold;
-}
+.cards-container{
+    width:95%;
+    margin:25px auto;
 
-/* ================= FILTERS ================= */
-
-.filters{
-    margin-top:25px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    justify-content:center;
-}
-
-.filters select{
-    padding:10px;
-    min-width:170px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    font-size:14px;
-    font-weight:bold;
-    background:white;
-    box-shadow:0 3px 8px rgba(0,0,0,0.08);
-}
-
-/* ================= STATS ================= */
-
-.stats{
-    margin-top:25px;
-    display:flex;
-    justify-content:center;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
-    flex-wrap:wrap;
 }
 
-.stat-card{
+.card{
     background:white;
     padding:20px;
-    min-width:220px;
+    border-radius:20px;
     text-align:center;
-    border-radius:16px;
 
     box-shadow:
-        0 6px 16px rgba(0,0,0,0.15),
-        inset 0 0 8px rgba(255,255,255,0.5);
+        10px 10px 20px rgba(0,0,0,0.12),
+        -5px -5px 15px rgba(255,255,255,0.8);
 
-    border:1px solid #ddd;
+    transition:0.3s;
 }
 
-.stat-card h3{
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h3{
     margin:0;
-    color:#0b3d91;
-    font-size:20px;
+    font-size:17px;
+    color:#2c3e50;
 }
 
-.stat-card p{
-    margin-top:10px;
-    font-size:28px;
+.card p{
+    margin-top:12px;
+    font-size:32px;
     font-weight:bold;
-    color:#014d40;
+    color:#0b3d91;
 }
 
-/* ================= TABLE ================= */
+/* FILTERS */
 
-.table-container{
-    width:100%;
-    overflow:auto;
-    margin-top:25px;
-    border-radius:18px;
+.filter-container{
+    width:95%;
+    margin:auto;
+    margin-bottom:20px;
 
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.2);
+    display:flex;
+    gap:10px;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+}
+
+.filter-container input,
+.filter-container select{
+
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    min-width:170px;
 
     background:white;
-}
-
-table{
-    width:100%;
-    border-collapse:separate;
-    border-spacing:0;
-    table-layout:auto;
-}
-
-th{
-    background:linear-gradient(135deg,#0b3d91,#1565c0);
-    color:white;
-    padding:14px;
-    text-align:center;
-    font-size:15px;
-    position:sticky;
-    top:0;
-    z-index:2;
 
     box-shadow:
-        inset 0 -2px 0 rgba(255,255,255,0.15);
+        inset 2px 2px 5px rgba(0,0,0,0.08),
+        inset -2px -2px 5px rgba(255,255,255,0.9);
 }
 
-th, td{
-    padding:12px;
+/* RECORD COUNT */
+
+.record-count{
+    width:95%;
+    margin:auto;
+    margin-bottom:10px;
+
+    font-size:18px;
+    font-weight:bold;
+    color:#0b3d91;
+}
+
+/* TABLE */
+
+/* ===== TABLE CONTAINER ===== */
+
+.table-container{
+
+    width:95%;
+    margin:auto;
+
+    overflow:auto;
+
+    border-radius:20px;
+
+    background:white;
+
+    box-shadow:
+        12px 12px 25px rgba(0,0,0,0.15),
+        -8px -8px 20px rgba(255,255,255,0.9);
+
+    padding:5px;
+}
+
+/* ===== 3D TABLE ===== */
+
+table{
+
+    width:max-content;
+
+    min-width:100%;
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+    table-layout:auto;
+
+    background:white;
+
+    border-radius:18px;
+
+    overflow:hidden;
+}
+
+/* ===== TABLE HEADERS ===== */
+
+th{
+
+    background:linear-gradient(
+        135deg,
+        #0b3d91,
+        #1565c0,
+        #1e88e5
+    );
+
+    color:white;
+
+    padding:14px 18px;
+
+    font-size:15px;
+
+    font-weight:700;
+
     text-align:center;
-    border-bottom:1px solid #ddd;
 
-    white-space:normal;
-    word-break:break-word;
+    letter-spacing:0.5px;
 
-    font-size:14px;
+    border:none;
 
-    min-width:120px;
-    max-width:350px;
+    position:sticky;
+
+    top:0;
+
+    z-index:2;
+
+    white-space:nowrap;
+
+    width:auto;
+
+    text-shadow:
+        1px 1px 4px rgba(0,0,0,0.3);
 }
 
-tr:nth-child(even){
-    background:#f8fbff;
+/* ===== TABLE DATA ===== */
+
+td{
+
+    padding:12px 18px;
+
+    text-align:center;
+
+    border-bottom:1px solid #e0e0e0;
+
+    background:white;
+
+    transition:0.3s ease;
+
+    white-space:nowrap;
+
+    width:auto;
 }
 
-tr:hover{
-    background:#e3f2fd;
-    transform:scale(1.002);
-    transition:0.2s;
+/* ===== ALTERNATE ROW COLORS ===== */
+
+tr:nth-child(even) td{
+
+    background:#f7f9ff;
 }
 
-/* 3D Effect */
+/* ===== ROW HOVER EFFECT ===== */
 
-th, td{
-    border-right:1px solid #d6d6d6;
+tr:hover td{
+
+    background:#e8f0ff;
+
+    transform:scale(1.01);
+
+    box-shadow:
+        inset 0 0 8px rgba(0,0,0,0.05);
 }
 
-table tr{
-    box-shadow:0 2px 4px rgba(0,0,0,0.05);
-}
-
-/* ================= LOADING ================= */
+/* LOADING */
 
 .loading{
     text-align:center;
+    margin-top:30px;
     font-size:24px;
     color:#0b3d91;
-    margin-top:30px;
-    font-weight:bold;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<button class="back-btn" onclick="history.back()">← Back</button>
+<!-- HEADER -->
 
 <div class="header">
 
@@ -225,44 +274,82 @@ table tr{
 
 </div>
 
-<!-- ================= FILTERS ================= -->
+<!-- CARDS -->
 
-<div class="filters">
+<div class="cards-container">
 
-    <select id="branchFilter"></select>
+    <div class="card">
+        <h3>Total Students</h3>
+        <p id="totalStudents">0</p>
+    </div>
 
-    <select id="genderFilter"></select>
+    <div class="card">
+        <h3>Total Students Placed</h3>
+        <p id="placedStudents">0</p>
+    </div>
 
-    <select id="cgpaFilter"></select>
+    <div class="card">
+        <h3>Total Offers</h3>
+        <p id="totalOffers">0</p>
+    </div>
 
-    <select id="backlogFilter"></select>
+    <div class="card">
+        <h3>Registered for Placements</h3>
+        <p id="registeredStudents">0</p>
+    </div>
 
-    <select id="registeredFilter"></select>
-
-    <select id="companyFilter"></select>
-
-    <select id="offersFilter"></select>
-
-</div>
-
-<!-- ================= STATS ================= -->
-
-<div class="stats">
-
-    <div class="stat-card">
-        <h3>Total Records</h3>
-        <p id="totalCount">0</p>
+    <div class="card">
+        <h3>Eligible Students</h3>
+        <p id="eligibleStudents">0</p>
     </div>
 
 </div>
 
-<!-- ================= LOADING ================= -->
+<!-- FILTERS -->
+
+<div class="filter-container">
+
+    <input type="text" id="searchInput" placeholder="Search Any Data">
+
+    <select id="branchFilter">
+        <option value="">Branch</option>
+    </select>
+
+    <select id="backlogFilter">
+        <option value="">No. of Backlogs</option>
+    </select>
+
+    <select id="genderFilter">
+        <option value="">Gender</option>
+    </select>
+
+    <select id="cgpaFilter">
+        <option value="">CGPA</option>
+    </select>
+
+    <select id="registeredFilter">
+        <option value="">Registered for Placements</option>
+    </select>
+
+    <select id="offersFilter">
+        <option value="">No. of Offers</option>
+    </select>
+
+</div>
+
+<!-- RECORD COUNT -->
+
+<div class="record-count">
+    Total Records : <span id="recordCount">0</span>
+</div>
+
+<!-- LOADING -->
 
 <div class="loading" id="loading">
 Loading Data...
 </div>
 
-<!-- ================= TABLE ================= -->
+<!-- TABLE -->
 
 <div class="table-container">
 
@@ -274,283 +361,277 @@ Loading Data...
 
 const csvURL = localStorage.getItem("csvURL");
 
-let allData = [];
-
+let originalData = [];
 let headers = [];
 
 Papa.parse(csvURL, {
 
     download:true,
-
     skipEmptyLines:true,
 
     complete:function(results){
 
-        allData = results.data.filter(
-            row => row.some(cell => cell.trim() !== "")
-        );
+        headers = results.data[0];
+        originalData = results.data.slice(1);
 
-        headers = allData[0];
-
-        populateFilters();
+        populateFilters(originalData);
 
         applyFilters();
 
         document.getElementById("loading").style.display = "none";
-    },
-
-    error:function(){
-
-        document.getElementById("loading").innerHTML =
-        "Unable to Load CSV Data";
-
     }
-
 });
 
-/* ================= FILTER COLUMN NAMES ================= */
+/* FILTER IDS */
 
-const filterColumns = {
+const searchInput = document.getElementById("searchInput");
 
-    branch:"Branch",
+const branchFilter = document.getElementById("branchFilter");
+const backlogFilter = document.getElementById("backlogFilter");
+const genderFilter = document.getElementById("genderFilter");
+const cgpaFilter = document.getElementById("cgpaFilter");
+const registeredFilter = document.getElementById("registeredFilter");
+const offersFilter = document.getElementById("offersFilter");
 
-    gender:"Gender",
+/* EVENTS */
 
-    cgpa:"CGPA",
+searchInput.addEventListener("input",applyFilters);
 
-    backlog:"No of Backlogs",
+branchFilter.addEventListener("change",applyFilters);
+backlogFilter.addEventListener("change",applyFilters);
+genderFilter.addEventListener("change",applyFilters);
+cgpaFilter.addEventListener("change",applyFilters);
+registeredFilter.addEventListener("change",applyFilters);
+offersFilter.addEventListener("change",applyFilters);
 
-    registered:"Registered for Placements",
+/* POPULATE FILTERS */
 
-    company:"Company Placed",
+function populateFilters(data){
 
-    offers:"No of Offers"
+    fillFilter(branchFilter,"Branch",data);
 
-};
+    fillFilter(backlogFilter,"No. of Backlogs",data);
 
-/* ================= GET COLUMN INDEX ================= */
+    fillFilter(genderFilter,"Gender",data);
 
-function getColumnIndex(name){
+    fillFilter(cgpaFilter,"CGPA",data);
 
-    return headers.findIndex(
-        h => h.trim().toLowerCase() === name.trim().toLowerCase()
-    );
+    fillFilter(registeredFilter,"Registered for Placements",data);
 
+    fillFilter(offersFilter,"No. of Offers",data);
 }
 
-/* ================= POPULATE FILTERS ================= */
+/* FILL FILTER */
 
-function populateFilters(){
+function fillFilter(filter,column,data){
 
-    populateSingleFilter(
-        "branchFilter",
-        filterColumns.branch
-    );
-
-    populateSingleFilter(
-        "genderFilter",
-        filterColumns.gender
-    );
-
-    populateSingleFilter(
-        "cgpaFilter",
-        filterColumns.cgpa
-    );
-
-    populateSingleFilter(
-        "backlogFilter",
-        filterColumns.backlog
-    );
-
-    populateSingleFilter(
-        "registeredFilter",
-        filterColumns.registered
-    );
-
-    populateSingleFilter(
-        "companyFilter",
-        filterColumns.company
-    );
-
-    populateSingleFilter(
-        "offersFilter",
-        filterColumns.offers
-    );
-
-}
-
-/* ================= SINGLE FILTER ================= */
-
-function populateSingleFilter(filterId,columnName){
-
-    let select = document.getElementById(filterId);
-
-    let index = getColumnIndex(columnName);
+    const index = headers.indexOf(column);
 
     let values = [...new Set(
 
-        allData.slice(1).map(row => {
-
-            return row[index]
-            ? row[index].toString().trim()
-            : "";
-
-        })
+        data.map(row => row[index])
 
     )];
 
     values = values.filter(v => v !== "");
 
-    values.sort();
+    filter.innerHTML =
+    `<option value="">${column}</option>`;
 
-    select.innerHTML =
-    `<option value="">All ${columnName}</option>`;
+    values.sort().forEach(value=>{
 
-    values.forEach(value=>{
-
-        select.innerHTML +=
+        filter.innerHTML +=
         `<option value="${value}">${value}</option>`;
 
     });
-
-    select.addEventListener("change",applyFilters);
-
 }
 
-/* ================= APPLY FILTERS ================= */
+/* APPLY FILTERS */
 
 function applyFilters(){
 
-    let filtered = allData.slice(1);
+    const search = searchInput.value.toLowerCase();
 
     const filters = {
 
-        branch:
-        document.getElementById("branchFilter").value,
-
-        gender:
-        document.getElementById("genderFilter").value,
-
-        cgpa:
-        document.getElementById("cgpaFilter").value,
-
-        backlog:
-        document.getElementById("backlogFilter").value,
-
-        registered:
-        document.getElementById("registeredFilter").value,
-
-        company:
-        document.getElementById("companyFilter").value,
-
-        offers:
-        document.getElementById("offersFilter").value
-
+        branch: branchFilter.value,
+        backlog: backlogFilter.value,
+        gender: genderFilter.value,
+        cgpa: cgpaFilter.value,
+        registered: registeredFilter.value,
+        offers: offersFilter.value
     };
-filtered = filtered.filter(row=>{
 
-    return (
+    const indexes = {
 
-        (!filters.branch ||
-        (row[getColumnIndex(filterColumns.branch)] || "").trim() === filters.branch)
+        branch: headers.indexOf("Branch"),
+        backlog: headers.indexOf("No. of Backlogs"),
+        gender: headers.indexOf("Gender"),
+        cgpa: headers.indexOf("CGPA"),
+        registered: headers.indexOf("Registered for Placements"),
+        offers: headers.indexOf("No. of Offers")
+    };
 
-        &&
+    let filtered = originalData.filter(row=>{
 
-        (!filters.gender ||
-        (row[getColumnIndex(filterColumns.gender)] || "").trim() === filters.gender)
+        const rowText = row.join(" ").toLowerCase();
 
-        &&
+        return (
 
-        (!filters.cgpa ||
-        (row[getColumnIndex(filterColumns.cgpa)] || "").trim() === filters.cgpa)
+            rowText.includes(search)
 
-        &&
+            &&
 
-        (!filters.backlog ||
-        (row[getColumnIndex(filterColumns.backlog)] || "").trim() === filters.backlog)
+            (!filters.branch ||
+            row[indexes.branch] === filters.branch)
 
-        &&
+            &&
 
-        (
- !filters.registered ||
+            (!filters.backlog ||
+            row[indexes.backlog] === filters.backlog)
 
- (row[indexes.registered] || "")
-      .toString()
-      .trim()
-      .toLowerCase()
+            &&
 
- ===
+            (!filters.gender ||
+            row[indexes.gender] === filters.gender)
 
- filters.registered
-      .toString()
-      .trim()
-      .toLowerCase()
-)
+            &&
 
-        &&
+            (!filters.cgpa ||
+            row[indexes.cgpa] === filters.cgpa)
 
-        (!filters.company ||
-        (row[getColumnIndex(filterColumns.company)] || "").trim() === filters.company)
+            &&
 
-        &&
+            (!filters.registered ||
+            row[indexes.registered]
+            .toLowerCase()
+            .trim() ===
+            filters.registered
+            .toLowerCase()
+            .trim())
 
-        (!filters.offers ||
-        (row[getColumnIndex(filterColumns.offers)] || "").trim() === filters.offers)
+            &&
 
-    );
+            (!filters.offers ||
+            row[indexes.offers] === filters.offers)
 
-});
-
-    buildTable([headers,...filtered]);
-
-    updateStatistics(filtered);
-
-}
-
-/* ================= BUILD TABLE ================= */
-
-function buildTable(data){
-
-    let tableHTML = "";
-
-    data.forEach((row,rowIndex)=>{
-
-        tableHTML += "<tr>";
-
-        let headersLength = data[0].length;
-
-        for(let i=0;i<headersLength;i++){
-
-            let cell = row[i] || "";
-
-            if(rowIndex === 0){
-
-                tableHTML += `<th>${cell}</th>`;
-
-            }else{
-
-                tableHTML += `<td>${cell}</td>`;
-
-            }
-
-        }
-
-        tableHTML += "</tr>";
+        );
 
     });
 
-    document.getElementById("dataTable").innerHTML =
-    tableHTML;
+    createTable(headers,filtered);
 
+    updateStatistics(filtered);
 }
 
-/* ================= STATISTICS ================= */
+/* CREATE TABLE */
 
-function updateStatistics(filtered){
+function createTable(headers,rows){
 
-    document.getElementById("totalCount").innerText =
-    filtered.length;
+    let tableHTML = "<tr>";
 
+    headers.forEach(header=>{
+
+        tableHTML += `<th>${header}</th>`;
+
+    });
+
+    tableHTML += "</tr>";
+
+    rows.forEach(row=>{
+
+        tableHTML += "<tr>";
+
+        row.forEach(cell=>{
+
+            tableHTML += `<td>${cell}</td>`;
+
+        });
+
+        tableHTML += "</tr>";
+    });
+
+    document.getElementById("dataTable").innerHTML = tableHTML;
+
+    document.getElementById("recordCount").innerText =
+    rows.length;
+}
+
+/* UPDATE STATISTICS */
+
+function updateStatistics(data){
+
+    const indexes = {
+
+        cgpa: headers.indexOf("CGPA"),
+
+        registered:
+        headers.indexOf("Registered for Placements"),
+
+        offers:
+        headers.indexOf("No. of Offers")
+    };
+
+    const totalStudents = data.length;
+
+    const placedStudents = data.filter(row=>{
+
+        const offers = row[indexes.offers];
+
+        return offers !== "" &&
+               offers != null &&
+               Number(offers) > 0;
+
+    }).length;
+
+    const totalOffers = data.reduce((sum,row)=>{
+
+        return sum +
+        (Number(row[indexes.offers]) || 0);
+
+    },0);
+
+    const registeredStudents = data.filter(row=>{
+
+        return String(row[indexes.registered])
+
+        .toLowerCase()
+
+        .trim() === "yes";
+
+    }).length;
+
+    const eligibleStudents = data.filter(row=>{
+
+        const cgpa =
+        parseFloat(row[indexes.cgpa]) || 0;
+
+        const registered =
+        String(row[indexes.registered])
+
+        .toLowerCase()
+
+        .trim();
+
+        return cgpa >= 6.5 &&
+               registered === "yes";
+
+    }).length;
+
+    document.getElementById("totalStudents")
+    .innerText = totalStudents;
+
+    document.getElementById("placedStudents")
+    .innerText = placedStudents;
+
+    document.getElementById("totalOffers")
+    .innerText = totalOffers;
+
+    document.getElementById("registeredStudents")
+    .innerText = registeredStudents;
+
+    document.getElementById("eligibleStudents")
+    .innerText = eligibleStudents;
 }
 
 </script>
