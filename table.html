@@ -77,14 +77,26 @@ body{
 }
 
 .card{
-    background:white;
+
+    background:
+    linear-gradient(
+    135deg,
+    #f1f3f4,
+    #dfe4ea,
+    #f8f9fa
+    );
+
     padding:4px;
-    border-radius:14px;
+
+    border-radius:16px;
+
     text-align:center;
 
+    border:1px solid rgba(255,255,255,0.7);
+
     box-shadow:
-        6px 6px 12px rgba(0,0,0,0.10),
-        -3px -3px 10px rgba(255,255,255,0.8);
+        0 4px 12px rgba(0,0,0,0.10),
+        inset 0 0 8px rgba(255,255,255,0.5);
 
     transition:0.3s;
 }
