@@ -294,15 +294,20 @@ select:focus{
     box-shadow:
         0 0 12px rgba(0,184,148,0.4);
 }
-    /* REMOVE ALL VERTICAL SCROLLBARS */
+    
 
 html,
-body,
-.table-container{
+body{
 
-    overflow-y:hidden !important;
+    overflow-y:auto;
 }
 
+.table-container{
+
+    overflow-y:auto;
+}
+
+    
 /* KEEP ONLY HORIZONTAL SCROLL */
 
 .table-container{
@@ -332,6 +337,13 @@ body{
     margin:0;
     padding:0;
     overflow-x:hidden;
+}
+
+    /* HIDE VERTICAL SCROLLBAR BUT ALLOW SCROLLING */
+
+::-webkit-scrollbar{
+    width:0px;
+    height:8px;
 }
 
 </style>
