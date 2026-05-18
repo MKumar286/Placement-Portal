@@ -133,23 +133,7 @@ body{
 
 /* ===== TABLE CONTAINER ===== */
 
-.table-container{
 
-    width:95%;
-    margin:auto;
-
-    overflow:auto;
-
-    border-radius:20px;
-
-    background:white;
-
-    box-shadow:
-        12px 12px 25px rgba(0,0,0,0.15),
-        -8px -8px 20px rgba(255,255,255,0.9);
-
-    padding:5px;
-}
 
 /* ===== 3D TABLE ===== */
 
@@ -256,6 +240,70 @@ tr:hover td{
     margin-top:30px;
     font-size:24px;
     color:#0b3d91;
+}
+    /* ===== ALWAYS SHOW HORIZONTAL SCROLL ===== */
+
+.table-container{
+    width:95%;
+    overflow-x:scroll;
+    overflow-y:auto;
+
+    margin-top:20px;
+
+    border-radius:18px;
+
+    scrollbar-width:thin;
+}
+
+/* ===== GREEN SCROLLBAR ===== */
+
+.table-container::-webkit-scrollbar{
+    height:12px;
+}
+
+.table-container::-webkit-scrollbar-track{
+    background:#d7f5e8;
+    border-radius:10px;
+}
+
+.table-container::-webkit-scrollbar-thumb{
+    background:linear-gradient(
+        135deg,
+        #00b894,
+        #00cec9
+    );
+
+    border-radius:10px;
+}
+
+/* ===== GREEN CURSOR FOCUS ===== */
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border:2px solid #00b894;
+
+    box-shadow:
+        0 0 10px rgba(0,184,148,0.5);
+
+    transition:0.3s;
+}
+
+/* ===== SEARCH BAR GREEN THEME ===== */
+
+.search-box input{
+
+    border:2px solid #b2f5ea;
+}
+
+.search-box input:focus{
+
+    border:2px solid #00b894;
+
+    box-shadow:
+        0 0 12px rgba(0,184,148,0.4);
 }
 
 </style>
