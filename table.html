@@ -52,11 +52,12 @@ body{
 
 .cards-container{
     width:95%;
-    margin:25px auto;
+    margin-top:20px;
+    margin-bottom:20px;
 
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(5, 1fr);
+    gap:15px;
 }
 
 .card{
@@ -332,16 +333,6 @@ select:focus{
     </div>
 
     <div class="card">
-        <h3>Total Students Placed</h3>
-        <p id="placedStudents">0</p>
-    </div>
-
-    <div class="card">
-        <h3>Total Offers</h3>
-        <p id="totalOffers">0</p>
-    </div>
-
-    <div class="card">
         <h3>Registered for Placements</h3>
         <p id="registeredStudents">0</p>
     </div>
@@ -349,6 +340,16 @@ select:focus{
     <div class="card">
         <h3>Eligible Students</h3>
         <p id="eligibleStudents">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Students Placed</h3>
+        <p id="placedStudents">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Offers</h3>
+        <p id="totalOffers">0</p>
     </div>
 
 </div>
