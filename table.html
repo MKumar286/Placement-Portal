@@ -141,7 +141,7 @@ body{
     overflow-x:auto;
     overflow-y:auto;
 
-    max-height:85vh;
+    max-height:none;
 
     border-radius:0;
 
@@ -293,6 +293,31 @@ select:focus{
 
     box-shadow:
         0 0 12px rgba(0,184,148,0.4);
+}
+    /* REMOVE ALL VERTICAL SCROLLBARS */
+
+html,
+body,
+.table-container{
+
+    overflow-y:hidden !important;
+}
+
+/* KEEP ONLY HORIZONTAL SCROLL */
+
+.table-container{
+
+    overflow-x:auto !important;
+}
+
+/* HIDE SCROLLBARS */
+
+::-webkit-scrollbar:vertical{
+    width:0px;
+}
+
+::-webkit-scrollbar-horizontal{
+    height:8px;
 }
 
 </style>
