@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HR Contact Details</title>
+
+<!-- Papa Parse Library -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f4f7ff;
+    padding:20px;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.heading{
+    text-align:center;
+    font-size:32px;
+    font-weight:bold;
+    color:#0b3d91;
+    margin-bottom:20px;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+    text-align:center;
+    font-size:18px;
+    color:#0b3d91;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+#filters{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+#searchInput,
+#batchFilter{
+
+    padding:10px 15px;
+
+    border:2px solid #0b3d91;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    outline:none;
+
+    background:white;
+}
+
+#searchInput{
+    width:300px;
+}
+
+#batchFilter{
+    width:220px;
+}
+
+/* =========================
+   COUNT CARD
+========================= */
+
+.count-card{
+
+    background:#0b3d91;
+
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:130px;
+
+    height:42px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container{
+    overflow:auto;
+    max-height:80vh;
+    border-radius:10px;
+}
+
+table{
+
+    width:max-content;
+    min-width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    border:2px solid #0b3d91;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+
+    table-layout:auto;
+}
+
+th,td{
+
+    border:1px solid #555;
+
+    padding:4px 10px;
+
+    text-align:center;
+
+    font-size:12px;
+
+    white-space:nowrap;
+
+    line-height:1.2;
+
+    height:28px;
+}
+
+th{
+
+    background:#0b3d91;
+
+    color:white;
+
+    font-weight:bold;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:2;
+}
+
+tr:nth-child(even){
+    background:#f2f5ff;
+}
+
+tr:hover{
+    background:#dbeafe;
+    transition:0.3s;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    body{
+        padding:10px;
+    }
+
+    .heading{
+        font-size:22px;
+        line-height:1.4;
+    }
+
+    #filters{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    #searchInput,
+    #batchFilter,
+    .count-card{
+        width:100%;
+    }
+
+    th,td{
+        font-size:11px;
+        padding:6px 8px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="heading">
+    HR Contact Details for the AY 2025-2026
+</div>
+
+<div class="loading" id="loading">
+    Loading Data...
+</div>
+
+<div id="filters"></div>
+
+<div class="table-container">
+    <table id="dataTable"></table>
+</div>
+
+<script>
+
+/* =====================================
+   GOOGLE SHEET CSV LINK
+===================================== */
+
+const csvURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vSb-y0j0bmZw_m5r33iFrUg_mjVdy4QT7lTaHJPxgijcb2_gW2uFc6hdlS77pCI0g/pub?gid=1067544906&single=true&output=csv";
+
+/* =====================================
+   LOAD CSV
+===================================== */
+
+function loadCSV(){
+
+    document.getElementById("loading").innerHTML =
+    "Loading Data...";
+
+    Papa.parse(csvURL,{
+
+        download:true,
+
+        skipEmptyLines:true,
+
+        complete:function(results){
+
+            const data = results.data;
+
+            if(data.length === 0){
+
+                document.getElementById("loading").innerHTML =
+                "No Data Found";
+
+                return;
+            }
+
+            createFilters(data);
+
+            createTable(data);
+
+            document.getElementById("loading").style.display =
+            "none";
+
+        },
+
+        error:function(error){
+
+            console.log(error);
+
+            document.getElementById("loading").innerHTML =
+            "Unable to Load Data";
+
+        }
+
+    });
+
+}
+
+/* =====================================
+   CREATE FILTERS
+===================================== */
+
+function createFilters(data){
+
+    const filterDiv =
+    document.getElementById("filters");
+
+    const headers = data[0];
+
+    const batchIndex =
+    headers.findIndex(h =>
+        h.toLowerCase().includes("batch")
+    );
+
+    let batches = [];
+
+    if(batchIndex !== -1){
+
+        batches = [...new Set(
+
+            data.slice(1).map(
+                row => row[batchIndex]
+            )
+
+        )];
+
+    }
+
+    filterDiv.innerHTML = `
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search Data..."
+        onkeyup="filterTable()"
+    >
+
+    <select
+        id="batchFilter"
+        onchange="filterTable()"
+    >
+
+        <option value="">
+            All Batches
+        </option>
+
+        ${batches.map(batch =>
+
+            `<option value="${batch}">
+                ${batch}
+            </option>`
+
+        ).join("")}
+
+    </select>
+
+    <div class="count-card">
+        Total Companies: <span id="rowCount">0</span>
+    </div>
+
+    `;
+
+}
+
+/* =====================================
+   CREATE TABLE
+===================================== */
+
+function createTable(data){
+
+    let tableHTML = "";
+
+    data.forEach((row,rowIndex)=>{
+
+        tableHTML += "<tr>";
+
+        row.forEach(cell=>{
+
+            if(rowIndex===0){
+
+                tableHTML += `<th>${cell}</th>`;
+
+            }else{
+
+                tableHTML += `<td>${cell}</td>`;
+
+            }
+
+        });
+
+        tableHTML += "</tr>";
+
+    });
+
+    document.getElementById("dataTable").innerHTML =
+    tableHTML;
+
+    document.getElementById("rowCount").innerText =
+    data.length - 1;
+
+}
+
+/* =====================================
+   FILTER TABLE
+===================================== */
+
+function filterTable(){
+
+    const search =
+    document.getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+    const batch =
+    document.getElementById("batchFilter")
+    .value
+    .toLowerCase();
+
+    const table =
+    document.getElementById("dataTable");
+
+    const tr =
+    table.getElementsByTagName("tr");
+
+    let visibleRows = 0;
+
+    for(let i=1;i<tr.length;i++){
+
+        const rowText =
+        tr[i].innerText.toLowerCase();
+
+        const searchMatch =
+        rowText.includes(search);
+
+        const batchMatch =
+
+        batch === "" ||
+        rowText.includes(batch);
+
+        if(searchMatch && batchMatch){
+
+            tr[i].style.display = "";
+
+            visibleRows++;
+
+        }else{
+
+            tr[i].style.display = "none";
+
+        }
+
+    }
+
+    document.getElementById("rowCount").innerText =
+    visibleRows;
+
+}
+
+/* =====================================
+   LOAD PAGE
+===================================== */
+
+window.onload = loadCSV;
+
+</script>
+
+</body>
+</html>
