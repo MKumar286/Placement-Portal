@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>MGIT Placement Portal</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+padding:15px;
+overflow-x:hidden;
+color:white;
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1c1c3c);
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+min-height:100vh;
+}
+
+/* Animated Background */
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Floating Glow */
+
+body::before{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:rgba(0,198,255,0.15);
+border-radius:50%;
+top:-120px;
+left:-120px;
+filter:blur(100px);
+animation:float1 10s infinite alternate;
+z-index:-1;
+}
+
+body::after{
+content:"";
+position:fixed;
+width:400px;
+height:400px;
+background:rgba(255,0,150,0.15);
+border-radius:50%;
+bottom:-100px;
+right:-100px;
+filter:blur(100px);
+animation:float2 12s infinite alternate;
+z-index:-1;
+}
+
+@keyframes float1{
+from{transform:translateY(0px);}
+to{transform:translateY(80px);}
+}
+
+@keyframes float2{
+from{transform:translateX(0px);}
+to{transform:translateX(-80px);}
+}
+
+/* HEADER */
+
+.header-box{
+background:linear-gradient(135deg,#000814,#001d3d,#003566);
+padding:6px 10px;
+border-radius:18px 18px 0 0;
+margin-bottom:0;
+box-shadow:0 6px 20px rgba(0,0,0,0.35);
+border:1px solid rgba(255,255,255,0.15);
+border-bottom:none;
+text-align:center;
+}
+
+/* HEADINGS */
+
+h1{
+font-size:34px;
+font-weight:bold;
+background:linear-gradient(90deg,#ffffff,#ffe082,#ffffff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+margin-bottom:8px;
+letter-spacing:1px;
+}
+
+h3{
+font-size:18px;
+margin-top:2px;
+font-weight:500;
+background:linear-gradient(90deg,#b2ff59,#00e5ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* FILTER SECTION GENERAL */
+
+.filter-section {
+display:flex;
+flex-wrap:nowrap;
+gap:12px;
+padding:8px 12px;
+backdrop-filter:blur(10px);
+box-shadow:0 6px 20px rgba(0,0,0,0.25);
+border:1px solid rgba(255,255,255,0.15);
+border-top:none;
+overflow-x:auto;
+overflow-y:hidden;
+scroll-behavior:smooth;
+align-items: center;
+}
+
+/* ULTRA MIXED PREMIUM ANIMATED BACKGROUND SPECIFICALLY FOR THE DATE CONTAINER */
+.date-container {
+background: linear-gradient(-45deg, #8e2de2, #4a00e0, #ff007f, #00c6ff);
+background-size: 300% 300%;
+animation: ultraMixedMove 8s ease infinite;
+border-bottom: 1px solid rgba(255,255,255,0.25);
+gap: 40px;
+justify-content: center;
+}
+
+@keyframes ultraMixedMove {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+.date-group {
+display: flex;
+flex-direction: column;
+gap: 5px;
+flex: 0 0 auto;
+}
+
+.date-group .group-title {
+font-size: 12px;
+font-weight: 800;
+color: #ffffff;
+text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 2px;
+text-align: center;
+}
+
+.date-inputs-row {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+/* COMPACT METRIC STATS BANNER WITHOUT DESKTOP SCROLLBARS */
+.stats-banner {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 5px; /* Tighter gap to save layout footprint grid boundaries */
+background: rgba(0, 8, 20, 0.6);
+padding: 10px 12px;
+border-left: 1px solid rgba(255,255,255,0.15);
+border-right: 1px solid rgba(255,255,255,0.15);
+border-bottom: 1px solid rgba(255,255,255,0.1);
+justify-content: space-between;
+}
+
+.stat-card {
+flex: 1 1 0px; 
+background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+border: 1px solid rgba(255,255,255,0.15);
+padding: 4px 2px; /* Compressed micro padding layout */
+border-radius: 6px;
+text-align: center;
+min-width: 60px; /* Highly optimized card width */
+box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.stat-card .card-label {
+font-size: 8px; /* Balanced crisp tracking typography sizes */
+text-transform: uppercase;
+letter-spacing: 0.1px;
+color: #ffe082;
+font-weight: bold;
+margin-bottom: 1px;
+white-space: nowrap;
+}
+
+.stat-card .card-value {
+font-size: 13px; /* Slightly compact numeric sizing to preserve horizontal row containment boundaries */
+font-weight: bold;
+color: #ffffff;
+}
+
+/* MODIFIED: DEPT OFFERS TEXT LABEL ARRANGED VERTICALLY */
+.stats-divider {
+font-size: 9.5px;
+font-weight: 900;
+color: #b2ff59;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+white-space: nowrap;
+flex: 0 0 auto;
+padding: 0 8px;
+border-left: 2px solid rgba(255,255,255,0.2);
+display: flex;
+flex-direction: column; /* Stacks text vertically cleanly */
+align-items: center;
+justify-content: center;
+line-height: 1.1;
+text-align: center;
+}
+
+.controls {
+background:rgba(255,255,255,0.12);
+border-radius:0 0 14px 14px;
+margin-bottom:6px;
+}
+
+/* FILTERS ELEMENT STYLES */
+
+.filter-section input,
+.filter-section select{
+flex:0 0 auto;
+width:170px;
+min-width:170px;
+height:30px;
+padding:4px 8px;
+font-size:12px;
+border-radius:8px;
+border:1px solid rgba(255,255,255,0.2);
+outline:none;
+background:rgba(255,255,255,0.92);
+transition:0.3s;
+color: #222;
+}
+
+.filter-section label {
+font-size: 11px;
+font-weight: bold;
+color: #ffe082;
+white-space: nowrap;
+flex: 0 0 auto;
+}
+
+.date-container label {
+color: #ffffff;
+text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* FOCUS EFFECT */
+
+.filter-section input:focus,
+.filter-section select:focus{
+transform:scale(1.02);
+box-shadow:0 0 10px rgba(255,255,255,0.5);
+border:1px solid #00c6ff;
+}
+
+/* FILTER SCROLLBARS */
+
+.filter-section::-webkit-scrollbar{
+height:6px;
+}
+
+.filter-section::-webkit-scrollbar-track{
+background:rgba(255,255,255,0.08);
+border-radius:10px;
+}
+
+.filter-section::-webkit-scrollbar-thumb{
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+border-radius:10px;
+}
+
+/* TABLE CONTAINER */
+
+.table-container{
+width:100%;
+overflow-x:auto;
+overflow-y:hidden;
+border-radius:18px;
+box-shadow:0 8px 25px rgba(0,0,0,0.35);
+scroll-behavior:smooth;
+background:rgba(255,255,255,0.05);
+padding-bottom:6px;
+}
+
+/* TABLE SCROLLBAR */
+
+.table-container::-webkit-scrollbar{
+height:10px;
+}
+
+.table-container::-webkit-scrollbar-track{
+background:rgba(255,255,255,0.08);
+border-radius:10px;
+}
+
+.table-container::-webkit-scrollbar-thumb{
+background:linear-gradient(90deg,#ff512f,#dd2476);
+border-radius:10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover{
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+}
+
+/* TABLE */
+
+table{
+border-collapse:collapse;
+min-width:1600px;
+width:max-content;
+background:#ffffff;
+color:#222;
+border-radius:18px;
+overflow:hidden;
+}
+
+/* TABLE HEADER - CRITICAL COLOR & VISIBILITY REFACTOR */
+th{
+padding:8px 9px;
+font-size:13px;
+font-weight:bold;
+text-align:center;
+background: linear-gradient(180deg, #111a2e 0%, #090e1a 100%);
+color:#ffffff;
+line-height:1.3;
+border:1px solid rgba(255,255,255,0.18);
+white-space:nowrap;
+text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+box-shadow: inset 0 -2px 0px rgba(0, 198, 255, 0.4);
+}
+
+/* TABLE DATA */
+
+td{
+padding:5px 9px;
+font-size:12px;
+font-weight:500;
+text-align:center;
+white-space:nowrap;
+border:1px solid rgba(16,37,66,0.12);
+}
+
+/* ROW COLORS */
+
+tr:nth-child(even){
+background:#eef5ff;
+}
+
+tr:nth-child(odd){
+background:#ffffff;
+}
+
+/* HOVER */
+
+tbody tr:hover{
+background:#ffd180;
+transition:0.3s;
+}
+
+/* BUTTON */
+
+.link-btn{
+background:linear-gradient(135deg,#667eea,#764ba2);
+color:white;
+padding:3px 8px;
+border-radius:6px;
+text-decoration:none;
+font-size:10px;
+font-weight:bold;
+line-height:1.2;
+display:inline-block;
+transition:0.3s;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+
+.link-btn:hover{
+transform:scale(1.06);
+background:linear-gradient(135deg,#43cea2,#185a9d);
+}
+
+/* MOBILE RESPONSIVE MEDIA BLOCK */
+
+@media(max-width:768px){
+
+body{
+padding:10px;
+}
+
+h1{
+font-size:22px;
+}
+
+h3{
+font-size:15px;
+}
+
+.filter-section{
+padding:6px 8px;
+gap:8px;
+}
+
+.filter-section input,
+.filter-section select{
+width:145px;
+min-width:145px;
+height:28px;
+padding:3px 6px;
+font-size:12px;
+}
+
+th{
+font-size:11px;
+padding:5px 6px;
+}
+
+td{
+font-size:11px;
+padding:4px 6px;
+}
+
+table{
+min-width:1400px;
+}
+
+.date-container {
+justify-content: flex-start;
+}
+
+.stats-banner {
+overflow-x: auto;
+flex-wrap: nowrap;
+justify-content: flex-start;
+}
+
+.stat-card {
+padding: 6px 12px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header-box">
+<h1>MGIT-Campus Placement Report</h1>
+<h3>Academic Year 2025 - 2026</h3>
+</div>
+
+<div class="filter-section date-container">
+
+  <div class="date-group">
+    <div class="group-title">Campus Date</div>
+    <div class="date-inputs-row">
+      <label>From:</label>
+      <input type="date" id="campusStart">
+      <label>To:</label>
+      <input type="date" id="campusEnd">
+    </div>
+  </div>
+
+  <div class="date-group">
+    <div class="group-title">Result Date</div>
+    <div class="date-inputs-row">
+      <label>From:</label>
+      <input type="date" id="resultStart">
+      <label>To:</label>
+      <input type="date" id="resultEnd">
+    </div>
+  </div>
+
+</div>
+
+<div class="stats-banner">
+  <div class="stat-card">
+    <div class="card-label">Total Companies</div>
+    <div class="card-value" id="statTotalCompanies">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">Total Offers</div>
+    <div class="card-value" id="statTotalOffers">0</div>
+  </div>
+  
+  <div class="stats-divider">
+    <span>Dept.</span>
+    <span>Offers</span>
+  </div>
+  
+  <div class="stat-card">
+    <div class="card-label">CIV</div>
+    <div class="card-value" id="statCivOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">EEE</div>
+    <div class="card-value" id="statEeeOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">MECH</div>
+    <div class="card-value" id="statMechOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">ECE</div>
+    <div class="card-value" id="statEceOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">CSE</div>
+    <div class="card-value" id="statCseOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">IT</div>
+    <div class="card-value" id="statItOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">CSM</div>
+    <div class="card-value" id="statCsmOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">CSD</div>
+    <div class="card-value" id="statCsdOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">MCT</div>
+    <div class="card-value" id="statMctOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">CSB</div>
+    <div class="card-value" id="statCsbOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">MME</div>
+    <div class="card-value" id="statMmeOffers">0</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-label">M.Tech</div>
+    <div class="card-value" id="statMtechOffers">0</div>
+  </div>
+</div>
+
+<div class="filter-section controls">
+
+<input type="text" id="search" placeholder="Search student / roll / company">
+
+<select id="batchFilter">
+<option value="">All Batches</option>
+</select>
+
+<select id="natureOfOfferFilter">
+<option value="">Nature of Offer</option>
+</select>
+
+<select id="statusOfDriveFilter">
+<option value="">Status of the Drive</option>
+</select>
+
+<select id="natureFilter">
+<option value="">Nature of the Company</option>
+</select>
+
+<select id="totalFilter">
+<option value="">Total</option>
+</select>
+
+</div>
+
+<div class="table-container">
+<table id="placementTable">
+<thead></thead>
+<tbody></tbody>
+</table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+
+<script>
+
+/* DATA STREAM TARGET SOURCE LINK */
+const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYiIVUuvwMIOfO8RKoGS-jIWK1qoh_4kiTt9ro59zgdt8R7Pqe8XWsRjswiEQriyRnRa64CUICZdyb/pub?gid=56901671&single=true&output=csv";
+
+let allData=[];
+let natureKey="";
+let campusDateKey="";
+let resultDateKey="";
+let natureOfOfferKey="";
+let statusOfDriveKey="";
+let totalKey="";
+let companyNameKey="";
+
+// Storage mapping target department keys securely including CSB and MME columns
+let deptKeys = { civ: "", eee: "", mech: "", ece: "", cse: "", it: "", csm: "", csd: "", mct: "", csb: "", mme: "", mtech: "" };
+
+/* INITIALIZE PARSING SEQUENCE */
+Papa.parse(csvURL,{
+download:true,
+header:true,
+skipEmptyLines:true,
+complete:function(results){
+allData = results.data.filter(
+row => Object.values(row).join("").trim() !== ""
+);
+
+if(allData.length===0){
+buildTable([]);
+return;
+}
+
+let headers = Object.keys(allData[0]);
+
+// Loose contains parsing check loops
+let findKey = (arr, fallback) => headers.find(h => arr.some(term => h.toLowerCase().replace(/[\s\.\-_]/g, "").includes(term))) || fallback;
+
+natureKey = findKey(["natureofthecompany", "naturecompany", "nature"], "");
+natureOfOfferKey = findKey(["natureofoffer", "offerofnature"], "");
+statusOfDriveKey = findKey(["statusofthedrive", "statusdrive", "statusofdrive"], "");
+totalKey = headers.find(h => h.toLowerCase().trim() === "total") || "";
+companyNameKey = findKey(["companyname", "companyplaced", "company"], "");
+
+// Strictly matches formatting mutations across sheet labels
+let getDeptKey = (token) => headers.find(h => h.toLowerCase().replace(/[\s\.\-_]/g, "") === token.toLowerCase().replace(/[\s\.\-_]/g, "")) || "";
+Object.keys(deptKeys).forEach(k => {
+  let lookup = (k === "mtech") ? "m.tech" : k;
+  deptKeys[k] = getDeptKey(lookup) || headers.find(h => h.toLowerCase().trim() === lookup);
+});
+
+campusDateKey = findKey(["campusdate", "campus"], "");
+resultDateKey = findKey(["resultdate", "result"], "");
+
+buildTable(allData);
+populateFilters(allData);
+updateLiveMetrics(allData);
+},
+error:function(err){
+console.log(err);
+buildTable([]);
+alert("CSV Loading Failed. Check Sheet publishing settings.");
+}
+});
+
+/* TABLE DOM INJECTOR GENERATOR */
+function buildTable(data){
+let thead=document.querySelector("#placementTable thead");
+let tbody=document.querySelector("#placementTable tbody");
+
+thead.innerHTML="";
+tbody.innerHTML="";
+
+if(data.length===0){
+tbody.innerHTML="<tr><td colspan='25'>No Records Found Match Criteria</td></tr>";
+return;
+}
+
+let headers=Object.keys(data[0]);
+let tr=document.createElement("tr");
+
+headers.forEach(h=>{
+let th=document.createElement("th");
+th.innerText=h;
+tr.appendChild(th);
+});
+thead.appendChild(tr);
+
+data.forEach(row=>{
+let tr=document.createElement("tr");
+headers.forEach(h=>{
+let td=document.createElement("td");
+let value = row[h] ? row[h].toString().trim() : "";
+
+if(value.includes("http")){
+let a=document.createElement("a");
+a.href=value;
+a.target="_blank";
+a.className="link-btn";
+
+if(h.toLowerCase().includes("intern")){
+a.innerText="📄 Internship Letter";
+}
+else if(h.toLowerCase().includes("offer")){
+a.innerText="📄 Offer Letter";
+}
+else{
+a.innerText="📄 View";
+}
+td.appendChild(a);
+}
+else{
+td.innerText=value;
+}
+tr.appendChild(td);
+});
+tbody.appendChild(tr);
+});
+}
+
+/* INITIAL OPTION SELECTION POPULATOR SETUP */
+function populateFilters(data){
+let getDropdownOpts = (key) => key ? [...new Set(data.map(d=> (d[key] || "").trim()).filter(Boolean))].sort() : [];
+
+let batches = data.length > 0 && Object.keys(data[0]).includes("Batch") ? [...new Set(data.map(d=>d["Batch"]).filter(Boolean))].sort() : [];
+let natures = getDropdownOpts(natureKey);
+let offers = getDropdownOpts(natureOfOfferKey);
+let drives = getDropdownOpts(statusOfDriveKey);
+
+let totals = totalKey ? [...new Set(data.map(d => (d[totalKey] || "").trim()).filter(Boolean))].sort((a, b) => parseFloat(a) - parseFloat(b)) : [];
+
+let updateSelect = (id, list) => {
+  let el = document.getElementById(id);
+  if(!el) return;
+  let defaultText = el.options[0].text;
+  el.innerHTML = `<option value="">${defaultText}</option>`;
+  list.forEach(v => el.add(new Option(v,v)));
+};
+
+updateSelect("batchFilter", batches);
+updateSelect("natureOfOfferFilter", offers);
+updateSelect("statusOfDriveFilter", drives);
+updateSelect("natureFilter", natures);
+updateSelect("totalFilter", totals);
+}
+
+/* REAL-TIME STATISTICAL ACCUMULATOR COMPILER */
+function updateLiveMetrics(currentFilteredData) {
+  let uniqueCompanies = new Set();
+  let totalOffersSum = 0;
+  let sums = { civ: 0, eee: 0, mech: 0, ece: 0, cse: 0, it: 0, csm: 0, csd: 0, mct: 0, csb: 0, mme: 0, mtech: 0 };
+
+  currentFilteredData.forEach(row => {
+    if (companyNameKey && row[companyNameKey]) {
+      uniqueCompanies.add(row[companyNameKey].toString().trim());
+    }
+
+    if (totalKey && row[totalKey]) {
+      let tVal = parseFloat(row[totalKey].toString().trim());
+      if (!isNaN(tVal)) totalOffersSum += tVal;
+    }
+    
+    Object.keys(sums).forEach(branch => {
+      let key = deptKeys[branch];
+      if (key && row[key]) {
+        let val = parseFloat(row[key].toString().trim());
+        if (!isNaN(val)) sums[branch] += val;
+      }
+    });
+  });
+
+  let setVal = (id, val) => { let el = document.getElementById(id); if(el) el.innerText = val; };
+  setVal("statTotalCompanies", uniqueCompanies.size);
+  setVal("statTotalOffers", totalOffersSum);
+  setVal("statCivOffers", sums.civ);
+  setVal("statEeeOffers", sums.eee);
+  setVal("statMechOffers", sums.mech);
+  setVal("statEceOffers", sums.ece);
+  setVal("statCseOffers", sums.cse);
+  setVal("statItOffers", sums.it);
+  setVal("statCsmOffers", sums.csm);
+  setVal("statCsdOffers", sums.csd);
+  setVal("statMctOffers", sums.mct);
+  setVal("statCsbOffers", sums.csb);
+  setVal("statMmeOffers", sums.mme);
+  setVal("statMtechOffers", sums.mtech);
+}
+
+/* CELL DATA DATE TRANSFORM ENGINE */
+function parseCellDate(dateStr) {
+if (!dateStr) return null;
+let parts = dateStr.toString().trim().split(/[\.\-\/]/);
+if (parts.length === 3) {
+let day = parseInt(parts[0], 10);
+let month = parseInt(parts[1], 10) - 1;
+let year = parseInt(parts[2], 10);
+if(year < 100) year += 2000;
+let d = new Date(year, month, day);
+return isNaN(d.getTime()) ? null : d;
+}
+return null;
+}
+
+/* PRIMARY SYSTEM FILTER COMPILER ROUTINE ENGINE */
+function applyFilters(){
+if(allData.length === 0) return;
+
+let getVal = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
+let search = getVal("search").toLowerCase();
+let batch = getVal("batchFilter");
+let offer = getVal("natureOfOfferFilter");
+let drive = getVal("statusOfDriveFilter");
+let nature = getVal("natureFilter");
+let total = getVal("totalFilter");
+
+let cStartVal = getVal("campusStart");
+let cEndVal = getVal("campusEnd");
+let rStartVal = getVal("resultStart");
+let rEndVal = getVal("resultEnd");
+
+let cStart = cStartVal ? new Date(cStartVal) : null;
+let cEnd = cEndVal ? new Date(cEndVal) : null;
+let rStart = rStartVal ? new Date(rStartVal) : null;
+let rEnd = rEndVal ? new Date(rEndVal) : null;
+
+if (cEnd) cEnd.setHours(23, 59, 59, 999);
+if (rEnd) rEnd.setHours(23, 59, 59, 999);
+
+let filtered=allData.filter(row=>{
+let text=JSON.stringify(row).toLowerCase();
+
+let cellCampusDate = campusDateKey ? parseCellDate(row[campusDateKey]) : null;
+let cellResultDate = resultDateKey ? parseCellDate(row[resultDateKey]) : null;
+
+let campusPass = true;
+if (cStart && (!cellCampusDate || cellCampusDate < cStart)) campusPass = false;
+if (cEnd && (!cellCampusDate || cellCampusDate > cEnd)) campusPass = false;
+
+let resultPass = true;
+if (rStart && (!cellResultDate || cellResultDate < rStart)) resultPass = false;
+if (rEnd && (!cellResultDate || cellResultDate > rEnd)) resultPass = false;
+
+let rowMatch = (key, val) => val === "" || !key || (row[key] || "").trim() === val;
+
+return text.includes(search)
+&& (batch === "" || row["Batch"] === batch)
+&& rowMatch(natureOfOfferKey, offer)
+&& rowMatch(statusOfDriveKey, drive)
+&& rowMatch(natureKey, nature)
+&& rowMatch(totalKey, total)
+&& campusPass
+&& resultPass;
+});
+
+buildTable(filtered);
+updateLiveMetrics(filtered);
+}
+
+/* EVENT BINDINGS SUBSYSTEM ROUTINES */
+document.getElementById("search").addEventListener("keyup",applyFilters);
+document.getElementById("batchFilter").addEventListener("change",applyFilters);
+document.getElementById("natureOfOfferFilter").addEventListener("change",applyFilters);
+document.getElementById("statusOfDriveFilter").addEventListener("change",applyFilters);
+document.getElementById("natureFilter").addEventListener("change",applyFilters);
+document.getElementById("totalFilter").addEventListener("change",applyFilters);
+
+document.getElementById("campusStart").addEventListener("change",applyFilters);
+document.getElementById("campusEnd").addEventListener("change",applyFilters);
+document.getElementById("resultStart").addEventListener("change",applyFilters);
+document.getElementById("resultEnd").addEventListener("change",applyFilters);
+
+</script>
+
+</body>
+</html>
