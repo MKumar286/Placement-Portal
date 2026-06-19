@@ -48,7 +48,6 @@
             width: 100%;
             max-width: 1400px;
             padding: 20px 20px;
-            /* High-Focus Solid Linear Dual Gradient Base */
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e0827 100%);
             border-radius: 12px;
             position: relative;
@@ -69,7 +68,7 @@
         .header-section::before {
             width: 160px;
             height: 160px;
-            background: #00d2ff; /* Vibrant Electric Blue Floating Accent */
+            background: #00d2ff; 
             top: -20%;
             left: 10%;
             animation: float-header-left 8s infinite ease-in-out alternate;
@@ -77,7 +76,7 @@
         .header-section::after {
             width: 180px;
             height: 180px;
-            background: #ff007f; /* Hyper-Vibrant Magenta Pink Floating Accent */
+            background: #ff007f; 
             bottom: -30%;
             right: 15%;
             animation: float-header-right 10s infinite ease-in-out alternate;
@@ -92,7 +91,6 @@
             100% { transform: translate(-35px, -10px) scale(0.9); }
         }
 
-        /* Ensures Text Elements sit boldly over the internal glowing background shapes */
         .main-heading, .sub-heading, .context-heading {
             position: relative;
             z-index: 2;
@@ -102,7 +100,7 @@
             font-size: 1.6rem; 
             font-weight: 800; 
             letter-spacing: -0.02em;
-            color: #ffffff; /* Swapped to crisp high-contrast clear white text */
+            color: #ffffff; 
             margin-bottom: 2px; 
             text-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
@@ -111,7 +109,7 @@
             font-size: 1.1rem;
             font-weight: 700; 
             letter-spacing: 0.02em;
-            color: #cbd5e1; /* Set to clear silver tint for dynamic reading contrast */
+            color: #cbd5e1; 
             margin-bottom: 8px; 
             text-shadow: 0 1px 4px rgba(0,0,0,0.5);
         }
@@ -126,7 +124,7 @@
             -webkit-backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50px;
-            color: #00d2ff; /* Sharp blue accent tint text alignment */
+            color: #00d2ff; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
@@ -278,7 +276,7 @@
     <div class="header-section">
         <h1 class="main-heading">Mahatma Gandhi Institute of Technology (A)</h1>
         <h2 class="sub-heading">Training & Placement Cell</h2>
-        <div class="context-heading">Mail Confirmation of the Selected Students for the Academic Year 2025-2026</div>
+        <div class="context-heading">Mail Confirmation of the Selected Students by the Company</div>
     </div>
 
     <div class="controls-panel">
@@ -319,7 +317,7 @@
                 complete: function(results) {
                     globalDataGrid = results.data;
                     detectFilterColumns(globalDataGrid[0]);
-                    populateFilterDropdowns(globalDataGrid);
+                    updateFilterOptions(); // Initial load of dropdown options
                     renderHtmlTable(globalDataGrid);
                     setupFilterEventListeners();
                 },
@@ -353,44 +351,66 @@
             });
         }
 
-        function populateFilterDropdowns(data) {
-            if (data.length <= 1) return;
-            
-            const companies = new Set();
-            const roles = new Set();
+        // --- NEW: Dynamic Dependent Filter Dropdown Populator Engine ---
+        function updateFilterOptions() {
+            const compSelect = document.getElementById('company-filter');
+            const roleSelect = document.getElementById('role-filter');
 
-            for (let i = 1; i < data.length; i++) {
-                if (companyColIndex !== -1 && data[i][companyColIndex]) {
-                    const val = data[i][companyColIndex].trim();
-                    if(val !== "") companies.add(val);
+            const currentSelectedCompany = compSelect.value;
+            const currentSelectedRole = roleSelect.value;
+
+            const validCompanies = new Set();
+            const validRoles = new Set();
+
+            // Check grid items based on cross-selections to make options interdependent
+            for (let i = 1; i < globalDataGrid.length; i++) {
+                const row = globalDataGrid[i];
+                const rowCompany = companyColIndex !== -1 && row[companyColIndex] ? row[companyColIndex].trim() : "";
+                const rowRole = roleColIndex !== -1 && row[roleColIndex] ? row[roleColIndex].trim() : "";
+
+                if (rowCompany === "" && rowRole === "") continue;
+
+                // Scenario A: If a role is filtered, extract corresponding companies
+                if (!currentSelectedRole || rowRole === currentSelectedRole) {
+                    if (rowCompany !== "") validCompanies.add(rowCompany);
                 }
-                if (roleColIndex !== -1 && data[i][roleColIndex]) {
-                    const val = data[i][roleColIndex].trim();
-                    if(val !== "") roles.add(val);
+                // Scenario B: If a company is filtered, extract corresponding roles
+                if (!currentSelectedCompany || rowCompany === currentSelectedCompany) {
+                    if (rowRole !== "") validRoles.add(rowRole);
                 }
             }
 
-            const compSelect = document.getElementById('company-filter');
-            Array.from(companies).sort().forEach(comp => {
+            // Repopulate Company Dropdown dynamically
+            compSelect.innerHTML = '<option value="">All Companies</option>';
+            Array.from(validCompanies).sort().forEach(comp => {
                 const opt = document.createElement('option');
                 opt.value = comp;
                 opt.textContent = comp;
+                if (comp === currentSelectedCompany) opt.selected = true;
                 compSelect.appendChild(opt);
             });
 
-            const roleSelect = document.getElementById('role-filter');
-            Array.from(roles).sort().forEach(role => {
+            // Repopulate Role Dropdown dynamically
+            roleSelect.innerHTML = '<option value="">All Roles</option>';
+            Array.from(validRoles).sort().forEach(role => {
                 const opt = document.createElement('option');
                 opt.value = role;
                 opt.textContent = role;
+                if (role === currentSelectedRole) opt.selected = true;
                 roleSelect.appendChild(opt);
             });
         }
 
         function setupFilterEventListeners() {
             document.getElementById('global-search').addEventListener('input', applyCombinedFilters);
-            document.getElementById('company-filter').addEventListener('change', applyCombinedFilters);
-            document.getElementById('role-filter').addEventListener('change', applyCombinedFilters);
+            document.getElementById('company-filter').addEventListener('change', () => {
+                updateFilterOptions(); // Recalculate dependencies first
+                applyCombinedFilters();
+            });
+            document.getElementById('role-filter').addEventListener('change', () => {
+                updateFilterOptions(); // Recalculate dependencies first
+                applyCombinedFilters();
+            });
         }
 
         function applyCombinedFilters() {
