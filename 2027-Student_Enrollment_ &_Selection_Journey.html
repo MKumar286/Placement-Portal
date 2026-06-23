@@ -463,9 +463,12 @@ Papa.parse(csvURL,{
         paperTest1Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("1")) || "";
         paperTest2Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("2")) || "";
         gdKey = headers.find(h => h.toLowerCase().trim().includes("gd") || h.toLowerCase().trim().includes("group discussion")) || "";
-        oa1Key = headers.find(h => h.toLowerCase().trim().includes("oa") && h.toLowerCase().trim().includes("1")) || "";
-        oa2Key = headers.find(h => h.toLowerCase().trim().includes("oa") && h.toLowerCase().trim().includes("2")) || "";
-        oa3Key = headers.find(h => h.toLowerCase().trim().includes("oa") && h.toLowerCase().trim().includes("3")) || "";
+        
+        // Comprehensive string matching algorithm to safeguard against varying format styles for OA headers
+        oa1Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("1"); }) || "";
+        oa2Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("2"); }) || "";
+        oa3Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("3"); }) || "";
+        
         tech1Key = headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("1")) || "";
         tech2Key = headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("2")) || "";
         hrKey = headers.find(h => h.toLowerCase().trim().includes("hr")) || "";
@@ -525,8 +528,13 @@ function populateFilters(data){
     let fillSel = (id, opts, def) => {
         let el = document.getElementById(id);
         if(!el) return;
+        let currentSelection = el.value;
         el.innerHTML = `<option value="">${def}</option>`;
-        opts.forEach(v => el.add(new Option(v,v)));
+        opts.forEach(v => {
+            let opt = new Option(v,v);
+            if(v === currentSelection) opt.selected = true;
+            el.add(opt);
+        });
     };
 
     fillSel("branchFilter", getOpts(branchKey), "All Branches");
@@ -567,13 +575,11 @@ function applyFilters() {
     let statusVal = document.getElementById("finalStatusFilter").value;
 
     currentFilteredData = allData.filter(row => {
-        // Safe Text Search check avoiding prototype breaks
         if (searchVal) {
             let matchesSearch = Object.values(row).some(val => String(val).toLowerCase().includes(searchVal));
             if (!matchesSearch) return false;
         }
 
-        // Dropdown matching logic with fixed key routing
         if (branchVal && (row[branchKey] || "").trim() !== branchVal) return false;
         if (compVal && (row[appliedCompanyKey] || "").trim() !== compVal) return false;
         if (roleVal && (row[roleKey] || "").trim() !== roleVal) return false;
@@ -595,6 +601,7 @@ function applyFilters() {
     });
 
     buildTable(currentFilteredData);
+    populateFilters(currentFilteredData);
     updateStats(currentFilteredData);
 }
 
