@@ -3,320 +3,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>2026-2027</title>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<!-- Font Awesome for sleek corporate icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-
-body{
-    margin:0;
-    padding:20px;
-    font-family:Arial;
-    background:#f2f5ff;
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Clean solid white background */
+    background: #ffffff;
+    color: #000000;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
-h1{
-    text-align:center;
-    color:#0b3d91;
+/* FLOATING HEADER PANEL - DARK BLUE BACKGROUND WITH GOLD HEADINGS */
+.header-container {
+    background: #0d2558; /* Premium Solid Dark Blue */
+    max-width: 1200px;
+    margin: 0 auto 25px auto;
+    padding: 14px 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(13, 37, 88, 0.25), 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 2px solid #ffd700; /* Subtle Gold accent border line */
 }
 
-h2{
-    text-align:center;
-    color:#444;
+.header-container h1 {
+    margin: 0 0 2px 0;
+    color: #ffd700; /* Brilliant Gold */
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
-.cards-container{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-top:25px;
-}
-.card{
-    height:85px;
-    border-radius:22px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-size:22px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:all 0.3s ease;
-    box-shadow:0 8px 20px rgba(0,0,0,0.18);
-    backdrop-filter:blur(8px);
-    letter-spacing:0.5px;
-    text-align:center;
-    padding:10px;
+.header-container h2 {
+    margin: 0 0 2px 0;
+    color: #fcd34d; /* Muted Soft Gold */
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
-.card:hover{
-    transform:translateY(-6px) scale(1.03);
-    box-shadow:0 12px 25px rgba(0,0,0,0.25);
+.header-container h3 {
+    margin: 0;
+    color: #fde68a; /* Warm Cream Gold */
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
 }
 
-.card:hover{
-    transform:scale(1.05);
+/* BULLETPROOF 3x6 LAYOUT SYSTEM */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, max-content); 
+    grid-template-rows: repeat(6, max-content);
+    grid-auto-flow: column;
+    gap: 12px 30px; 
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: center; 
 }
 
-table{
-    width:100%;
-    margin-top:25px;
-    border-collapse:collapse;
-    background:white;
+/* FLOATING CARDS WITH NO BACKGROUND COLOR */
+.card {
+    height: 48px; 
+    width: max-content; 
+    background: transparent; /* Removed background color entirely */
+    border: 1px solid rgba(13, 37, 88, 0.3); /* Subtle border to define shape on white bg */
+    border-radius: 24px; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    padding: 0 18px 0 6px; 
+    box-sizing: border-box;
+    white-space: nowrap; 
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-th,td{
-    border:1px solid #ccc;
-    padding:10px;
-    text-align:center;
+/* White and Pink Gradient Card Text */
+.card span {
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+    background: linear-gradient(to right, #0d2558 30%, #db2777 100%); /* Adjusted starting tone to dark blue for legibility on white background */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-th{
-    background:#0b3d91;
-    color:white;
+/* Circular Blue Icon Badge */
+.card .icon-badge {
+    width: 36px;
+    height: 36px;
+    background: #0062ff; 
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 98, 255, 0.2);
+    transition: all 0.2s ease;
 }
 
-.loading{
-    text-align:center;
-    margin-top:20px;
-    font-size:20px;
-    color:#0b3d91;
+.card .icon-badge i {
+    font-size: 15px;
+    color: #ffffff;
 }
 
+/* HIGHLIGHTED/HOVERED CARD STATE: Shifting to a vibrant mixed color gradient */
+.card:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%); /* Mixed Blue, Purple, & Pink */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    border-color: transparent;
+}
+
+/* Tweak the icon badge and text contrast on hover over the mixed gradient */
+.card:hover .icon-badge {
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
+}
+.card:hover .icon-badge i {
+    color: #7c3aed; 
+}
+.card:hover span {
+    background: #ffffff; /* Becomes solid white for clean visibility over mixed gradient background */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card:active {
+    transform: translateY(0);
+}
+
+/* Fluid responsive layout logic for standard devices */
+@media (max-width: 950px) {
+    .cards-container {
+        grid-template-columns: repeat(2, max-content);
+        grid-template-rows: repeat(9, max-content);
+    }
+    .header-container {
+        max-width: 100%;
+    }
+}
+@media (max-width: 650px) {
+    .cards-container {
+        grid-template-columns: max-content;
+        grid-template-rows: auto;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<h1>Mahatma Gandhi Institute of Technology</h1>
-<h2>Training and Placement Cell</h2>
-<h3>Academic Year 2026-2027</h3>
+<div class="header-container">
+    <h1>Mahatma Gandhi Institute of Technology</h1>
+    <h2>Training and Placement Cell</h2>
+    <h3>Academic Year 2026-2027</h3>
+</div>
 
 <div class="cards-container" id="cardsContainer"></div>
 
-<div class="loading" id="loading"></div>
-
-<table id="dataTable"></table>
-
 <script>
-
 const csvLinks = {
-
-A:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRs918b9wOBmLLA6UJDOtpHMHNuNnzxYCYUIoYd5sIXg-sEkiYZtuNKYo8vEN4d7qWTpDoOvMWq7Cxc/pub?gid=981950419&single=true&output=csv",
-
-B:"",
-C:"",
-D:"",
-E:"",
-F:"",
-G:"",
-H:"",
-I:"",
-J:"",
-K:"",
-L:"",
-M:"",
-N:"",
-O:"",
-P:"",
-Q:"",
-R:""
-
+    A:"https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Yx068ZzCU8j4ouN_73-tolfsyoAO0skZWsGSc_4oZbACSlNGtpBCfaGQkpZfWg/pub?gid=1507961296&single=true&output=csv",
+    B:"", C:"", D:"", E:"", F:"", G:"", H:"", I:"", J:"", K:"", L:"", M:"", N:"", O:"", P:"", Q:"", R:""
 };
 
-const colors = [
-
-"#1E3A8A",
-"#7C3AED",
-"#DC2626",
-"#059669",
-"#EA580C",
-"#0891B2",
-"#BE123C",
-"#4F46E5",
-"#15803D",
-"#B45309",
-"#9333EA",
-"#0F766E",
-"#E11D48",
-"#2563EB",
-"#65A30D",
-"#C2410C",
-"#4338CA",
-"#374151"
-
-];const container = document.getElementById("cardsContainer");
-
-Object.keys(csvLinks).forEach((key,index)=>{
-
-    const card=document.createElement("div");
-
-    card.className="card";
-
-    card.style.background=colors[index];
-
-  const cardNames = {
+const cardNames = {
     A:"Total Students Data",
-    B:"HR Contact Details",
-    C:"Training Programs",
-    D:"Placed Students Data with Offer Letters",
-    E:"Capgemini",
-    F:"Cognizant",
-    G:"Student Enrollment & Selection Journey",
-    H:"IBM",
-    I:"Tech Mahindra",
-    J:"HCL",
-    K:"Oracle",
-    L:"Amazon",
-    M:"Google",
-    N:"Microsoft",
-    O:"KPIT",
-    P:"Zoho",
-    Q:"Hexaware",
-    R:"Genpact"
+    B:"Students Enrollment & Selection Journey",
+    C:"Placed Students Data with Offer Letters",
+    D:"Companies JD & Mail Confirmation of Selected Students", 
+    E:"HR Contact Details", 
+    F:"Placement Report",
+    G:"Training Programs with Profs",
+    H:"Circulars",
+    I:"On Campus Drives & Photos",
+    J:"Salary Details", 
+    K:"Memorandum of Understanding (MoU)",
+    L:"Nature of Offers & Internship Details",
+    M:"Employer Feedback & Survey Forms",
+    N:"NBA Visit Details",
+    O:"NAAC Visit Details",
+    P:"Stock & Infrastructure Details",
+    Q:"Budget Proposals",
+    R:"Note Submitted to the Principal & Secretary"
 };
 
-card.innerHTML = cardNames[key];
-
-  card.onclick = () => {
-
-    // Card A → Existing Working Page
-    if(key === "A"){
-        localStorage.setItem("csvURL", csvLinks[key]);
-        window.location.href = "2027-Total_Students_Data.html";
-    }
-
-    // Remaining Cards → Different HTML Pages
-
-    else if(key === "B"){
-        window.location.href = "HR_Contact_Details.html";
-    }
-
-    else if(key === "C"){
-        window.location.href = "wipro.html";
-    }
-
-    else if(key === "D"){
-        window.location.href = "2027-Placed_Students_Data.html";
-    }
-
-    else if(key === "E"){
-        window.location.href = "capgemini.html";
-    }
-
-    else if(key === "F"){
-        window.location.href = "cognizant.html";
-    }
-
-    else if(key === "G"){
-        window.location.href = "2027-Student_Enrollment_ &_Selection_Journey.html";
-    }
-
-    else if(key === "H"){
-        window.location.href = "ibm.html";
-    }
-
-    else if(key === "I"){
-        window.location.href = "techmahindra.html";
-    }
-
-    else if(key === "J"){
-        window.location.href = "hcl.html";
-    }
-
-    else if(key === "K"){
-        window.location.href = "oracle.html";
-    }
-
-    else if(key === "L"){
-        window.location.href = "amazon.html";
-    }
-
-    else if(key === "M"){
-        window.location.href = "google.html";
-    }
-
-    else if(key === "N"){
-        window.location.href = "microsoft.html";
-    }
-
-    else if(key === "O"){
-        window.location.href = "kpit.html";
-    }
-
-    else if(key === "P"){
-        window.location.href = "zoho.html";
-    }
-
-    else if(key === "Q"){
-        window.location.href = "hexaware.html";
-    }
-
-    else if(key === "R"){
-        window.location.href = "genpact.html";
-    }
-
+const cardIcons = {
+    A: '<i class="fa-solid fa-users"></i>',               
+    B: '<i class="fa-solid fa-route"></i>',               
+    C: '<i class="fa-solid fa-file-signature"></i>',       
+    D: '<i class="fa-solid fa-envelope-open-text"></i>',  
+    E: '<i class="fa-solid fa-address-book"></i>',        
+    F: '<i class="fa-solid fa-chart-pie"></i>',           
+    G: '<i class="fa-solid fa-chalkboard-user"></i>',     
+    H: '<i class="fa-solid fa-bullhorn"></i>',            
+    I: '<i class="fa-solid fa-camera"></i>',              
+    J: '<i class="fa-solid fa-money-bill-wave"></i>',     
+    K: '<i class="fa-solid fa-file-contract"></i>',       
+    L: '<i class="fa-solid fa-business-time"></i>',       
+    M: '<i class="fa-solid fa-comments"></i>',            
+    N: '<i class="fa-solid fa-building-shield"></i>',     
+    O: '<i class="fa-solid fa-award"></i>',               
+    P: '<i class="fa-solid fa-boxes-stacked"></i>',       
+    Q: '<i class="fa-solid fa-file-invoice-dollar"></i>', 
+    R: '<i class="fa-solid fa-file-pen"></i>'             
 };
+
+const container = document.getElementById("cardsContainer");
+
+Object.keys(csvLinks).forEach((key) => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `<div class="icon-badge">${cardIcons[key]}</div> <span>${cardNames[key]}</span>`;
+
+    card.onclick = () => {
+        if(key === "A"){
+            localStorage.setItem("csvURL", csvLinks[key]);
+            window.location.href = "2027-Total_Students_Data.html";
+        }
+        else if(key === "B"){ window.location.href = "2027-Student_Enrollment_&_Selection_Journey.html"; }
+        else if(key === "C"){ window.location.href = "Placed_Students_Data.html"; }
+        else if(key === "D"){ window.location.href = "Wipro.html"; }
+        else if(key === "E"){ window.location.href = "capgemini.html"; }
+        else if(key === "F"){ window.location.href = "cognizant.html"; }
+        else if(key === "G"){ window.location.href = "ZeroCode HR"; }
+        else if(key === "H"){ window.location.href = "ibm.html"; }
+        else if(key === "I"){ window.location.href = "techmahindra.html"; }
+        else if(key === "J"){ window.location.href = "hcl.html"; }
+        else if(key === "K"){ window.location.href = "oracle.html"; }
+        else if(key === "L"){ window.location.href = "amazon.html"; }
+        else if(key === "M"){ window.location.href = "google.html"; }
+        else if(key === "N"){ window.location.href = "microsoft.html"; }
+        else if(key === "O"){ window.location.href = "kpit.html"; }
+        else if(key === "P"){ window.location.href = "zoho.html"; }
+        else if(key === "Q"){ window.location.href = "hexaware.html"; }
+        else if(key === "R"){ window.location.href = "genpact.html"; }
+    };
 
     container.appendChild(card);
-
 });
-
-function loadCSV(url){
-
-    if(url===""){
-        alert("CSV Link Not Added");
-        return;
-    }
-
-    document.getElementById("loading").innerHTML="Loading Data...";
-
-    Papa.parse(url,{
-
-        download:true,
-
-        complete:function(results){
-
-            let data=results.data;
-
-            let tableHTML="";
-
-            data.forEach((row,rowIndex)=>{
-
-                tableHTML+="<tr>";
-
-                row.forEach(cell=>{
-
-                    if(rowIndex===0){
-                        tableHTML+=`<th>${cell}</th>`;
-                    }else{
-                        tableHTML+=`<td>${cell}</td>`;
-                    }
-
-                });
-
-                tableHTML+="</tr>";
-
-            });
-
-            document.getElementById("dataTable").innerHTML=tableHTML;
-
-            document.getElementById("loading").innerHTML="";
-
-        },
-
-        error:function(){
-
-            document.getElementById("loading").innerHTML="Unable to Load CSV Data";
-
-        }
-
-    });
-
-}
-
 </script>
 
 </body>
