@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGIT - Placement Cell Mail Confirmation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        /* Reset and Frame Constraints */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #1e293b;
+            padding: 10px 15px 30px 15px; 
+            position: relative;
+        }
+
+        /* Screen-Pinned Custom Horizontal Scrollbar Styling */
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            height: 10px;
+        }
+        html::-webkit-scrollbar-track, body::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+            border: 2px solid #f1f5f9;
+        }
+        html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Branding Header Section Container with Mixed Blue-Pink Shifting Glow Panel */
+        .header-section {
+            text-align: center;
+            margin: 0 auto 12px auto; 
+            width: 100%;
+            max-width: 1400px;
+            padding: 20px 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e0827 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+        }
+
+        /* Embedded Dynamic Blue & Pink High-Focus Floating Colors Inside Header Panel */
+        .header-section::before, .header-section::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.5;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .header-section::before {
+            width: 160px;
+            height: 160px;
+            background: #00d2ff; 
+            top: -20%;
+            left: 10%;
+            animation: float-header-left 8s infinite ease-in-out alternate;
+        }
+        .header-section::after {
+            width: 180px;
+            height: 180px;
+            background: #ff007f; 
+            bottom: -30%;
+            right: 15%;
+            animation: float-header-right 10s infinite ease-in-out alternate;
+        }
+
+        @keyframes float-header-left {
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(30px, 15px) scale(1.15); }
+        }
+        @keyframes float-header-right {
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(-35px, -10px) scale(0.9); }
+        }
+
+        .main-heading, .sub-heading, .context-heading {
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-heading {
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            letter-spacing: -0.02em;
+            color: #ffffff; 
+            margin-bottom: 2px; 
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .sub-heading {
+            font-size: 1.1rem;
+            font-weight: 700; 
+            letter-spacing: 0.02em;
+            color: #cbd5e1; 
+            margin-bottom: 8px; 
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .context-heading {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700; 
+            padding: 4px 14px;
+            background-color: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #00d2ff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Controls Filter Panel Row */
+        .controls-panel {
+            width: 100%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin: 0 auto 10px auto; 
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 6px 12px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            color: #0f172a;
+            font-size: 0.88rem;
+            font-weight: 600; 
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-control:focus {
+            border-color: #ff6600; 
+            box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+        }
+
+        /* Solid High-Contrast Container Card */
+        .table-card {
+            width: max-content; 
+            min-width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .table-responsive-wrapper {
+            width: 100%;
+        }
+
+        /* Structural Table Rules */
+        table {
+            border-collapse: collapse;
+            width: max-content; 
+            min-width: 100%;
+            table-layout: auto; 
+        }
+
+        th, td {
+            padding: 5px 12px; 
+            text-align: center; 
+            vertical-align: middle;
+        }
+
+        /* Next-line Column Wrapping for Headers */
+        th {
+            background-color: #0f2e4a; 
+            color: #ffffff;
+            font-weight: 700; 
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: normal !important; 
+            word-wrap: break-word;
+            max-width: 180px; 
+        }
+
+        /* Data Cells - Maintained Bold & Kept on One Line */
+        td {
+            font-weight: 600; 
+            color: #334155;
+            font-size: 0.85rem;
+            white-space: nowrap; 
+            border-top: 1px solid transparent;
+            border-bottom: 1px solid transparent;
+        }
+
+        tr {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc; 
+        }
+
+        /* Safe Orange Cursor Focus Point applied directly to inner cell items */
+        tr:hover td {
+            background-color: rgba(255, 102, 0, 0.12) !important; 
+            color: #000000; 
+            border-top: 1px solid #ff6600 !important;
+            border-bottom: 1px solid #ff6600 !important;
+        }
+
+        /* Micro-Sized Button Frame Adjustments */
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 1px 6px; 
+            background: linear-gradient(135deg, #7c3aed 0%, #0d9488 100%); 
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            transition: all 0.15s ease;
+            line-height: 1.2;
+        }
+
+        .view-btn:hover {
+            transform: scale(1.03);
+            background: linear-gradient(135deg, #6d28d9 0%, #0f766e 100%);
+        }
+
+        .pdf-icon {
+            width: 9px; 
+            height: 9px;
+            fill: currentColor;
+        }
+
+        /* UI Loading Layout */
+        .status-container {
+            padding: 30px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+        .pulse {
+            animation: pulse-animation 2s infinite ease-in-out;
+        }
+        @keyframes pulse-animation {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <h1 class="main-heading">Mahatma Gandhi Institute of Technology (A)</h1>
+        <h2 class="sub-heading">Training & Placement Cell</h2>
+        <div class="context-heading">Mail Confirmation of the Selected Students by the Company</div>
+    </div>
+
+    <div class="controls-panel">
+        <input type="text" id="global-search" class="input-control" placeholder="Search anything in the table...">
+        <select id="company-filter" class="input-control">
+            <option value="">All Companies</option>
+        </select>
+        <select id="role-filter" class="input-control">
+            <option value="">All Roles</option>
+        </select>
+    </div>
+    
+    <div class="table-card">
+        <div id="status-display" class="status-container pulse">Loading live placement confirmation roster...</div>
+        <div class="table-responsive-wrapper">
+            <table id="sheet-table" style="display: none;">
+                <thead id="table-head"></thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const yourSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSzi2UfchSGRPmZfSVheSGZBTmRWLeEHDkbhfQhv_fTcRiXPBAopA3QWU55IovkEsxh7E3rl0VjTLlB/pub?gid=157028113&single=true&output=csv';
+        
+        // --- COLUMN CONFIGURATION ---
+        const COMPANY_COLUMN_NAME = "Company Name"; 
+        const ROLE_COLUMN_NAME = "Role";
+        
+        let globalDataGrid = [];
+        let companyColIndex = -1;
+        let roleColIndex = -1;
+
+        function initSheetDownload() {
+            Papa.parse(yourSpreadsheetUrl, {
+                download: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    globalDataGrid = results.data;
+                    detectFilterColumns(globalDataGrid[0]);
+                    updateFilterOptions(); // Initial load of dropdown options
+                    renderHtmlTable(globalDataGrid);
+                    setupFilterEventListeners();
+                },
+                error: function(err) {
+                    console.error("Data Load Error:", err);
+                    const statusBox = document.getElementById('status-display');
+                    statusBox.classList.remove('pulse');
+                    statusBox.innerHTML = `<span style="color:#ef4444; font-weight:700;">Unable to pull data. Check permissions.</span>`;
+                }
+            });
+        }
+
+        function isValidUrl(string) {
+            try {
+                const url = new URL(string.trim());
+                return url.protocol === "http:" || url.protocol === "https:";
+            } catch (_) {
+                return false;  
+            }
+        }
+
+        function detectFilterColumns(headerRow) {
+            headerRow.forEach((header, index) => {
+                const cleanHeader = header.trim().toLowerCase();
+                if (cleanHeader === COMPANY_COLUMN_NAME.trim().toLowerCase()) {
+                    companyColIndex = index;
+                }
+                if (cleanHeader === ROLE_COLUMN_NAME.trim().toLowerCase()) {
+                    roleColIndex = index;
+                }
+            });
+        }
+
+        // --- NEW: Dynamic Dependent Filter Dropdown Populator Engine ---
+        function updateFilterOptions() {
+            const compSelect = document.getElementById('company-filter');
+            const roleSelect = document.getElementById('role-filter');
+
+            const currentSelectedCompany = compSelect.value;
+            const currentSelectedRole = roleSelect.value;
+
+            const validCompanies = new Set();
+            const validRoles = new Set();
+
+            // Check grid items based on cross-selections to make options interdependent
+            for (let i = 1; i < globalDataGrid.length; i++) {
+                const row = globalDataGrid[i];
+                const rowCompany = companyColIndex !== -1 && row[companyColIndex] ? row[companyColIndex].trim() : "";
+                const rowRole = roleColIndex !== -1 && row[roleColIndex] ? row[roleColIndex].trim() : "";
+
+                if (rowCompany === "" && rowRole === "") continue;
+
+                // Scenario A: If a role is filtered, extract corresponding companies
+                if (!currentSelectedRole || rowRole === currentSelectedRole) {
+                    if (rowCompany !== "") validCompanies.add(rowCompany);
+                }
+                // Scenario B: If a company is filtered, extract corresponding roles
+                if (!currentSelectedCompany || rowCompany === currentSelectedCompany) {
+                    if (rowRole !== "") validRoles.add(rowRole);
+                }
+            }
+
+            // Repopulate Company Dropdown dynamically
+            compSelect.innerHTML = '<option value="">All Companies</option>';
+            Array.from(validCompanies).sort().forEach(comp => {
+                const opt = document.createElement('option');
+                opt.value = comp;
+                opt.textContent = comp;
+                if (comp === currentSelectedCompany) opt.selected = true;
+                compSelect.appendChild(opt);
+            });
+
+            // Repopulate Role Dropdown dynamically
+            roleSelect.innerHTML = '<option value="">All Roles</option>';
+            Array.from(validRoles).sort().forEach(role => {
+                const opt = document.createElement('option');
+                opt.value = role;
+                opt.textContent = role;
+                if (role === currentSelectedRole) opt.selected = true;
+                roleSelect.appendChild(opt);
+            });
+        }
+
+        function setupFilterEventListeners() {
+            document.getElementById('global-search').addEventListener('input', applyCombinedFilters);
+            document.getElementById('company-filter').addEventListener('change', () => {
+                updateFilterOptions(); // Recalculate dependencies first
+                applyCombinedFilters();
+            });
+            document.getElementById('role-filter').addEventListener('change', () => {
+                updateFilterOptions(); // Recalculate dependencies first
+                applyCombinedFilters();
+            });
+        }
+
+        function applyCombinedFilters() {
+            const searchQuery = document.getElementById('global-search').value.toLowerCase().trim();
+            const selectedCompany = document.getElementById('company-filter').value;
+            const selectedRole = document.getElementById('role-filter').value;
+
+            const filteredRows = [globalDataGrid[0]];
+
+            for (let i = 1; i < globalDataGrid.length; i++) {
+                const row = globalDataGrid[i];
+                
+                const matchesCompany = !selectedCompany || (companyColIndex !== -1 && row[companyColIndex]?.trim() === selectedCompany);
+                const matchesRole = !selectedRole || (roleColIndex !== -1 && row[roleColIndex]?.trim() === selectedRole);
+                const matchesSearch = !searchQuery || row.some(cell => cell.toLowerCase().includes(searchQuery));
+
+                if (matchesCompany && matchesRole && matchesSearch) {
+                    filteredRows.push(row);
+                }
+            }
+
+            renderHtmlTable(filteredRows, true);
+        }
+
+        function renderHtmlTable(data, isFiltering = false) {
+            const tableHead = document.getElementById('table-head');
+            const tableBody = document.getElementById('table-body');
+            
+            tableHead.innerHTML = "";
+            tableBody.innerHTML = "";
+
+            if (!data || data.length === 0 || (isFiltering && data.length === 1)) {
+                document.getElementById('sheet-table').style.display = 'none';
+                document.getElementById('status-display').style.display = 'block';
+                document.getElementById('status-display').textContent = "No records match your selected search criteria.";
+                return;
+            }
+
+            // 1. Render Header Row
+            const headerTr = document.createElement('tr');
+            data[0].forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerTr.appendChild(th);
+            });
+            tableHead.appendChild(headerTr);
+
+            // 2. Render Body Data Rows
+            for (let i = 1; i < data.length; i++) {
+                const rowData = data[i];
+                const tr = document.createElement('tr');
+                
+                rowData.forEach(cellText => {
+                    const td = document.createElement('td');
+                    const cleanText = cellText.trim();
+
+                    if (isValidUrl(cleanText)) {
+                        const actionButton = document.createElement('a');
+                        actionButton.href = cleanText;
+                        actionButton.target = "_blank";
+                        actionButton.className = "view-btn";
+                        
+                        actionButton.innerHTML = `
+                            <svg class="pdf-icon" viewBox="0 0 384 512">
+                                <path d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 53.7-26.8-11-5.1-19.6-19.2-25.3-35.9zm-124.5 68.2c-16.3 0-21.6 13.1-21.6 23.9 0 20.5 22.8 38.7 54.5 38.7 14.6 0 21.7-6.5 24-12.4-5.3-22.1-41.2-50.2-56.9-50.2zm238.1-259.5H224c-13.3 0-24 10.7-24 24v110.1c11.9-10.7 27.5-21.4 44.8-31.5 21.1-12.3 27-26.2 27-37 0-12.2-11.5-23.6-24-23.6zM384 121.9v342.2c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48h147.9c12.7 0 25 5.1 34 14.1l110 110c9 9 14.1 21.3 14.1 33.8zm-113.1 32c0-3.6-2.9-6.5-6.5-6.5H240v29.3c0 3.6 2.9 6.5 6.5 6.5h24.4c3.6 0 6.5-2.9 6.5-6.5v-22.8zM100.8 450c-23.3 0-48.4-12.8-48.4-42.3 0-24 16.2-46.1 48.3-46.1 20 0 46.2 20.3 64.9 39.5 23.2-30.8 44.1-73.6 56.4-114.1-11.8-36.5-16.1-75.3-7.5-90 8.7-14.8 24.1-23 37.9-23 25.5 0 41.2 22.8 41.2 46.1 0 25.5-17.7 54.1-44.5 73-34.2 24.2-76.1 43.1-105.1 54.9-12.9 22-24.1 47.3-33 71.7 34.6 23.9 65 37.3 84 37.3 32.7 0 44.7-22.1 44.7-34.6 0-33.8-51.2-50.5-81.8-14.5-5.9 7-10 17.1-12.4 22.7-5.3 11.2-17.6 12.3-26.4 12.3z"/>
+                            </svg> View`;
+                        td.appendChild(actionButton);
+                    } else {
+                        td.textContent = cellText;
+                    }
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            }
+
+            document.getElementById('status-display').style.display = 'none';
+            document.getElementById('sheet-table').style.display = 'table';
+        }
+
+        window.addEventListener('DOMContentLoaded', initSheetDownload);
+    </script>
+
+</body>
+</html>
