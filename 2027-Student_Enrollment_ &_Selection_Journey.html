@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
+<meta charset="UTF-8">
 <title>MGIT Placement Portal</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -16,7 +15,7 @@ box-sizing:border-box;
 body{
 font-family:Arial, sans-serif;
 padding:15px;
-padding-bottom: 80px; 
+padding-bottom: 40px; 
 overflow-x:hidden;
 color:white;
 background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1c1c3c);
@@ -166,28 +165,33 @@ backdrop-filter:blur(10px);
 box-shadow:0 6px 20px rgba(0,0,0,0.25);
 border:1px solid rgba(255,255,255,0.15);
 border-top:none;
-margin-bottom:15px;
+margin-bottom:6px; /* Reduced space between filters box and table container */
 gap: 8px;
 }
 
 .controls{
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+grid-template-columns: repeat(11, 1fr); /* Forms exactly 2 clean rows with inline actions included */
 gap: 8px;
 width: 100%;
 }
 
 .controls input,
-.controls select{
+.controls select,
+.controls button{
 width: 100%;
 height: 32px; 
 padding: 4px 6px; 
-font-size: 11.5px; 
+font-size: 11px; 
 border-radius: 6px;
-border: 1px solid rgba(255,255,255,0.2);
 outline: none;
-background: rgba(255,255,255,0.92);
 transition: 0.3s;
+}
+
+.controls input,
+.controls select {
+border: 1px solid rgba(255,255,255,0.2);
+background: rgba(255,255,255,0.92);
 color: #222;
 }
 
@@ -202,48 +206,38 @@ box-shadow:0 0 10px rgba(255,255,255,0.5);
 border:1px solid #00c6ff;
 }
 
-/* Middle Layout Bar Container */
-.middle-action-bar {
-display: flex;
-justify-content: flex-end;
-align-items: center;
-width: 100%;
-margin-bottom: 12px;
-padding: 0 5px;
-}
-
-.excel-btn {
-background: linear-gradient(135deg, #1d6f42, #105230);
+/* Action button configurations inside the filters board */
+.controls button {
 color: #ffffff;
-padding: 8px 18px;
-border-radius: 20px;
-font-size: 12px;
 font-weight: bold;
 border: 1px solid rgba(255,255,255,0.25);
 cursor: pointer;
-box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 display: flex;
 align-items: center;
-gap: 6px;
-transition: all 0.3s ease;
+justify-content: center;
+gap: 4px;
 white-space: nowrap;
-animation: floatInSpace 3s ease-in-out infinite;
 }
 
-@keyframes floatInSpace {
-0% { transform: translateY(0px); }
-50% { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0, 245, 212, 0.3); }
-100% { transform: translateY(0px); }
+.reset-btn {
+background: linear-gradient(135deg, #d32f2f, #b71c1c);
 }
 
-.excel-btn:hover {
+.reset-btn:hover {
+background: linear-gradient(135deg, #e53935, #c62828);
+box-shadow: 0 0 10px rgba(229,57,53,0.4);
+transform: scale(1.02);
+}
+
+.excel-btn-inline {
+background: linear-gradient(135deg, #1d6f42, #105230);
+}
+
+.excel-btn-inline:hover {
 background: linear-gradient(135deg, #248a52, #13633a);
 border-color: #00f5d4;
-transform: scale(1.03) translateY(-2px);
-}
-
-.excel-btn:active {
-transform: scale(0.98);
+box-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
+transform: scale(1.02);
 }
 
 .table-container{
@@ -255,6 +249,8 @@ box-shadow:0 8px 25px rgba(0,0,0,0.35);
 scroll-behavior:smooth;
 background:rgba(255,255,255,0.05);
 padding-bottom:6px;
+-webkit-overflow-scrolling: touch;
+margin-top: 6px;
 }
 
 .table-container::-webkit-scrollbar{
@@ -338,29 +334,37 @@ transform:scale(1.06);
 background:linear-gradient(135deg,#43cea2,#185a9d);
 }
 
-@media(max-width:768px){
-body{
-padding:10px;
-padding-bottom: 40px;
+@media (max-width: 1300px) {
+h1 { font-size: 28px; }
+.controls { grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); }
 }
-h1{ font-size:24px; }
-h3{ font-size:14px; }
-.stats-container{ padding: 6px; gap: 5px; }
-.stats-row { grid-template-columns: repeat(2, 1fr); gap: 5px; }
-.stats-card{ padding: 6px 8px; font-size: 10px; min-height: 48px; }
-.stats-card span { font-size: 13px; }
-.filter-container{ padding: 8px; gap: 6px; }
+
+@media (max-width: 992px) {
+.stats-row { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+}
+
+@media (max-width: 768px) {
+body { padding: 10px; }
+h1 { font-size: 22px; }
+h3 { font-size: 13px; }
+.stats-container { padding: 6px; gap: 6px; }
+.stats-row { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.stats-card { padding: 6px; font-size: 10.5px; min-height: 50px; }
+.stats-card span { font-size: 13.5px; }
+.filter-container { padding: 8px; gap: 6px; }
 .controls { grid-template-columns: repeat(2, 1fr); gap: 6px; }
 .controls input[type="text"] { grid-column: span 2; }
-.controls input, .controls select{ height:32px; font-size:12px; padding: 4px 6px; }
-th{ font-size:11px; padding:6px 8px; }
-td{ font-size:11px; padding:6px 8px; }
-table{ min-width:1400px; }
-.middle-action-bar { justify-content: center; }
-.excel-btn { padding: 8px 14px; font-size: 11.5px; width: 100%; justify-content: center; }
+.controls input, .controls select, .controls button { height: 34px; font-size: 11.5px; }
+th, td { font-size: 11px; padding: 7px 9px; }
+table { min-width: 1300px; }
+}
+
+@media (max-width: 480px) {
+.stats-row { grid-template-columns: 1fr 1fr; }
+.controls { grid-template-columns: 1fr; }
+.controls input[type="text"] { grid-column: span 1; }
 }
 </style>
-
 </head>
 
 <body>
@@ -372,37 +376,36 @@ table{ min-width:1400px; }
 
 <div class="stats-container">
     <div class="stats-row">
-        <div class="stats-card border-blue">Total Registrations <span id="statRegistrations">0</span></div>
-        <div class="stats-card border-blue">Companies Registered <span id="statCompanies">0</span></div>
-        <div class="stats-card border-cyan">Shortlisted by TPO <span id="statTpo">0</span></div>
-        <div class="stats-card border-cyan">Shortlisted by Company <span id="statCompanyShort">0</span></div>
-        <div class="stats-card border-orange">Paper Test-1 Cleared <span id="statPaper1">0</span></div>
-        <div class="stats-card border-orange">Paper Test-2 Cleared <span id="statPaper2">0</span></div>
-        <div class="stats-card border-amber">GD Cleared <span id="statGd">0</span></div>
-        <div class="stats-card border-amber">OA-1 Cleared <span id="statOa1">0</span></div>
-        <div class="stats-card border-amber">OA-2 Cleared <span id="statOa2">0</span></div>
-        <div class="stats-card border-amber">OA-3 Cleared <span id="statOa3">0</span></div>
-        <div class="stats-card border-purple">Tech Round-1 Cleared <span id="statTech1">0</span></div>
-        <div class="stats-card border-purple">Tech Round-2 Cleared <span id="statTech2">0</span></div>
-        <div class="stats-card border-pink">HR Interview Cleared <span id="statHr">0</span></div>
-        <div class="stats-card border-pink">Managerial Round Cleared <span id="statManagerial">0</span></div>
-        <div class="stats-card border-green">Students Selected <span id="statSelected">0</span></div>
+        <div class="stats-card border-blue">Total Registrations <span id="statRegistrations">NA</span></div>
+        <div class="stats-card border-blue">Companies Registered <span id="statCompanies">NA</span></div>
+        <div class="stats-card border-cyan">Shortlisted by TPO <span id="statTpo">NA</span></div>
+        <div class="stats-card border-cyan">Shortlisted by Company <span id="statCompanyShort">NA</span></div>
+        <div class="stats-card border-cyan">Students Attendance <span id="statAttendance">NA</span></div>
+        <div class="stats-card border-orange">Paper Test-1 Cleared <span id="statPaper1">NA</span></div>
+        <div class="stats-card border-amber">GD Cleared <span id="statGd">NA</span></div>
+        <div class="stats-card border-orange">Paper Test-2 Cleared <span id="statPaper2">NA</span></div>
+        <div class="stats-card border-amber">OA-1 Cleared <span id="statOa1">NA</span></div>
+        <div class="stats-card border-amber">OA-2 Cleared <span id="statOa2">NA</span></div>
+        <div class="stats-card border-amber">OA-3 Cleared <span id="statOa3">NA</span></div>
+        <div class="stats-card border-purple">Tech Round-1 Cleared <span id="statTech1">NA</span></div>
+        <div class="stats-card border-purple">Tech Round-2 Cleared <span id="statTech2">NA</span></div>
+        <div class="stats-card border-pink">HR Interview Cleared <span id="statHr">NA</span></div>
+        <div class="stats-card border-pink">Managerial Round Cleared <span id="statManagerial">NA</span></div>
+        <div class="stats-card border-green">Students Selected <span id="statSelected">NA</span></div>
     </div>
 </div>
 
 <div class="filter-container">
-    <div class="controls" style="margin-bottom: 6px;">
+    <div class="controls">
         <input type="text" id="search" placeholder="Search student / roll / company">
         <select id="branchFilter"><option value="">All Branches</option></select>
         <select id="appliedCompanyFilter"><option value="">Applied Company</option></select>
         <select id="roleFilter"><option value="">Role Applied</option></select>
         <select id="tpoFilter"><option value="">Shortlisted by TPO</option></select>
         <select id="companyShortlistFilter"><option value="">Shortlisted by Company</option></select>
-    </div>
-    
-    <div class="controls">
-        <select id="paperTest1Filter"><option value="">Pen & Paper Test Status</option></select>
-        <select id="paperTest2Filter"><option value="">Pen & Paper Test Status</option></select>
+        <select id="attendanceFilter"><option value="">Attendance</option></select>
+        <select id="paperTest1Filter"><option value="">Pen & Paper Test 1 Status</option></select>
+        <select id="paperTest2Filter"><option value="">Pen & Paper Test 2 Status</option></select>
         <select id="gdFilter"><option value="">GD Cleared?</option></select>
         <select id="oa1Filter"><option value="">OA-1 Cleared?</option></select>
         <select id="oa2Filter"><option value="">OA-2 Cleared?</option></select>
@@ -412,11 +415,10 @@ table{ min-width:1400px; }
         <select id="hrFilter"><option value="">HR Interview Cleared?</option></select>
         <select id="managerialFilter"><option value="">Managerial Round Cleared?</option></select>
         <select id="finalStatusFilter"><option value="">Final Status of Student</option></select>
+        
+        <button class="reset-btn" onclick="resetFilters()">🔄 Reset Filters</button>
+        <button class="excel-btn-inline" onclick="downloadExcel()">📊 Export Excel</button>
     </div>
-</div>
-
-<div class="middle-action-bar">
-    <button class="excel-btn" onclick="downloadExcel()">📊 Download Filtered Data (Excel)</button>
 </div>
 
 <div class="table-container">
@@ -437,178 +439,221 @@ const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRiETxVy0sYxBeApgt
 let allData=[];
 let currentFilteredData=[]; 
 
-let branchKey = "", appliedCompanyKey = "", roleKey = "", tpoKey = "", companyShortlistKey = "";
+let branchKey = "", appliedCompanyKey = "", roleKey = "", tpoKey = "", companyShortlistKey = "", attendanceKey = "";
 let paperTest1Key = "", paperTest2Key = "", rollKey = "", gdKey = "", oa1Key = "", oa2Key = "", oa3Key = "";
 let tech1Key = "", tech2Key = "", hrKey = "", managerialKey = "", finalStatusKey = "";
+
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
 
 Papa.parse(csvURL,{
     download:true,
     header:true,
     skipEmptyLines:true,
     complete:function(results){
-        allData = results.data.filter(row => Object.values(row).join("").trim() !== "");
-        if(allData.length===0){
-            document.getElementById("tableBodyContent").innerHTML = "<tr><td colspan='30' style='padding:25px; background:#fff; color:#d32f2f;'>⚠️ The Sheet parsed successfully but contains no data rows.</td></tr>";
-            return;
+        try {
+            if(!results.data || results.data.length === 0){
+                document.getElementById("tableBodyContent").innerHTML = "<tr><td colspan='30' style='padding:25px; background:#fff; color:#d32f2f;'>⚠️ The Sheet parsed successfully but contains no data rows.</td></tr>";
+                return;
+            }
+
+            allData = results.data.filter(row => row && Object.values(row).join("").trim() !== "");
+            let headers = Object.keys(allData[0] || {});
+
+            if(headers.length === 0) {
+                document.getElementById("tableBodyContent").innerHTML = "<tr><td colspan='30' style='padding:25px; background:#fff; color:#d32f2f;'>⚠️ Could not detect valid structural columns in the sheet.</td></tr>";
+                return;
+            }
+
+            branchKey = headers.find(h => h.toLowerCase().trim().includes("branch")) || "";
+            appliedCompanyKey = headers.find(h => h.toLowerCase().trim().includes("company name")) || headers.find(h => h.toLowerCase().trim().includes("company")) || "";
+            roleKey = headers.find(h => h.toLowerCase().trim().includes("profile") || h.toLowerCase().trim().includes("role")) || "";
+            tpoKey = headers.find(h => h.toLowerCase().trim().includes("tpo")) || "";
+            companyShortlistKey = headers.find(h => h.toLowerCase().trim().includes("shortlist")) || "";
+            
+            attendanceKey = headers.find(h => {
+                let s = h.toLowerCase().trim();
+                return s.includes("attendance") || s.includes("present") || s.includes("presentees") || s === "att" || s === "drive attendance";
+            }) || "";
+            
+            rollKey = headers.find(h => h.toLowerCase().trim().includes("roll") || h.toLowerCase().trim().includes("htno")) || "";
+            paperTest1Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("1")) || "";
+            paperTest2Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("2")) || "";
+            gdKey = headers.find(h => h.toLowerCase().trim().includes("gd") || h.toLowerCase().trim().includes("group discussion")) || "";
+            
+            oa1Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("1"); }) || "";
+            oa2Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("2"); }) || "";
+            oa3Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("3"); }) || "";
+            
+            tech1Key = headers.find(h => {
+                let s = h.toLowerCase().trim();
+                return (s.includes("technical interview") || s.includes("tech interview")) && s.includes("1");
+            }) || headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("1")) || "";
+
+            tech2Key = headers.find(h => {
+                let s = h.toLowerCase().trim();
+                return (s.includes("technical interview") || s.includes("tech interview")) && s.includes("2");
+            }) || headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("2")) || "";
+
+            hrKey = headers.find(h => h.toLowerCase().trim().includes("hr")) || "";
+            managerialKey = headers.find(h => h.toLowerCase().trim().includes("managerial")) || "";
+            finalStatusKey = headers.find(h => h.toLowerCase().trim() === "status" || h.toLowerCase().trim().includes("final status")) || "";
+
+            currentFilteredData = [...allData];
+            populateInitialFilters(allData);
+            updateDashboard();
+            setupEventListeners();
+        } catch (err) {
+            console.error("Layout Processor Error:", err);
+            document.getElementById("tableBodyContent").innerHTML = `<tr><td colspan='30' style='padding:25px; background:#fff; color:#c62828; font-weight:bold;'>⚠️ Logic Processing Error: ${err.message}</td></tr>`;
         }
-
-        let headers = Object.keys(allData[0]);
-
-        branchKey = headers.find(h => h.toLowerCase().trim().includes("branch")) || "";
-        appliedCompanyKey = headers.find(h => h.toLowerCase().trim().includes("company name")) || headers.find(h => h.toLowerCase().trim().includes("company")) || "";
-        roleKey = headers.find(h => h.toLowerCase().trim().includes("profile") || h.toLowerCase().trim().includes("role")) || "";
-        tpoKey = headers.find(h => h.toLowerCase().trim().includes("tpo")) || "";
-        companyShortlistKey = headers.find(h => h.toLowerCase().trim().includes("shortlist")) || "";
-        rollKey = headers.find(h => h.toLowerCase().trim().includes("roll") || h.toLowerCase().trim().includes("htno")) || "";
-        paperTest1Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("1")) || "";
-        paperTest2Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("2")) || "";
-        gdKey = headers.find(h => h.toLowerCase().trim().includes("gd") || h.toLowerCase().trim().includes("group discussion")) || "";
-        
-        // Comprehensive string matching algorithm to safeguard against varying format styles for OA headers
-        oa1Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("1"); }) || "";
-        oa2Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("2"); }) || "";
-        oa3Key = headers.find(h => { let s = h.toLowerCase(); return (s.includes("oa") || s.includes("online assessment") || s.includes("online test")) && s.includes("3"); }) || "";
-        
-        tech1Key = headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("1")) || "";
-        tech2Key = headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("2")) || "";
-        hrKey = headers.find(h => h.toLowerCase().trim().includes("hr")) || "";
-        managerialKey = headers.find(h => h.toLowerCase().trim().includes("managerial")) || "";
-        finalStatusKey = headers.find(h => h.toLowerCase().trim() === "status" || h.toLowerCase().trim().includes("final status")) || "";
-
-        currentFilteredData = [...allData];
-        buildTable(allData);
-        populateFilters(allData);
-        updateStats(allData);
-        setupEventListeners();
     },
     error:function(err){
-        console.error(err);
+        console.error("Network / PapaParse Error:", err);
         document.getElementById("tableBodyContent").innerHTML = "<tr><td colspan='30' style='padding:25px; background:#fff; color:#c62828; font-weight:bold;'>❌ Connection Error: Verify that your source Google Sheet is set to 'Publish to Web'.</td></tr>";
     }
 });
 
-function buildTable(data){
-    let thead=document.querySelector("#placementTable thead");
-    let tbody=document.querySelector("#placementTable tbody");
-    thead.innerHTML=""; tbody.innerHTML="";
-
-    if(data.length===0){
-        tbody.innerHTML="<tr><td colspan='30' style='padding:20px; background:#fff; color:#333; font-weight:bold;'>No Records Found Matching Your Selections</td></tr>";
-        return;
-    }
-
-    let headers=Object.keys(data[0]);
-    let tr=document.createElement("tr");
-    headers.forEach(h=>{
-        let th=document.createElement("th"); th.innerText=h; tr.appendChild(th);
-    });
-    thead.appendChild(tr);
-
-    data.forEach(row=>{
-        let tr=document.createElement("tr");
-        headers.forEach(h=>{
-            let td=document.createElement("td");
-            let value = row[h] ? row[h].toString().trim() : "";
-            if(value.includes("http")){
-                let a=document.createElement("a"); a.href=value; a.target="_blank"; a.className="link-btn";
-                if(h.toLowerCase().includes("intern")){ a.innerText="📄 Internship Letter"; }
-                else if(h.toLowerCase().includes("offer")){ a.innerText="📄 Offer Letter"; }
-                else { a.innerText="📄 View"; }
-                td.appendChild(a);
-            } else { td.innerText=value; }
-            tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-    });
+function updateDashboard() {
+    buildTable(currentFilteredData);
+    updateStats(currentFilteredData);
 }
 
-function populateFilters(data){
-    let getOpts = (key) => key ? [...new Set(data.map(d=>(d[key] || "").trim()).filter(Boolean))].sort() : [];
+function buildTable(data){
+    try {
+        let thead=document.querySelector("#placementTable thead");
+        let tbody=document.querySelector("#placementTable tbody");
+        thead.innerHTML=""; tbody.innerHTML="";
 
-    let fillSel = (id, opts, def) => {
-        let el = document.getElementById(id);
-        if(!el) return;
-        let currentSelection = el.value;
-        el.innerHTML = `<option value="">${def}</option>`;
-        opts.forEach(v => {
-            let opt = new Option(v,v);
-            if(v === currentSelection) opt.selected = true;
-            el.add(opt);
+        if(data.length===0){
+            tbody.innerHTML="<tr><td colspan='30' style='padding:20px; background:#fff; color:#333; font-weight:bold;'>No Records Found Matching Your Selections</td></tr>";
+            return;
+        }
+
+        let headers=Object.keys(data[0] || {});
+        let tr=document.createElement("tr");
+        headers.forEach(h=>{
+            let th=document.createElement("th"); th.innerText=h; tr.appendChild(th);
         });
-    };
+        thead.appendChild(tr);
 
-    fillSel("branchFilter", getOpts(branchKey), "All Branches");
-    fillSel("appliedCompanyFilter", getOpts(appliedCompanyKey), "Applied Company");
-    fillSel("roleFilter", getOpts(roleKey), "Role Applied");
-    fillSel("tpoFilter", getOpts(tpoKey), "Shortlisted by TPO");
-    fillSel("companyShortlistFilter", getOpts(companyShortlistKey), "Shortlisted by Company");
-    fillSel("paperTest1Filter", getOpts(paperTest1Key), "Pen & Paper Test 1 Status");
-    fillSel("paperTest2Filter", getOpts(paperTest2Key), "Pen & Paper Test 2 Status");
-    fillSel("gdFilter", getOpts(gdKey), "GD Cleared?");
-    fillSel("oa1Filter", getOpts(oa1Key), "OA-1 Cleared?");
-    fillSel("oa2Filter", getOpts(oa2Key), "OA-2 Cleared?");
-    fillSel("oa3Filter", getOpts(oa3Key), "OA-3 Cleared?");
-    fillSel("tech1Filter", getOpts(tech1Key), "Tech Round-1 Cleared?");
-    fillSel("tech2Filter", getOpts(tech2Key), "Tech Round-2 Cleared?");
-    fillSel("hrFilter", getOpts(hrKey), "HR Interview Cleared?");
-    fillSel("managerialFilter", getOpts(managerialKey), "Managerial Round Cleared?");
-    fillSel("finalStatusFilter", getOpts(finalStatusKey), "Final Status of Student");
+        data.forEach(row=>{
+            let tr=document.createElement("tr");
+            headers.forEach(h=>{
+                let td=document.createElement("td");
+                let value = row[h] ? row[h].toString().trim() : "";
+                if(value.includes("http")){
+                    let a=document.createElement("a"); a.href=value; a.target="_blank"; a.className="link-btn";
+                    if(h.toLowerCase().includes("intern")){ a.innerText="📄 Internship Letter"; }
+                    else if(h.toLowerCase().includes("offer")){ a.innerText="📄 Offer Letter"; }
+                    else { a.innerText="📄 View"; }
+                    td.appendChild(a);
+                } else { td.innerText=value; }
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+    } catch(e) {
+        console.error("Table Generator Error:", e);
+    }
+}
+
+function populateInitialFilters(data){
+    try {
+        let getOpts = (key) => key ? [...new Set(data.map(d=>(d[key] || "").trim()).filter(Boolean))].sort() : [];
+
+        let fillSel = (id, opts, def) => {
+            let el = document.getElementById(id);
+            if(!el) return;
+            el.innerHTML = `<option value="">${def}</option>`;
+            opts.forEach(v => el.add(new Option(v, v)));
+        };
+
+        fillSel("branchFilter", getOpts(branchKey), "All Branches");
+        fillSel("appliedCompanyFilter", getOpts(appliedCompanyKey), "Applied Company");
+        fillSel("roleFilter", getOpts(roleKey), "Role Applied");
+        fillSel("tpoFilter", getOpts(tpoKey), "Shortlisted by TPO");
+        fillSel("companyShortlistFilter", getOpts(companyShortlistKey), "Shortlisted by Company");
+        fillSel("attendanceFilter", getOpts(attendanceKey), "Attendance");
+        fillSel("paperTest1Filter", getOpts(paperTest1Key), "Pen & Paper Test 1 Status");
+        fillSel("paperTest2Filter", getOpts(paperTest2Key), "Pen & Paper Test 2 Status");
+        fillSel("gdFilter", getOpts(gdKey), "GD Cleared?");
+        fillSel("oa1Filter", getOpts(oa1Key), "OA-1 Cleared?");
+        fillSel("oa2Filter", getOpts(oa2Key), "OA-2 Cleared?");
+        fillSel("oa3Filter", getOpts(oa3Key), "OA-3 Cleared?");
+        fillSel("tech1Filter", getOpts(tech1Key), "Tech Round-1 Cleared?");
+        fillSel("tech2Filter", getOpts(tech2Key), "Tech Round-2 Cleared?");
+        fillSel("hrFilter", getOpts(hrKey), "HR Interview Cleared?");
+        fillSel("managerialFilter", getOpts(managerialKey), "Managerial Round Cleared?");
+        fillSel("finalStatusFilter", getOpts(finalStatusKey), "Final Status of Student");
+    } catch(e) {
+        console.error("Filter Dropdowns Population Error:", e);
+    }
 }
 
 function applyFilters() {
-    let searchVal = document.getElementById("search").value.toLowerCase().trim();
-    let branchVal = document.getElementById("branchFilter").value;
-    let compVal = document.getElementById("appliedCompanyFilter").value;
-    let roleVal = document.getElementById("roleFilter").value;
-    let tpoVal = document.getElementById("tpoFilter").value;
-    let compShortVal = document.getElementById("companyShortlistFilter").value;
-    let paper1Val = document.getElementById("paperTest1Filter").value;
-    let paper2Val = document.getElementById("paperTest2Filter").value;
-    let gdVal = document.getElementById("gdFilter").value;
-    let oa1Val = document.getElementById("oa1Filter").value;
-    let oa2Val = document.getElementById("oa2Filter").value;
-    let oa3Val = document.getElementById("oa3Filter").value;
-    let tech1Val = document.getElementById("tech1Filter").value;
-    let tech2Val = document.getElementById("tech2Filter").value;
-    let hrVal = document.getElementById("hrFilter").value;
-    let managerialVal = document.getElementById("managerialFilter").value;
-    let statusVal = document.getElementById("finalStatusFilter").value;
+    try {
+        let searchVal = document.getElementById("search").value.toLowerCase().trim();
+        let branchVal = document.getElementById("branchFilter").value;
+        let compVal = document.getElementById("appliedCompanyFilter").value;
+        let roleVal = document.getElementById("roleFilter").value;
+        let tpoVal = document.getElementById("tpoFilter").value;
+        let compShortVal = document.getElementById("companyShortlistFilter").value;
+        let attendanceVal = document.getElementById("attendanceFilter").value;
+        let paper1Val = document.getElementById("paperTest1Filter").value;
+        let paper2Val = document.getElementById("paperTest2Filter").value;
+        let gdVal = document.getElementById("gdFilter").value;
+        let oa1Val = document.getElementById("oa1Filter").value;
+        let oa2Val = document.getElementById("oa2Filter").value;
+        let oa3Val = document.getElementById("oa3Filter").value;
+        let tech1Val = document.getElementById("tech1Filter").value;
+        let tech2Val = document.getElementById("tech2Filter").value;
+        let hrVal = document.getElementById("hrFilter").value;
+        let managerialVal = document.getElementById("managerialFilter").value;
+        let statusVal = document.getElementById("finalStatusFilter").value;
 
-    currentFilteredData = allData.filter(row => {
-        if (searchVal) {
-            let matchesSearch = Object.values(row).some(val => String(val).toLowerCase().includes(searchVal));
-            if (!matchesSearch) return false;
-        }
+        currentFilteredData = allData.filter(row => {
+            if (searchVal) {
+                let matchesSearch = Object.values(row).some(val => String(val).toLowerCase().includes(searchVal));
+                if (!matchesSearch) return false;
+            }
 
-        if (branchVal && (row[branchKey] || "").trim() !== branchVal) return false;
-        if (compVal && (row[appliedCompanyKey] || "").trim() !== compVal) return false;
-        if (roleVal && (row[roleKey] || "").trim() !== roleVal) return false;
-        if (tpoVal && (row[tpoKey] || "").trim() !== tpoVal) return false;
-        if (compShortVal && (row[companyShortlistKey] || "").trim() !== compShortVal) return false;
-        if (paper1Val && (row[paperTest1Key] || "").trim() !== paper1Val) return false;
-        if (paper2Val && (row[paperTest2Key] || "").trim() !== paper2Val) return false;
-        if (gdVal && (row[gdKey] || "").trim() !== gdVal) return false;
-        if (oa1Val && (row[oa1Key] || "").trim() !== oa1Val) return false;
-        if (oa2Val && (row[oa2Key] || "").trim() !== oa2Val) return false;
-        if (oa3Val && (row[oa3Key] || "").trim() !== oa3Val) return false;
-        if (tech1Val && (row[tech1Key] || "").trim() !== tech1Val) return false;
-        if (tech2Val && (row[tech2Key] || "").trim() !== tech2Val) return false;
-        if (hrVal && (row[hrKey] || "").trim() !== hrVal) return false;
-        if (managerialVal && (row[managerialKey] || "").trim() !== managerialVal) return false;
-        if (statusVal && (row[finalStatusKey] || "").trim() !== statusVal) return false;
+            if (branchVal && (row[branchKey] || "").trim() !== branchVal) return false;
+            if (compVal && (row[appliedCompanyKey] || "").trim() !== compVal) return false;
+            if (roleVal && (row[roleKey] || "").trim() !== roleVal) return false;
+            if (tpoVal && (row[tpoKey] || "").trim() !== tpoVal) return false;
+            if (compShortVal && (row[companyShortlistKey] || "").trim() !== compShortVal) return false;
+            if (attendanceVal && (row[attendanceKey] || "").trim() !== attendanceVal) return false;
+            if (paper1Val && (row[paperTest1Key] || "").trim() !== paper1Val) return false;
+            if (paper2Val && (row[paperTest2Key] || "").trim() !== paper2Val) return false;
+            if (gdVal && (row[gdKey] || "").trim() !== gdVal) return false;
+            if (oa1Val && (row[oa1Key] || "").trim() !== oa1Val) return false;
+            if (oa2Val && (row[oa2Key] || "").trim() !== oa2Val) return false;
+            if (oa3Val && (row[oa3Key] || "").trim() !== oa3Val) return false;
+            if (tech1Val && (row[tech1Key] || "").trim() !== tech1Val) return false;
+            if (tech2Val && (row[tech2Key] || "").trim() !== tech2Val) return false;
+            if (hrVal && (row[hrKey] || "").trim() !== hrVal) return false;
+            if (managerialVal && (row[managerialKey] || "").trim() !== managerialVal) return false;
+            if (statusVal && (row[finalStatusKey] || "").trim() !== statusVal) return false;
 
-        return true;
-    });
+            return true;
+        });
 
-    buildTable(currentFilteredData);
-    populateFilters(currentFilteredData);
-    updateStats(currentFilteredData);
+        updateDashboard();
+    } catch(e) {
+        console.error("Cascading Filter Rule Error:", e);
+    }
 }
 
 function setupEventListeners() {
     const filterIds = [
         "branchFilter", "appliedCompanyFilter", "roleFilter", "tpoFilter", 
-        "companyShortlistFilter", "paperTest1Filter", "paperTest2Filter", "gdFilter", 
+        "companyShortlistFilter", "attendanceFilter", "paperTest1Filter", "paperTest2Filter", "gdFilter", 
         "oa1Filter", "oa2Filter", "oa3Filter", "tech1Filter", "tech2Filter", 
         "hrFilter", "managerialFilter", "finalStatusFilter"
     ];
@@ -619,53 +664,85 @@ function setupEventListeners() {
     });
     
     let searchEl = document.getElementById("search");
-    if(searchEl) searchEl.addEventListener("input", applyFilters);
+    if(searchEl) searchEl.addEventListener("input", debounce(applyFilters, 300));
+}
+
+function resetFilters() {
+    document.getElementById("search").value = "";
+    const filterIds = [
+        "branchFilter", "appliedCompanyFilter", "roleFilter", "tpoFilter", 
+        "companyShortlistFilter", "attendanceFilter", "paperTest1Filter", "paperTest2Filter", "gdFilter", 
+        "oa1Filter", "oa2Filter", "oa3Filter", "tech1Filter", "tech2Filter", 
+        "hrFilter", "managerialFilter", "finalStatusFilter"
+    ];
+    filterIds.forEach(id => {
+        let el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+    currentFilteredData = [...allData];
+    updateDashboard();
 }
 
 function updateStats(data){
-    document.getElementById("statRegistrations").innerText = data.length;
-    let uniqueComps = new Set();
-    let tpoCount = 0, compShortCount = 0, paper1Count = 0, paper2Count = 0;
-    let gdCount = 0, oa1Count = 0, oa2Count = 0, oa3Count = 0;
-    let tech1Count = 0, tech2Count = 0, hrCount = 0, managerialCount = 0, selectedCount = 0;
+    try {
+        let uniqueComps = new Set();
+        let tpoCount = 0, compShortCount = 0, attendanceCount = 0, paper1Count = 0, paper2Count = 0;
+        let gdCount = 0, oa1Count = 0, oa2Count = 0, oa3Count = 0;
+        let tech1Count = 0, tech2Count = 0, hrCount = 0, managerialCount = 0, selectedCount = 0;
 
-    let checkYes = (val) => {
-        if(!val) return false;
-        let txt = String(val).toLowerCase().trim();
-        return txt === "yes" || txt === "cleared" || txt === "pass" || txt === "shortlisted";
-    };
+        let checkYes = (val) => {
+            if(!val) return false;
+            let txt = String(val).toLowerCase().trim();
+            return txt === "yes" || txt === "cleared" || txt === "pass" || txt === "shortlisted";
+        };
 
-    data.forEach(row => {
-        if (appliedCompanyKey && row[appliedCompanyKey]) uniqueComps.add(row[appliedCompanyKey].toString().trim());
-        if (tpoKey && checkYes(row[tpoKey])) tpoCount++;
-        if (companyShortlistKey && checkYes(row[companyShortlistKey])) compShortCount++;
-        if (paperTest1Key && checkYes(row[paperTest1Key])) paper1Count++;
-        if (paperTest2Key && checkYes(row[paperTest2Key])) paper2Count++;
-        if (gdKey && checkYes(row[gdKey])) gdCount++;
-        if (oa1Key && checkYes(row[oa1Key])) oa1Count++;
-        if (oa2Key && checkYes(row[oa2Key])) oa2Count++;
-        if (oa3Key && checkYes(row[oa3Key])) oa3Count++;
-        if (tech1Key && checkYes(row[tech1Key])) tech1Count++;
-        if (tech2Key && checkYes(row[tech2Key])) tech2Count++;
-        if (hrKey && checkYes(row[hrKey])) hrCount++;
-        if (managerialKey && checkYes(row[managerialKey])) managerialCount++;
-        if (finalStatusKey && String(row[finalStatusKey]).toLowerCase().trim().match(/(selected|placed|hired)/)) selectedCount++;
-    });
+        let checkPresent = (val) => {
+            if(!val) return false;
+            let txt = String(val).toLowerCase().trim();
+            return txt === "p" || txt === "present";
+        };
 
-    document.getElementById("statCompanies").innerText = uniqueComps.size;
-    document.getElementById("statTpo").innerText = tpoCount;
-    document.getElementById("statCompanyShort").innerText = compShortCount;
-    document.getElementById("statPaper1").innerText = paper1Count;
-    document.getElementById("statPaper2").innerText = paper2Count;
-    document.getElementById("statGd").innerText = gdCount;
-    document.getElementById("statOa1").innerText = oa1Count;
-    document.getElementById("statOa2").innerText = oa2Count;
-    document.getElementById("statOa3").innerText = oa3Count;
-    document.getElementById("statTech1").innerText = tech1Count;
-    document.getElementById("statTech2").innerText = tech2Count;
-    document.getElementById("statHr").innerText = hrCount;
-    document.getElementById("statManagerial").innerText = managerialCount;
-    document.getElementById("statSelected").innerText = selectedCount;
+        data.forEach(row => {
+            if (appliedCompanyKey && row[appliedCompanyKey]) uniqueComps.add(row[appliedCompanyKey].toString().trim());
+            if (tpoKey && checkYes(row[tpoKey])) tpoCount++;
+            if (companyShortlistKey && checkYes(row[companyShortlistKey])) compShortCount++;
+            if (attendanceKey && checkPresent(row[attendanceKey])) attendanceCount++;
+            if (paperTest1Key && checkYes(row[paperTest1Key])) paper1Count++;
+            if (paperTest2Key && checkYes(row[paperTest2Key])) paper2Count++;
+            if (gdKey && checkYes(row[gdKey])) gdCount++;
+            if (oa1Key && checkYes(row[oa1Key])) oa1Count++;
+            if (oa2Key && checkYes(row[oa2Key])) oa2Count++;
+            if (oa3Key && checkYes(row[oa3Key])) oa3Count++;
+            if (hrKey && checkYes(row[hrKey])) hrCount++;
+            if (managerialKey && checkYes(row[managerialKey])) managerialCount++;
+            
+            if (finalStatusKey && String(row[finalStatusKey]).toLowerCase().trim() === "selected") selectedCount++;
+            if (tech1Key && String(row[tech1Key]).toLowerCase().trim() === "yes") tech1Count++;
+            if (tech2Key && String(row[tech2Key]).toLowerCase().trim() === "yes") tech2Count++;
+        });
+
+        // Numerical to structural NA translator layout helper
+        const renderMetric = (count) => (count === 0 ? "NA" : count);
+
+        document.getElementById("statRegistrations").innerText = renderMetric(data.length);
+        document.getElementById("statCompanies").innerText = renderMetric(uniqueComps.size);
+        document.getElementById("statTpo").innerText = renderMetric(tpoCount);
+        document.getElementById("statCompanyShort").innerText = renderMetric(compShortCount);
+        document.getElementById("statAttendance").innerText = renderMetric(attendanceCount);
+        document.getElementById("statPaper1").innerText = renderMetric(paper1Count);
+        document.getElementById("statPaper2").innerText = renderMetric(paper2Count);
+        document.getElementById("statGd").innerText = renderMetric(gdCount);
+        document.getElementById("statOa1").innerText = renderMetric(oa1Count);
+        document.getElementById("statOa2").innerText = renderMetric(oa2Count);
+        document.getElementById("statOa3").innerText = renderMetric(oa3Count);
+        document.getElementById("statTech1").innerText = renderMetric(tech1Count);
+        document.getElementById("statTech2").innerText = renderMetric(tech2Count);
+        document.getElementById("statHr").innerText = renderMetric(hrCount);
+        document.getElementById("statManagerial").innerText = renderMetric(managerialCount);
+        document.getElementById("statSelected").innerText = renderMetric(selectedCount);
+    } catch(e) {
+        console.error("Metrics Processing Error:", e);
+    }
 }
 
 function downloadExcel() {
