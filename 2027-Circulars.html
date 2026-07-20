@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circulars for the Academic Year 2026-2027</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        /* Reset and Frame Constraints */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #1e293b;
+            padding: 10px 15px 30px 15px; 
+            position: relative;
+        }
+
+        /* Screen-Pinned Custom Horizontal Scrollbar Styling */
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            height: 10px;
+        }
+        html::-webkit-scrollbar-track, body::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+            border: 2px solid #f1f5f9;
+        }
+        html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Branding Header Section Container with Premium Obsidian & Dark Gold Palette */
+        .header-section {
+            text-align: center;
+            margin: 0 auto 12px auto; 
+            width: 100%;
+            max-width: 1400px;
+            padding: 24px 20px;
+            /* Rich dark charcoal-stone background that allows gold to pop beautifully */
+            background: linear-gradient(135deg, #0f1115 0%, #161920 50%, #1a140e 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        /* Ambient Luxury Gold & Amber Floating Light Orbs */
+        .header-section::before, .header-section::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.25;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .header-section::before {
+            width: 180px;
+            height: 180px;
+            background: #d4af37; /* Metallic Gold Glow */
+            top: -30%;
+            left: 8%;
+            animation: float-header-left 9s infinite ease-in-out alternate;
+        }
+        .header-section::after {
+            width: 200px;
+            height: 200px;
+            background: #f59e0b; /* Warm Amber Glow */
+            bottom: -40%;
+            right: 12%;
+            animation: float-header-right 11s infinite ease-in-out alternate;
+        }
+
+        @keyframes float-header-left {
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(25px, 20px) scale(1.2); }
+        }
+        @keyframes float-header-right {
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(-30px, -15px) scale(0.85); }
+        }
+
+        .main-heading, .sub-heading, .context-heading, .live-badge {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Metallic Gold Gradient for Main Heading */
+        .main-heading {
+            font-size: 1.75rem; 
+            font-weight: 800; 
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #ffe899 0%, #d4af37 50%, #aa820a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px; 
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+
+        /* Soft Champagne Gold for Sub Heading */
+        .sub-heading {
+            font-size: 1.15rem;
+            font-weight: 700; 
+            letter-spacing: 0.03em;
+            color: #e2d7b5; 
+            margin-bottom: 10px; 
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Styled Context Tag Matching Gold Theme */
+        .context-heading {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700; 
+            padding: 4px 14px;
+            background-color: rgba(212, 175, 55, 0.08);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            color: #ffd700; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 6px;
+        }
+
+        /* Real-Time Status Ticker Badge */
+        .live-badge {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #a1a1aa;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .live-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse-dot 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(0.9); opacity: 0.4; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* Controls Filter Panel Row */
+        .controls-panel {
+            width: 100%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin: 0 auto 10px auto; 
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 6px 12px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            color: #0f172a;
+            font-size: 0.88rem;
+            font-weight: 600; 
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        /* Gold Focus Indicator for Controls */
+        .input-control:focus {
+            border-color: #d4af37; 
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Solid High-Contrast Container Card */
+        .table-card {
+            width: max-content; 
+            min-width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .table-responsive-wrapper {
+            width: 100%;
+        }
+
+        /* Structural Table Rules */
+        table {
+            border-collapse: collapse;
+            width: max-content; 
+            min-width: 100%;
+            table-layout: auto; 
+        }
+
+        th, td {
+            padding: 5px 12px; 
+            text-align: center; 
+            vertical-align: middle;
+        }
+
+        /* Table Header Row Matching Brand Aesthetics */
+        th {
+            background-color: #11151c; 
+            color: #ffffff;
+            font-weight: 700; 
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            border-bottom: 2px solid #d4af37;
+            white-space: normal !important; 
+            word-wrap: break-word;
+            max-width: 180px; 
+        }
+
+        /* Data Cells - Maintained Bold & Kept on One Line */
+        td {
+            font-weight: 600; 
+            color: #334155;
+            font-size: 0.85rem;
+            white-space: nowrap; 
+            border-top: 1px solid transparent;
+            border-bottom: 1px solid transparent;
+        }
+
+        tr {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc; 
+        }
+
+        /* Safe Muted Amber Focus Point applied directly to inner cell items */
+        tr:hover td {
+            background-color: rgba(212, 175, 55, 0.08) !important; 
+            color: #000000; 
+            border-top: 1px solid #d4af37 !important;
+            border-bottom: 1px solid #d4af37 !important;
+        }
+
+        /* Micro-Sized Button Frame Adjustments */
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 1px 6px; 
+            background: linear-gradient(135deg, #11151c 0%, #3a3118 100%); 
+            border: 1px solid #d4af37;
+            color: #ffd700 !important;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            transition: all 0.15s ease;
+            line-height: 1.2;
+        }
+
+        .view-btn:hover {
+            transform: scale(1.03);
+            background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+            color: #11151c !important;
+        }
+
+        .pdf-icon {
+            width: 9px; 
+            height: 9px;
+            fill: currentColor;
+        }
+
+        /* UI Loading Layout */
+        .status-container {
+            padding: 30px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+        .pulse {
+            animation: pulse-animation 2s infinite ease-in-out;
+        }
+        @keyframes pulse-animation {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <h1 class="main-heading">Mahatma Gandhi Institute of Technology (A)</h1>
+        <h2 class="sub-heading">Training & Placement Cell</h2>
+        <div class="context-heading">Circulars for the Academic Year 2026-2027</div>
+        <div class="live-badge"><span class="live-dot"></span>Real-Time Sync Active • <span id="sync-time">Initializing...</span></div>
+    </div>
+
+    <div class="controls-panel">
+        <input type="text" id="global-search" class="input-control" placeholder="Search anything in the table...">
+        <select id="company-filter" class="input-control">
+            <option value="">All Companies</option>
+        </select>
+        <select id="month-filter" class="input-control">
+            <option value="">All Months</option>
+        </select>
+    </div>
+    
+    <div class="table-card">
+        <div id="status-display" class="status-container pulse">Loading live placement confirmation roster...</div>
+        <div class="table-responsive-wrapper">
+            <table id="sheet-table" style="display: none;">
+                <thead id="table-head"></thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const yourSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSRuWb_qlq4PJFTCx4SPj6WIpL7MiGHhsSdheoDH126ZztAIDlIR-GyWyU8cyZ42ApysWA9VWePNYW0/pub?gid=988721606&single=true&output=csv';
+        
+        // --- COLUMN HEADER CONFIGURATION ---
+        const COMPANY_COLUMN_NAME = "Company Name"; 
+        const MONTH_COLUMN_NAME = "Month";
+        
+        let globalDataGrid = [];
+        let companyColIndex = -1;
+        let monthColIndex = -1;
+
+        // Optimized execution pipeline to fetch data without interrupting the user workflow
+        function fetchSheetData() {
+            // Save user inputs before parsing so they don't lose focus or values during real-time updates
+            const activeSearch = document.getElementById('global-search').value;
+            const activeCompany = document.getElementById('company-filter').value;
+            const activeMonth = document.getElementById('month-filter').value;
+
+            Papa.parse(yourSpreadsheetUrl, {
+                download: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    globalDataGrid = results.data;
+                    detectFilterColumns(globalDataGrid[0]);
+                    
+                    // Rebuild drop-down filters dynamically based on new dataset structures
+                    updateFilterOptions(); 
+                    
+                    // Safely restore user filter selections back to the elements if they still exist
+                    if (activeCompany) document.getElementById('company-filter').value = activeCompany;
+                    if (activeMonth) document.getElementById('month-filter').value = activeMonth;
+                    if (activeSearch) document.getElementById('global-search').value = activeSearch;
+                    
+                    // Re-filter and render structural updates
+                    applyCombinedFilters();
+                    
+                    // Update visual time tracker stamp
+                    const now = new Date();
+                    document.getElementById('sync-time').textContent = `Last Updated: ${now.toLocaleTimeString()}`;
+                },
+                error: function(err) {
+                    console.error("Data Load Error:", err);
+                    const statusBox = document.getElementById('status-display');
+                    // Render message only if initial layout fails to pull anything
+                    if (globalDataGrid.length === 0) {
+                        statusBox.classList.remove('pulse');
+                        statusBox.innerHTML = `<span style="color:#ef4444; font-weight:700;">Unable to pull live data. Check permissions.</span>`;
+                    }
+                }
+            });
+        }
+
+        function isValidUrl(string) {
+            try {
+                const url = new URL(string.trim());
+                return url.protocol === "http:" || url.protocol === "https:";
+            } catch (_) {
+                return false;  
+            }
+        }
+
+        function detectFilterColumns(headerRow) {
+            headerRow.forEach((header, index) => {
+                const cleanHeader = header.trim().toLowerCase();
+                if (cleanHeader === COMPANY_COLUMN_NAME.trim().toLowerCase()) {
+                    companyColIndex = index;
+                }
+                if (cleanHeader === MONTH_COLUMN_NAME.trim().toLowerCase()) {
+                    monthColIndex = index;
+                }
+            });
+        }
+
+        function updateFilterOptions() {
+            const compSelect = document.getElementById('company-filter');
+            const monthSelect = document.getElementById('month-filter');
+
+            const currentSelectedCompany = compSelect.value;
+            const currentSelectedMonth = monthSelect.value;
+
+            const validCompanies = new Set();
+            const validMonths = new Set();
+
+            for (let i = 1; i < globalDataGrid.length; i++) {
+                const row = globalDataGrid[i];
+                
+                const rowCompany = companyColIndex !== -1 && row[companyColIndex] !== undefined && row[companyColIndex] !== null ? String(row[companyColIndex]).trim() : "";
+                const rowMonth = monthColIndex !== -1 && row[monthColIndex] !== undefined && row[monthColIndex] !== null ? String(row[monthColIndex]).trim() : "";
+
+                if (rowCompany === "" && rowMonth === "") continue;
+
+                if (!currentSelectedMonth || rowMonth === currentSelectedMonth) {
+                    if (rowCompany !== "") validCompanies.add(rowCompany);
+                }
+                if (!currentSelectedCompany || rowCompany === currentSelectedCompany) {
+                    if (rowMonth !== "") validMonths.add(rowMonth);
+                }
+            }
+
+            compSelect.innerHTML = '<option value="">All Companies</option>';
+            Array.from(validCompanies).sort((a, b) => a.localeCompare(b)).forEach(comp => {
+                const opt = document.createElement('option');
+                opt.value = comp;
+                opt.textContent = comp;
+                if (comp === currentSelectedCompany) opt.selected = true;
+                compSelect.appendChild(opt);
+            });
+
+            monthSelect.innerHTML = '<option value="">All Months</option>';
+            Array.from(validMonths).sort((a, b) => a.localeCompare(b)).forEach(month => {
+                const opt = document.createElement('option');
+                opt.value = month;
+                opt.textContent = month;
+                if (month === currentSelectedMonth) opt.selected = true;
+                monthSelect.appendChild(opt);
+            });
+        }
+
+        function setupFilterEventListeners() {
+            document.getElementById('global-search').addEventListener('input', applyCombinedFilters);
+            document.getElementById('company-filter').addEventListener('change', () => {
+                updateFilterOptions(); 
+                applyCombinedFilters();
+            });
+            document.getElementById('month-filter').addEventListener('change', () => {
+                updateFilterOptions(); 
+                applyCombinedFilters();
+            });
+        }
+
+        function applyCombinedFilters() {
+            const searchQuery = document.getElementById('global-search').value.toLowerCase().trim();
+            const selectedCompany = document.getElementById('company-filter').value;
+            const selectedMonth = document.getElementById('month-filter').value;
+
+            const filteredRows = [globalDataGrid[0]];
+
+            for (let i = 1; i < globalDataGrid.length; i++) {
+                const row = globalDataGrid[i];
+                
+                const matchesCompany = !selectedCompany || (companyColIndex !== -1 && row[companyColIndex]?.trim() === selectedCompany);
+                const matchesMonth = !selectedMonth || (monthColIndex !== -1 && row[monthColIndex]?.trim() === selectedMonth);
+                const matchesSearch = !searchQuery || row.some(cell => cell.toLowerCase().includes(searchQuery));
+
+                if (matchesCompany && matchesMonth && matchesSearch) {
+                    filteredRows.push(row);
+                }
+            }
+
+            renderHtmlTable(filteredRows, true);
+        }
+
+        function renderHtmlTable(data, isFiltering = false) {
+            const tableHead = document.getElementById('table-head');
+            const tableBody = document.getElementById('table-body');
+            
+            tableHead.innerHTML = "";
+            tableBody.innerHTML = "";
+
+            if (!data || data.length === 0 || (isFiltering && data.length === 1)) {
+                document.getElementById('sheet-table').style.display = 'none';
+                document.getElementById('status-display').style.display = 'block';
+                document.getElementById('status-display').textContent = "No records match your selected search criteria.";
+                return;
+            }
+
+            const headerTr = document.createElement('tr');
+            data[0].forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerTr.appendChild(th);
+            });
+            tableHead.appendChild(headerTr);
+
+            for (let i = 1; i < data.length; i++) {
+                const rowData = data[i];
+                const tr = document.createElement('tr');
+                
+                rowData.forEach(cellText => {
+                    const td = document.createElement('td');
+                    const cleanText = cellText ? cellText.trim() : "";
+
+                    if (isValidUrl(cleanText)) {
+                        const actionButton = document.createElement('a');
+                        actionButton.href = cleanText;
+                        actionButton.target = "_blank";
+                        actionButton.className = "view-btn";
+                        
+                        actionButton.innerHTML = `
+                            <svg class="pdf-icon" viewBox="0 0 384 512">
+                                <path d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 53.7-26.8-11-5.1-19.6-19.2-25.3-35.9zm-124.5 68.2c-16.3 0-21.6 13.1-21.6 23.9 0 20.5 22.8 38.7 54.5 38.7 14.6 0 21.7-6.5 24-12.4-5.3-22.1-41.2-50.2-56.9-50.2zm238.1-259.5H224c-13.3 0-24 10.7-24 24v110.1c11.9-10.7 27.5-21.4 44.8-31.5 21.1-12.3 27-26.2 27-37 0-12.2-11.5-23.6-24-23.6zM384 121.9v342.2c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48h147.9c12.7 0 25 5.1 34 14.1l110 110c9 9 14.1 21.3 14.1 33.8zm-113.1 32c0-3.6-2.9-6.5-6.5-6.5H240v29.3c0 3.6 2.9 6.5 6.5 6.5h24.4c3.6 0 6.5-2.9 6.5-6.5v-22.8zM100.8 450c-23.3 0-48.4-12.8-48.4-42.3 0-24 16.2-46.1 48.3-46.1 20 0 46.2 20.3 64.9 39.5 23.2-30.8 44.1-73.6 56.4-114.1-11.8-36.5-16.1-75.3-7.5-90 8.7-14.8 24.1-23 37.9-23 25.5 0 41.2 22.8 41.2 46.1 0 25.5-17.7 54.1-44.5 73-34.2 24.2-76.1 43.1-105.1 54.9-12.9 22-24.1 47.3-33 71.7 34.6 23.9 65 37.3 84 37.3 32.7 0 44.7-22.1 44.7-34.6 0-33.8-51.2-50.5-81.8-14.5-5.9 7-10 17.1-12.4 22.7-5.3 11.2-17.6 12.3-26.4 12.3z"/>
+                            </svg> View`;
+                        td.appendChild(actionButton);
+                    } else {
+                        td.textContent = cellText;
+                    }
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            }
+
+            document.getElementById('status-display').style.display = 'none';
+            document.getElementById('sheet-table').style.display = 'table';
+        }
+
+        // Initialize App & Setup Real-Time Polling Engine Loop
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchSheetData();
+            setupFilterEventListeners();
+            
+            // Core Real-Time Loop: Silently polls Google Sheet updates every 30 seconds
+            setInterval(fetchSheetData, 30000);
+        });
+    </script>
+
+</body>
+</html>
