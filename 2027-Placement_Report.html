@@ -169,7 +169,7 @@ gap: 8px;
 display: flex;
 flex-wrap: wrap;
 align-items: center;
-gap: 5px; /* Tighter gap to save layout footprint grid boundaries */
+gap: 5px;
 background: rgba(0, 8, 20, 0.6);
 padding: 10px 12px;
 border-left: 1px solid rgba(255,255,255,0.15);
@@ -182,15 +182,15 @@ justify-content: space-between;
 flex: 1 1 0px; 
 background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
 border: 1px solid rgba(255,255,255,0.15);
-padding: 4px 2px; /* Compressed micro padding layout */
+padding: 4px 2px;
 border-radius: 6px;
 text-align: center;
-min-width: 60px; /* Highly optimized card width */
+min-width: 60px;
 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .stat-card .card-label {
-font-size: 8px; /* Balanced crisp tracking typography sizes */
+font-size: 8px;
 text-transform: uppercase;
 letter-spacing: 0.1px;
 color: #ffe082;
@@ -200,12 +200,12 @@ white-space: nowrap;
 }
 
 .stat-card .card-value {
-font-size: 13px; /* Slightly compact numeric sizing to preserve horizontal row containment boundaries */
+font-size: 13px;
 font-weight: bold;
 color: #ffffff;
 }
 
-/* MODIFIED: DEPT OFFERS TEXT LABEL ARRANGED VERTICALLY */
+/* DEPT OFFERS TEXT LABEL ARRANGED VERTICALLY */
 .stats-divider {
 font-size: 9.5px;
 font-weight: 900;
@@ -217,7 +217,7 @@ flex: 0 0 auto;
 padding: 0 8px;
 border-left: 2px solid rgba(255,255,255,0.2);
 display: flex;
-flex-direction: column; /* Stacks text vertically cleanly */
+flex-direction: column;
 align-items: center;
 justify-content: center;
 line-height: 1.1;
@@ -231,21 +231,34 @@ margin-bottom:6px;
 }
 
 /* FILTERS ELEMENT STYLES */
-
 .filter-section input,
 .filter-section select{
 flex:0 0 auto;
-width:170px;
-min-width:170px;
+width:125px;
+min-width:125px;
 height:30px;
-padding:4px 8px;
-font-size:12px;
+padding:4px 6px;
+font-size:11px;
 border-radius:8px;
 border:1px solid rgba(255,255,255,0.2);
 outline:none;
 background:rgba(255,255,255,0.92);
 transition:0.3s;
 color: #222;
+}
+
+#search {
+width: 155px;
+min-width: 155px;
+}
+
+/* Custom styling for Sort filter dropdown to make it stand out */
+#sortByFilter {
+width: 150px;
+min-width: 150px;
+background: #e1f5fe;
+font-weight: bold;
+border: 1px solid #00b0ff;
 }
 
 .filter-section label {
@@ -259,6 +272,35 @@ flex: 0 0 auto;
 .date-container label {
 color: #ffffff;
 text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* CONTROL BUTTON STYLES */
+.control-btn {
+flex: 0 0 auto;
+height: 30px;
+padding: 4px 10px;
+font-size: 11px;
+font-weight: bold;
+border-radius: 8px;
+border: none;
+cursor: pointer;
+color: white;
+transition: 0.3s;
+box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+white-space: nowrap;
+}
+
+.reset-btn {
+background: linear-gradient(135deg, #ec008c, #fc6767);
+}
+
+.export-btn {
+background: linear-gradient(135deg, #11998e, #38ef7d);
+}
+
+.control-btn:hover {
+transform: scale(1.04);
+box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 
 /* FOCUS EFFECT */
@@ -331,7 +373,7 @@ border-radius:18px;
 overflow:hidden;
 }
 
-/* TABLE HEADER - CRITICAL COLOR & VISIBILITY REFACTOR */
+/* TABLE HEADER */
 th{
 padding:8px 9px;
 font-size:13px;
@@ -344,6 +386,19 @@ border:1px solid rgba(255,255,255,0.18);
 white-space:nowrap;
 text-shadow: 0 1px 2px rgba(0,0,0,0.8);
 box-shadow: inset 0 -2px 0px rgba(0, 198, 255, 0.4);
+}
+
+/* Interactive Date Column Header Styling */
+th.sortable-date-header {
+cursor: pointer;
+background: linear-gradient(180deg, #003566 0%, #001d3d 100%);
+transition: background 0.3s;
+user-select: none;
+}
+
+th.sortable-date-header:hover {
+background: linear-gradient(180deg, #005691 0%, #002b5c 100%);
+color: #ffe082;
 }
 
 /* TABLE DATA */
@@ -417,12 +472,18 @@ gap:8px;
 }
 
 .filter-section input,
-.filter-section select{
+.filter-section select,
+.control-btn{
 width:145px;
 min-width:145px;
 height:28px;
 padding:3px 6px;
 font-size:12px;
+}
+
+#search, #sortByFilter {
+width: 145px;
+min-width: 145px;
 }
 
 th{
@@ -579,17 +640,29 @@ padding: 6px 12px;
 <option value="">Nature of Offer</option>
 </select>
 
-<select id="statusOfDriveFilter">
-<option value="">Status of the Drive</option>
-</select>
-
 <select id="natureFilter">
 <option value="">Nature of the Company</option>
 </select>
 
-<select id="totalFilter">
-<option value="">Total</option>
+<select id="statusOfDriveFilter">
+<option value="">Status of the Drive</option>
 </select>
+
+<select id="totalFilter">
+<option value="">Total Offers</option>
+</select>
+
+<!-- ADDED: Dedicated Date Sorting Control Dropdown -->
+<select id="sortByFilter">
+<option value="">Sort Dates</option>
+<option value="campusAsc">Campus Date: Old → New</option>
+<option value="campusDesc">Campus Date: New → Old</option>
+<option value="resultAsc">Result Date: Old → New</option>
+<option value="resultDesc">Result Date: New → Old</option>
+</select>
+
+<button type="button" id="resetBtn" class="control-btn reset-btn">Reset Filters</button>
+<button type="button" id="exportBtn" class="control-btn export-btn">Export to Excel</button>
 
 </div>
 
@@ -605,9 +678,10 @@ padding: 6px 12px;
 <script>
 
 /* DATA STREAM TARGET SOURCE LINK */
-const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QjKepLXHt4-AE3aUiIw7rrW5sjEgjSPcnwoaffWegxGcedxFDAeInJ7Kp2fLY_KUCwYyWrSKxOAZ/pub?gid=999000599&single=true&output=csv";
+const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYiIVUuvwMIOfO8RKoGS-jIWK1qoh_4kiTt9ro59zgdt8R7Pqe8XWsRjswiEQriyRnRa64CUICZdyb/pub?gid=56901671&single=true&output=csv";
 
 let allData=[];
+let filteredData=[];
 let natureKey="";
 let campusDateKey="";
 let resultDateKey="";
@@ -630,6 +704,7 @@ row => Object.values(row).join("").trim() !== ""
 );
 
 if(allData.length===0){
+filteredData = [];
 buildTable([]);
 return;
 }
@@ -655,9 +730,9 @@ Object.keys(deptKeys).forEach(k => {
 campusDateKey = findKey(["campusdate", "campus"], "");
 resultDateKey = findKey(["resultdate", "result"], "");
 
-buildTable(allData);
+filteredData = [...allData];
 populateFilters(allData);
-updateLiveMetrics(allData);
+applyFilters(); // Trigger filters and dynamic table generation
 },
 error:function(err){
 console.log(err);
@@ -666,7 +741,7 @@ alert("CSV Loading Failed. Check Sheet publishing settings.");
 }
 });
 
-/* TABLE DOM INJECTOR GENERATOR */
+/* TABLE DOM INJECTOR GENERATOR WITH DYNAMIC INTERACTIVE HEADER SORTING */
 function buildTable(data){
 let thead=document.querySelector("#placementTable thead");
 let tbody=document.querySelector("#placementTable tbody");
@@ -682,9 +757,37 @@ return;
 let headers=Object.keys(data[0]);
 let tr=document.createElement("tr");
 
+let currentSort = document.getElementById("sortByFilter") ? document.getElementById("sortByFilter").value : "";
+
 headers.forEach(h=>{
 let th=document.createElement("th");
-th.innerText=h;
+let labelText = h;
+
+// Check if header matches Campus Date or Result Date columns
+if (campusDateKey && h === campusDateKey) {
+  th.classList.add("sortable-date-header");
+  let sortIndicator = currentSort === "campusAsc" ? " ⬆️ (Old→New)" : currentSort === "campusDesc" ? " ⬇️ (New→Old)" : " ↕️";
+  th.innerText = labelText + sortIndicator;
+  th.title = "Click to toggle Campus Date sorting";
+  th.addEventListener("click", () => {
+    let sortEl = document.getElementById("sortByFilter");
+    sortEl.value = sortEl.value === "campusAsc" ? "campusDesc" : "campusAsc";
+    applyFilters();
+  });
+} else if (resultDateKey && h === resultDateKey) {
+  th.classList.add("sortable-date-header");
+  let sortIndicator = currentSort === "resultAsc" ? " ⬆️ (Old→New)" : currentSort === "resultDesc" ? " ⬇️ (New→Old)" : " ↕️";
+  th.innerText = labelText + sortIndicator;
+  th.title = "Click to toggle Result Date sorting";
+  th.addEventListener("click", () => {
+    let sortEl = document.getElementById("sortByFilter");
+    sortEl.value = sortEl.value === "resultAsc" ? "resultDesc" : "resultAsc";
+    applyFilters();
+  });
+} else {
+  th.innerText = labelText;
+}
+
 tr.appendChild(th);
 });
 thead.appendChild(tr);
@@ -804,7 +907,17 @@ return isNaN(d.getTime()) ? null : d;
 return null;
 }
 
-/* PRIMARY SYSTEM FILTER COMPILER ROUTINE ENGINE */
+/* DATE COMPARATOR UTILITY FOR SORTING */
+function compareDates(aStr, bStr, isAsc = true) {
+  let dA = parseCellDate(aStr);
+  let dB = parseCellDate(bStr);
+  if (!dA && !dB) return 0;
+  if (!dA) return 1;  // Missing/invalid dates pushed to the end
+  if (!dB) return -1;
+  return isAsc ? (dA - dB) : (dB - dA);
+}
+
+/* PRIMARY SYSTEM FILTER & SORT COMPILER ROUTINE ENGINE */
 function applyFilters(){
 if(allData.length === 0) return;
 
@@ -815,6 +928,7 @@ let offer = getVal("natureOfOfferFilter");
 let drive = getVal("statusOfDriveFilter");
 let nature = getVal("natureFilter");
 let total = getVal("totalFilter");
+let sortBy = getVal("sortByFilter");
 
 let cStartVal = getVal("campusStart");
 let cEndVal = getVal("campusEnd");
@@ -829,7 +943,7 @@ let rEnd = rEndVal ? new Date(rEndVal) : null;
 if (cEnd) cEnd.setHours(23, 59, 59, 999);
 if (rEnd) rEnd.setHours(23, 59, 59, 999);
 
-let filtered=allData.filter(row=>{
+filteredData = allData.filter(row=>{
 let text=JSON.stringify(row).toLowerCase();
 
 let cellCampusDate = campusDateKey ? parseCellDate(row[campusDateKey]) : null;
@@ -855,8 +969,19 @@ return text.includes(search)
 && resultPass;
 });
 
-buildTable(filtered);
-updateLiveMetrics(filtered);
+/* APPLY DATE SORTING ENGINE */
+if (sortBy === "campusAsc" && campusDateKey) {
+  filteredData.sort((a, b) => compareDates(a[campusDateKey], b[campusDateKey], true));
+} else if (sortBy === "campusDesc" && campusDateKey) {
+  filteredData.sort((a, b) => compareDates(a[campusDateKey], b[campusDateKey], false));
+} else if (sortBy === "resultAsc" && resultDateKey) {
+  filteredData.sort((a, b) => compareDates(a[resultDateKey], b[resultDateKey], true));
+} else if (sortBy === "resultDesc" && resultDateKey) {
+  filteredData.sort((a, b) => compareDates(a[resultDateKey], b[resultDateKey], false));
+}
+
+buildTable(filteredData);
+updateLiveMetrics(filteredData);
 }
 
 /* EVENT BINDINGS SUBSYSTEM ROUTINES */
@@ -866,11 +991,48 @@ document.getElementById("natureOfOfferFilter").addEventListener("change",applyFi
 document.getElementById("statusOfDriveFilter").addEventListener("change",applyFilters);
 document.getElementById("natureFilter").addEventListener("change",applyFilters);
 document.getElementById("totalFilter").addEventListener("change",applyFilters);
+document.getElementById("sortByFilter").addEventListener("change",applyFilters);
 
 document.getElementById("campusStart").addEventListener("change",applyFilters);
 document.getElementById("campusEnd").addEventListener("change",applyFilters);
 document.getElementById("resultStart").addEventListener("change",applyFilters);
 document.getElementById("resultEnd").addEventListener("change",applyFilters);
+
+/* RESET ALL FILTERS CLICK HANDLER ENGINE */
+document.getElementById("resetBtn").addEventListener("click", function() {
+  document.getElementById("search").value = "";
+  document.getElementById("batchFilter").value = "";
+  document.getElementById("natureOfOfferFilter").value = "";
+  document.getElementById("natureFilter").value = "";
+  document.getElementById("statusOfDriveFilter").value = "";
+  document.getElementById("totalFilter").value = "";
+  document.getElementById("sortByFilter").value = "";
+  document.getElementById("campusStart").value = "";
+  document.getElementById("campusEnd").value = "";
+  document.getElementById("resultStart").value = "";
+  document.getElementById("resultEnd").value = "";
+  applyFilters();
+});
+
+/* EXCEL EXPORT ENGINE */
+document.getElementById("exportBtn").addEventListener("click", function() {
+  if (filteredData.length === 0) {
+    alert("No records found matching current filter scope to export.");
+    return;
+  }
+  
+  let csvContent = Papa.unparse(filteredData);
+  let blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: "text/csv;charset=utf-8;" });
+  
+  let downloadLink = document.createElement("a");
+  let url = URL.createObjectURL(blob);
+  downloadLink.href = url;
+  downloadLink.download = "MGIT_Placement_Filtered_Report.csv";
+  
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+});
 
 </script>
 
