@@ -222,12 +222,12 @@ html, body {
     border-radius: 0;
     border: none;
     margin: 0;
-    overflow-x: visible; /* Allowed visible dropdown overflow */
+    overflow-x: visible;
 }
 
 .filter-container input[type="text"] {
     flex: 1.2;
-    min-width: 100px;
+    min-width: 90px;
     padding: 5px 6px;
     border-radius: 3px;
     border: 1.5px solid #475569;
@@ -241,8 +241,8 @@ html, body {
 
 .filter-container select {
     flex: 1;
-    min-width: 80px;
-    padding: 5px 4px;
+    min-width: 75px;
+    padding: 5px 3px;
     border-radius: 3px;
     border: 1.5px solid #475569;
     background: #ffffff;
@@ -266,20 +266,26 @@ html, body {
     border-color: #ff6600;
 }
 
-/* ===== CUSTOM CHECKBOX MULTI-SELECT DROPDOWN ===== */
+/* ===== CUSTOM CHECKBOX MULTI-SELECT DROPDOWNS ===== */
 .multiselect-container {
     position: relative;
     flex: 1;
-    min-width: 110px;
+    min-width: 80px;
+}
+
+/* Specific shrink rule for Offers box to fit 1 line */
+.multiselect-container[data-key="offers"] {
+    min-width: 95px;
+    max-width: 125px;
 }
 
 .select-box {
-    padding: 5px 6px;
+    padding: 5px 4px;
     border-radius: 3px;
     border: 1.5px solid #475569;
     background: #ffffff;
     font-family: Arial, sans-serif;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 800;
     color: #000000;
     cursor: pointer;
@@ -287,6 +293,7 @@ html, body {
     justify-content: space-between;
     align-items: center;
     user-select: none;
+    white-space: nowrap;
 }
 
 .select-box span {
@@ -295,12 +302,18 @@ html, body {
     text-overflow: ellipsis;
 }
 
+.select-box small {
+    font-size: 9px;
+    margin-left: 2px;
+}
+
 .checkboxes-dropdown {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
+    min-width: 130px;
     background: #ffffff;
     border: 1px solid #475569;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -370,7 +383,6 @@ html, body {
    TABLE STYLING
    ========================================== */
 
-/* TABLE CONTAINER & WRAPPER */
 .table-container {
     flex-grow: 1;
     width: 100%;
@@ -383,7 +395,6 @@ html, body {
     padding-bottom: 6px;
 }
 
-/* TABLE SCROLLBAR */
 .table-container::-webkit-scrollbar {
     height: 10px;
     width: 8px;
@@ -403,7 +414,6 @@ html, body {
     background: linear-gradient(90deg, #00c6ff, #0072ff);
 }
 
-/* TABLE STRUCTURE */
 table {
     border-collapse: collapse;
     min-width: 1600px;
@@ -415,7 +425,6 @@ table {
     font-family: Arial, sans-serif;
 }
 
-/* TABLE HEADERS (TH) */
 th {
     padding: 8px 9px;
     font-size: 13px;
@@ -432,7 +441,6 @@ th {
     font-family: Arial, sans-serif;
 }
 
-/* TABLE DATA (TD) */
 td {
     padding: 5px 9px;
     font-size: 12px;
@@ -444,7 +452,6 @@ td {
     color: #222222;
 }
 
-/* ZEBRA STRIPING & HOVER STATES */
 tr:nth-child(even) td { 
     background-color: #eef5ff !important; 
 }
@@ -459,7 +466,6 @@ tbody tr:hover td {
     transition: 0.3s; 
 }
 
-/* LINK BUTTONS INSIDE TABLE DATA */
 .link-btn {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: #ffffff;
@@ -491,7 +497,6 @@ tbody tr:hover td {
     font-family: Arial, sans-serif;
 }
 
-/* RESPONSIVE TABLE OVERRIDES */
 @media (max-width: 768px) {
     table { 
         min-width: 1400px; 
@@ -563,21 +568,37 @@ tbody tr:hover td {
         <!-- SINGLE-ROW FILTER TOOLBAR -->
         <div class="filter-container">
             <input type="text" id="searchInput" placeholder="Search data...">
-            <select id="branchFilter"><option value="">Branch</option></select>
+            
+            <!-- MULTI-SELECT CHECKBOX DROPDOWN FOR BRANCH -->
+            <div class="multiselect-container" data-key="branch">
+                <div class="select-box" onclick="toggleMultiDropdown('branch')">
+                    <span id="branchSelectLabel">Branch</span>
+                    <small>▼</small>
+                </div>
+                <div class="checkboxes-dropdown" id="branchCheckboxes"></div>
+            </div>
+
             <select id="entranceFilter"><option value="">Entrance</option></select>
             <select id="genderFilter"><option value="">Gender</option></select>
-            <select id="dsaFilter"><option value="">DSA Training</option></select>
+            
+            <!-- MULTI-SELECT CHECKBOX DROPDOWN FOR DSA TRAINING -->
+            <div class="multiselect-container" data-key="dsa">
+                <div class="select-box" onclick="toggleMultiDropdown('dsa')">
+                    <span id="dsaSelectLabel">DSA Training</span>
+                    <small>▼</small>
+                </div>
+                <div class="checkboxes-dropdown" id="dsaCheckboxes"></div>
+            </div>
+
             <select id="registeredFilter"><option value="">Registered for Placements</option></select>
             
             <!-- MULTI-SELECT CHECKBOX DROPDOWN FOR OFFERS -->
-            <div class="multiselect-container">
-                <div class="select-box" onclick="toggleOffersDropdown()">
-                    <span id="offersSelectLabel">No. of Offers</span>
+            <div class="multiselect-container" data-key="offers">
+                <div class="select-box" onclick="toggleMultiDropdown('offers')">
+                    <span id="offersSelectLabel">Offers</span>
                     <small>▼</small>
                 </div>
-                <div class="checkboxes-dropdown" id="offersCheckboxes">
-                    <!-- Dynamic checkboxes inserted here -->
-                </div>
+                <div class="checkboxes-dropdown" id="offersCheckboxes"></div>
             </div>
             
             <button class="action-btn reset-btn" onclick="resetAllFilters()" title="Reset all applied filters">Reset Filters</button>
@@ -600,13 +621,18 @@ const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRs918b9wOBmLLA6
 let originalData = [];
 let headers = [];
 
-/* FILTER DEFINITIONS */
+/* SINGLE SELECT FILTER DEFINITIONS */
 const filterConfigs = [
-    { id: 'branchFilter', header: 'Branch', key: 'branch' },
     { id: 'entranceFilter', header: 'Entrance', key: 'entrance' },
     { id: 'genderFilter', header: 'Gender', key: 'gender' },
-    { id: 'dsaFilter', header: 'DSA', key: 'dsa' },
     { id: 'registeredFilter', header: 'Registered for Placements', key: 'registered' }
+];
+
+/* MULTI SELECT FILTER CONFIGURATIONS */
+const multiFilterConfigs = [
+    { key: 'branch', header: 'Branch', containerId: 'branchCheckboxes', labelId: 'branchSelectLabel', shortName: 'Branch' },
+    { key: 'dsa', header: 'DSA', containerId: 'dsaCheckboxes', labelId: 'dsaSelectLabel', shortName: 'DSA' },
+    { key: 'offers', header: 'No. of Offers', containerId: 'offersCheckboxes', labelId: 'offersSelectLabel', shortName: 'Offers' }
 ];
 
 Papa.parse(csvURL, {
@@ -620,6 +646,9 @@ Papa.parse(csvURL, {
 
         headers = results.data[0];
         originalData = results.data.slice(1);
+
+        // Build initial checkbox lists from full dataset so all options remain selectable
+        multiFilterConfigs.forEach(mCfg => buildInitialMultiSelectDropdown(mCfg));
 
         applyFilters();
 
@@ -651,20 +680,25 @@ filterConfigs.forEach(cfg => {
 });
 
 /* MULTI-SELECT DROPDOWN INTERACTION LOGIC */
-let isDropdownOpen = false;
-
-function toggleOffersDropdown() {
-    const dropdown = document.getElementById("offersCheckboxes");
-    isDropdownOpen = !isDropdownOpen;
-    dropdown.style.display = isDropdownOpen ? "block" : "none";
+function toggleMultiDropdown(key) {
+    multiFilterConfigs.forEach(mCfg => {
+        const dropdown = document.getElementById(mCfg.containerId);
+        if (mCfg.key === key) {
+            const isVisible = dropdown.style.display === "block";
+            dropdown.style.display = isVisible ? "none" : "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    });
 }
 
-// Close multi-select menu when clicking outside
+// Close multi-select menus when clicking outside
 document.addEventListener("click", function(event) {
-    const container = document.querySelector(".multiselect-container");
-    if (container && !container.contains(event.target)) {
-        document.getElementById("offersCheckboxes").style.display = "none";
-        isDropdownOpen = false;
+    if (!event.target.closest(".multiselect-container")) {
+        multiFilterConfigs.forEach(mCfg => {
+            const dropdown = document.getElementById(mCfg.containerId);
+            if (dropdown) dropdown.style.display = "none";
+        });
     }
 });
 
@@ -697,13 +731,52 @@ function getHeaderIndex(target) {
     return -1;
 }
 
-/* GET SELECTED OFFERS VALUES */
-function getSelectedOffers() {
-    const checkboxes = document.querySelectorAll(".offer-checkbox:checked");
+/* GET SELECTED VALUES FROM A MULTI-SELECT FILTER */
+function getSelectedValues(key) {
+    const checkboxes = document.querySelectorAll(`.${key}-checkbox:checked`);
     return Array.from(checkboxes).map(cb => cb.value.toLowerCase());
 }
 
-/* GET ACTIVE ROWS FILTERED BY ALL FILTERS EXCEPT ONE SPECIFIC DROPDOWN */
+/* BUILD MULTI-SELECT OPTIONS INITIALIZATION */
+function buildInitialMultiSelectDropdown(mCfg) {
+    const container = document.getElementById(mCfg.containerId);
+    const colIdx = getHeaderIndex(mCfg.header);
+
+    if (colIdx === -1) {
+        container.innerHTML = `<label>${mCfg.shortName} (N/A)</label>`;
+        return;
+    }
+
+    let uniqueVals = [...new Set(originalData.map(r => String(r[colIdx] || "").trim()))]
+        .filter(v => v !== undefined && v !== null && v !== "");
+
+    uniqueVals.sort((a, b) => {
+        const numA = Number(a), numB = Number(b);
+        if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+        return a.localeCompare(b);
+    });
+
+    let html = `
+        <label>
+            <input type="checkbox" id="selectAll_${mCfg.key}" onchange="toggleSelectAll('${mCfg.key}', this)" checked>
+            <strong>Select All</strong>
+        </label>
+    `;
+
+    uniqueVals.forEach(val => {
+        html += `
+            <label>
+                <input type="checkbox" class="${mCfg.key}-checkbox" value="${val}" onchange="onMultiCheckboxChange('${mCfg.key}')" checked>
+                ${val}
+            </label>
+        `;
+    });
+
+    container.innerHTML = html;
+    updateMultiSelectLabel(mCfg.key);
+}
+
+/* GET ACTIVE ROWS FILTERED BY ALL FILTERS EXCEPT ONE SPECIFIC KEY */
 function getFilteredRowsExcluding(excludeKey = null) {
     const search = searchInput.value.toLowerCase();
     const minRankVal = minRankInput.value !== "" ? parseFloat(minRankInput.value) : null;
@@ -711,18 +784,8 @@ function getFilteredRowsExcluding(excludeKey = null) {
     const minCgpaVal = minCgpaInput.value !== "" ? parseFloat(minCgpaInput.value) : null;
     const maxCgpaVal = maxCgpaInput.value !== "" ? parseFloat(maxCgpaInput.value) : null;
 
-    const selectedValues = {};
-    filterConfigs.forEach(cfg => {
-        const el = document.getElementById(cfg.id);
-        selectedValues[cfg.key] = el ? el.value : "";
-    });
-
     const rankIdx = getHeaderIndex("Rank");
     const cgpaIdx = getHeaderIndex("CGPA");
-    const offersIdx = getHeaderIndex("No. of Offers");
-
-    const selectedOffers = getSelectedOffers();
-    const selectAllChecked = document.getElementById("selectAllOffers")?.checked ?? true;
 
     return originalData.filter(row => {
         // Global search filter
@@ -750,18 +813,27 @@ function getFilteredRowsExcluding(excludeKey = null) {
             }
         }
 
-        // Multi-select Offers filter
-        if (excludeKey !== 'offers' && offersIdx !== -1 && !selectAllChecked) {
-            const rowOfferVal = String(row[offersIdx] || "").trim().toLowerCase();
-            if (!selectedOffers.includes(rowOfferVal)) {
-                return false;
+        // Apply Multi-Select Checkbox filters
+        for (let mCfg of multiFilterConfigs) {
+            if (mCfg.key === excludeKey) continue;
+            const selectAllCb = document.getElementById(`selectAll_${mCfg.key}`);
+            const selectAllChecked = selectAllCb ? selectAllCb.checked : true;
+
+            if (!selectAllChecked) {
+                const selectedVals = getSelectedValues(mCfg.key);
+                const colIdx = getHeaderIndex(mCfg.header);
+                if (colIdx !== -1) {
+                    const rowVal = String(row[colIdx] || "").trim().toLowerCase();
+                    if (!selectedVals.includes(rowVal)) return false;
+                }
             }
         }
 
-        // Apply standard single dropdown filters EXCEPT excludeKey
+        // Apply Single Select Dropdown filters
         for (let cfg of filterConfigs) {
             if (cfg.key === excludeKey) continue;
-            const val = selectedValues[cfg.key];
+            const el = document.getElementById(cfg.id);
+            const val = el ? el.value : "";
             if (val) {
                 const colIdx = getHeaderIndex(cfg.header);
                 if (colIdx !== -1) {
@@ -775,9 +847,8 @@ function getFilteredRowsExcluding(excludeKey = null) {
     });
 }
 
-/* DYNAMICALLY UPDATE DROPDOWN OPTIONS */
+/* DYNAMICALLY UPDATE SINGLE DROPDOWN OPTIONS ONLY */
 function updateDynamicFilterDropdowns() {
-    // Update Standard Single-Select Dropdowns
     filterConfigs.forEach(cfg => {
         const selectEl = document.getElementById(cfg.id);
         if (!selectEl) return;
@@ -791,7 +862,6 @@ function updateDynamicFilterDropdowns() {
         }
 
         const matchingRows = getFilteredRowsExcluding(cfg.key);
-
         let uniqueVals = [...new Set(matchingRows.map(r => String(r[colIdx] || "").trim()))]
             .filter(v => v !== undefined && v !== null && v !== "");
 
@@ -814,89 +884,45 @@ function updateDynamicFilterDropdowns() {
 
         selectEl.innerHTML = optionsHTML;
     });
-
-    // Update Multi-Select "No. of Offers" Dropdown Checkboxes
-    updateOffersCheckboxDropdown();
-}
-
-/* UPDATE MULTI-SELECT OFFERS CHECKBOXES DYNAMICALLY */
-function updateOffersCheckboxDropdown() {
-    const container = document.getElementById("offersCheckboxes");
-    const colIdx = getHeaderIndex("No. of Offers");
-
-    if (colIdx === -1) {
-        container.innerHTML = `<label>No. of Offers (N/A)</label>`;
-        return;
-    }
-
-    const matchingRows = getFilteredRowsExcluding('offers');
-
-    let uniqueVals = [...new Set(matchingRows.map(r => String(r[colIdx] || "").trim()))]
-        .filter(v => v !== undefined && v !== null && v !== "");
-
-    uniqueVals.sort((a, b) => {
-        const numA = Number(a), numB = Number(b);
-        if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
-        return a.localeCompare(b);
-    });
-
-    // Save current selections
-    const previouslySelected = getSelectedOffers();
-    const wasSelectAllChecked = document.getElementById("selectAllOffers") ? document.getElementById("selectAllOffers").checked : true;
-
-    let html = `
-        <label>
-            <input type="checkbox" id="selectAllOffers" onchange="toggleSelectAllOffers(this)" ${wasSelectAllChecked ? 'checked' : ''}>
-            <strong>Select All</strong>
-        </label>
-    `;
-
-    uniqueVals.forEach(val => {
-        const isChecked = wasSelectAllChecked || previouslySelected.includes(val.toLowerCase());
-        html += `
-            <label>
-                <input type="checkbox" class="offer-checkbox" value="${val}" onchange="onOfferCheckboxChange()" ${isChecked ? 'checked' : ''}>
-                ${val}
-            </label>
-        `;
-    });
-
-    container.innerHTML = html;
-    updateOffersLabel();
 }
 
 /* CHECKBOX INTERACTION HANDLERS */
-function toggleSelectAllOffers(selectAllCb) {
-    const checkboxes = document.querySelectorAll(".offer-checkbox");
+function toggleSelectAll(key, selectAllCb) {
+    const checkboxes = document.querySelectorAll(`.${key}-checkbox`);
     checkboxes.forEach(cb => cb.checked = selectAllCb.checked);
-    updateOffersLabel();
+    updateMultiSelectLabel(key);
     applyFilters();
 }
 
-function onOfferCheckboxChange() {
-    const checkboxes = document.querySelectorAll(".offer-checkbox");
-    const selectAllCb = document.getElementById("selectAllOffers");
-    const checkedCount = document.querySelectorAll(".offer-checkbox:checked").length;
+function onMultiCheckboxChange(key) {
+    const checkboxes = document.querySelectorAll(`.${key}-checkbox`);
+    const selectAllCb = document.getElementById(`selectAll_${key}`);
+    const checkedCount = document.querySelectorAll(`.${key}-checkbox:checked`).length;
 
     if (selectAllCb) {
         selectAllCb.checked = (checkedCount === checkboxes.length);
     }
 
-    updateOffersLabel();
+    updateMultiSelectLabel(key);
     applyFilters();
 }
 
-function updateOffersLabel() {
-    const label = document.getElementById("offersSelectLabel");
-    const selectAllCb = document.getElementById("selectAllOffers");
-    const selected = getSelectedOffers();
+function updateMultiSelectLabel(key) {
+    const mCfg = multiFilterConfigs.find(c => c.key === key);
+    if (!mCfg) return;
+
+    const label = document.getElementById(mCfg.labelId);
+    const selectAllCb = document.getElementById(`selectAll_${key}`);
+    const selected = getSelectedValues(key);
+
+    const title = mCfg.shortName;
 
     if (!selectAllCb || selectAllCb.checked) {
-        label.innerText = "No. of Offers (All)";
+        label.innerText = `${title} (All)`;
     } else if (selected.length === 0) {
-        label.innerText = "No. of Offers (None)";
+        label.innerText = `${title} (None)`;
     } else {
-        label.innerText = `Offers (${selected.length} Selected)`;
+        label.innerText = `${title} (${selected.length})`;
     }
 }
 
@@ -921,14 +947,15 @@ function resetAllFilters(){
         if (el) el.value = "";
     });
 
-    // Reset multi-select offer checkboxes to 'Select All'
-    const selectAllCb = document.getElementById("selectAllOffers");
-    if (selectAllCb) {
-        selectAllCb.checked = true;
-        toggleSelectAllOffers(selectAllCb);
-    } else {
-        applyFilters();
-    }
+    multiFilterConfigs.forEach(mCfg => {
+        const selectAllCb = document.getElementById(`selectAll_${mCfg.key}`);
+        if (selectAllCb) {
+            selectAllCb.checked = true;
+            toggleSelectAll(mCfg.key, selectAllCb);
+        }
+    });
+
+    applyFilters();
 }
 
 /* EXPORT TO EXCEL LOGIC */
