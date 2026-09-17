@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGIT - Training Programs Confirmation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        /* Reset and Frame Constraints */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #1e293b;
+            padding: 10px 15px 30px 15px; 
+            position: relative;
+        }
+
+        /* Screen-Pinned Custom Horizontal Scrollbar Styling */
+        html::-webkit-scrollbar, body::-webkit-scrollbar, .table-responsive-wrapper::-webkit-scrollbar {
+            height: 10px;
+        }
+        html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, .table-responsive-wrapper::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, .table-responsive-wrapper::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+            border: 2px solid #f1f5f9;
+        }
+        html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, .table-responsive-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Branding Header Section Container with Mixed Blue-Pink Shifting Glow Panel */
+        .header-section {
+            text-align: center;
+            margin: 0 auto 20px auto; 
+            width: 100%;
+            padding: 20px 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e0827 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+        }
+
+        /* Embedded Dynamic Blue & Pink High-Focus Floating Colors Inside Header Panel */
+        .header-section::before, .header-section::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.5;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .header-section::before {
+            width: 160px;
+            height: 160px;
+            background: #00d2ff; 
+            top: -20%;
+            left: 10%;
+            animation: float-header-left 8s infinite ease-in-out alternate;
+        }
+        .header-section::after {
+            width: 180px;
+            height: 180px;
+            background: #ff007f; 
+            bottom: -30%;
+            right: 15%;
+            animation: float-header-right 10s infinite ease-in-out alternate;
+        }
+
+        @keyframes float-header-left {
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(30px, 15px) scale(1.15); }
+        }
+        @keyframes float-header-right {
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(-35px, -10px) scale(0.9); }
+        }
+
+        .main-heading, .sub-heading, .context-heading {
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-heading {
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            letter-spacing: -0.02em;
+            color: #ffffff; 
+            margin-bottom: 2px; 
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .sub-heading {
+            font-size: 1.1rem;
+            font-weight: 700; 
+            letter-spacing: 0.02em;
+            color: #cbd5e1; 
+            margin-bottom: 8px; 
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .context-heading {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700; 
+            padding: 4px 14px;
+            background-color: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #00d2ff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Solid High-Contrast Container Card */
+        .table-card {
+            width: 100%; 
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        /* Handles horizontal scrolling for excessive columns exactly like a sheet layout */
+        .table-responsive-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Structural Table Rules */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: auto; 
+        }
+
+        th, td {
+            padding: 10px 14px; 
+            text-align: left; 
+            vertical-align: middle;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Explicitly shrink the first column (Serial Number) and center its text */
+        th:first-child, td:first-child {
+            width: 70px !important;
+            min-width: 70px !important;
+            max-width: 70px !important;
+            text-align: center !important;
+        }
+
+        /* Next-line Column Wrapping for Headers */
+        th {
+            background-color: #0f2e4a; 
+            color: #ffffff;
+            font-weight: 700; 
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            white-space: normal; 
+            word-wrap: break-word;
+            min-width: 150px;
+        }
+
+        /* Data Cells - Sets text wrapping dynamically for long values */
+        td {
+            font-weight: 600; 
+            color: #334155;
+            font-size: 0.85rem;
+            white-space: normal; 
+            word-break: break-word;
+            max-width: 260px;
+        }
+
+        /* Keep the action link button column clean and centered */
+        th:last-child, td:last-child {
+            text-align: center !important;
+            min-width: 110px;
+        }
+
+        tr {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc; 
+        }
+
+        /* Cursor highlight focus tracker row effect */
+        tr:hover td {
+            background-color: rgba(255, 102, 0, 0.08) !important; 
+            color: #000000; 
+        }
+
+        /* Vibrant high-contrast color styling for the View action link button */
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 5px 14px; 
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); 
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.78rem; 
+            font-weight: 700; 
+            transition: all 0.2s ease;
+            line-height: 1.2;
+            box-shadow: 0 2px 5px rgba(37, 99, 235, 0.25);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .view-btn:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
+        }
+
+        .link-icon {
+            width: 10px; 
+            height: 10px;
+            fill: currentColor;
+        }
+
+        /* UI Loading Layout */
+        .status-container {
+            padding: 30px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+        .pulse {
+            animation: pulse-animation 2s infinite ease-in-out;
+        }
+        @keyframes pulse-animation {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <h1 class="main-heading">Mahatma Gandhi Institute of Technology (A)</h1>
+        <h2 class="sub-heading">Training & Placement Cell</h2>
+        <div class="context-heading">Training Programs for the AY 2026-2027</div>
+    </div>
+    
+    <div class="table-card">
+        <div id="status-display" class="status-container pulse">Loading live placement confirmation roster...</div>
+        <div class="table-responsive-wrapper">
+            <table id="sheet-table" style="display: none;">
+                <thead id="table-head"></thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const yourSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcB2YzzF91TK1w8JplG-kycxbmCmeJXU475mJzA-MkmrGO_-3IKfoP_H6Ymfth5uBgYM2i5JkVZTI-/pub?gid=0&single=true&output=csv';
+        
+        let globalDataGrid = [];
+
+        function initSheetDownload() {
+            Papa.parse(yourSpreadsheetUrl, {
+                download: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    globalDataGrid = results.data;
+                    renderHtmlTable(globalDataGrid);
+                },
+                error: function(err) {
+                    console.error("Data Load Error:", err);
+                    const statusBox = document.getElementById('status-display');
+                    statusBox.classList.remove('pulse');
+                    statusBox.innerHTML = `<span style="color:#ef4444; font-weight:700;">Unable to pull data. Check permissions.</span>`;
+                }
+            });
+        }
+
+        function isValidUrl(string) {
+            try {
+                const url = new URL(string.trim());
+                return url.protocol === "http:" || url.protocol === "https:";
+            } catch (_) {
+                return false;  
+            }
+        }
+
+        function renderHtmlTable(data) {
+            const tableHead = document.getElementById('table-head');
+            const tableBody = document.getElementById('table-body');
+            
+            tableHead.innerHTML = "";
+            tableBody.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                document.getElementById('sheet-table').style.display = 'none';
+                document.getElementById('status-display').style.display = 'block';
+                document.getElementById('status-display').textContent = "No placement records available.";
+                return;
+            }
+
+            // 1. Render Header Row dynamically directly from spreadsheet schema
+            const headerTr = document.createElement('tr');
+            data[0].forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerTr.appendChild(th);
+            });
+            tableHead.appendChild(headerTr);
+
+            // 2. Render Body Data Rows
+            for (let i = 1; i < data.length; i++) {
+                const rowData = data[i];
+                const tr = document.createElement('tr');
+                
+                rowData.forEach((cellText, cellIndex) => {
+                    const td = document.createElement('td');
+                    const cleanText = cellText.trim();
+
+                    if (isValidUrl(cleanText)) {
+                        const actionButton = document.createElement('a');
+                        actionButton.href = cleanText;
+                        actionButton.target = "_blank";
+                        actionButton.className = "view-btn";
+                        
+                        actionButton.innerHTML = `
+                            <svg class="link-icon" viewBox="0 0 512 512">
+                                <path d="M432,320H400a16,16,0,0,0-16,16V448H64V128H176a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0H344a24,24,0,0,0-24,24V40a24,24,0,0,0,24,24H420L203,281a24,24,0,0,0,0,34l14,14a24,24,0,0,0,34,0L468,112V168a24,24,0,0,0,24,24h16a24,24,0,0,0,24-24V24A24,24,0,0,0,488,0Z"/>
+                            </svg> View`;
+                        td.appendChild(actionButton);
+                    } else if (cellIndex === 2) {
+                        // FIX: Detect duration keywords (hrs/hours) in the 3rd column, place on top, and drop dates below
+                        const hoursRegex = /^(\d+\s*(?:hrs|hours|hr|hour|Hrs|Hours|HRS|HOURS)(?:\s*,)?)\s*(.*)$/;
+                        const match = cleanText.match(hoursRegex);
+                        
+                        if (match) {
+                            const hoursPart = match[1].replace(/,$/, '').trim();
+                            const datesPart = match[2].trim();
+                            
+                            if (datesPart) {
+                                td.innerHTML = `<span style="display: block; font-weight: 700; color: #0f2e4a;">${hoursPart}</span><span style="display: block; font-size: 0.76rem; color: #64748b; font-weight: 500; margin-top: 3px;">${datesPart}</span>`;
+                            } else {
+                                td.textContent = cellText;
+                            }
+                        } else {
+                            td.textContent = cellText;
+                        }
+                    } else {
+                        td.textContent = cellText;
+                    }
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            }
+
+            document.getElementById('status-display').style.display = 'none';
+            document.getElementById('sheet-table').style.display = 'table';
+        }
+
+        window.addEventListener('DOMContentLoaded', initSheetDownload);
+    </script>
+
+</body>
+</html>
